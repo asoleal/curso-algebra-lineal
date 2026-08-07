@@ -2,35 +2,254 @@
 
 ## 1.4.1 Presentación formal
 
-Una **matriz** $A$ de tamaño $m \times n$ es un arreglo rectangular de
-números con $m$ filas y $n$ columnas; $a_{ij}$ denota la entrada en la
-fila $i$, columna $j$.
+**Definición 1.4.1 (Matriz).** Una **matriz** $A$ de tamaño
+$m \times n$ es un arreglo rectangular de números con $m$ **filas** y
+$n$ **columnas**:
 
-**Definición 1.4.1 (Suma y producto por escalar).** Si $A$ y $B$ son del
-**mismo tamaño**, su suma se calcula entrada a entrada:
-$(A + B)_{ij} = a_{ij} + b_{ij}$. El producto por un escalar $c$ también:
-$(cA)_{ij} = c\,a_{ij}$.
+$$
+A = \begin{bmatrix}
+a_{11} & a_{12} & \cdots & a_{1n}\\
+a_{21} & a_{22} & \cdots & a_{2n}\\
+\vdots & \vdots & \ddots & \vdots\\
+a_{m1} & a_{m2} & \cdots & a_{mn}
+\end{bmatrix}
+$$
 
-**Definición 1.4.2 (Producto de matrices).** Si $A$ es $m \times n$ y $B$
-es $n \times p$ (las columnas de $A$ deben coincidir con las filas de
-$B$), el producto $AB$ es la matriz $m \times p$ cuya entrada $(i,j)$ es
-el **producto punto** de la fila $i$ de $A$ con la columna $j$ de $B$:
+Cada entrada lleva **doble índice**: $a_{ij}$ es el número que está en
+la **fila $i$** y la **columna $j$** (siempre se nombra primero la fila
+y luego la columna). Por ejemplo, en
 
-$$(AB)_{ij} \;=\; a_{i1}b_{1j} + a_{i2}b_{2j} + \cdots + a_{in}b_{nj}
-\;=\; \sum_{k=1}^{n} a_{ik}b_{kj}$$
+$$
+A = \begin{bmatrix} 7 & -2 & 0\\ 3 & 5 & 1 \end{bmatrix}_{2 \times 3}
+$$
 
-**Propiedades.** Con los tamaños adecuados:
+se tiene $a_{11} = 7$, $a_{12} = -2$, $a_{21} = 3$ y $a_{23} = 1$.
 
-- Suma: $A + B = B + A$; $\;(A + B) + C = A + (B + C)$.
-- Producto: $(AB)C = A(BC)$; $\;A(B + C) = AB + AC$.
-- **En general $AB \neq BA$** (el producto **no** es conmutativo).
-- Existe la matriz **identidad** $I$ (unos en la diagonal, ceros fuera):
-  $AI = IA = A$.
+Casos particulares importantes: si $m = n$ la matriz es **cuadrada**;
+si $n = 1$ es un **vector columna**; si $m = 1$ es un **vector fila**.
+En ciencia de datos, una matriz no es más que una tabla: cada fila es
+una observación y cada columna, una variable medida.
 
-**Definición 1.4.3 (Transpuesta).** La **transpuesta** $A^{T}$ se obtiene
-intercambiando filas por columnas: $(A^{T})_{ij} = a_{ji}$. Propiedades:
-$(A + B)^{T} = A^{T} + B^{T}$ y $(AB)^{T} = B^{T}A^{T}$ (¡ojo al orden!).
-Si $A^{T} = A$ se dice que $A$ es **simétrica**.
+**Definición 1.4.2 (Igualdad de matrices).** Dos matrices son
+**iguales** si tienen el mismo tamaño y las mismas entradas: $A = B$
+significa $a_{ij} = b_{ij}$ para todo $i, j$.
+
+### Suma y producto por escalar
+
+**Definición 1.4.3 (Suma de matrices).** Si $A$ y $B$ tienen el **mismo
+tamaño**, su suma se calcula **entrada a entrada**:
+
+$$(A + B)_{ij} = a_{ij} + b_{ij}.$$
+
+**Ejemplo (producción de dos fincas).** Dos fincas reportan su
+producción de maíz y café, en toneladas, en dos cosechas:
+
+$$
+A = \begin{bmatrix} 8 & 3\\ 5 & 2 \end{bmatrix}
+\;\text{(finca 1)}, \qquad
+B = \begin{bmatrix} 6 & 4\\ 4 & 1 \end{bmatrix}
+\;\text{(finca 2)},
+$$
+
+donde cada fila es una cosecha y cada columna un cultivo. La producción
+combinada se suma entrada a entrada:
+
+$$
+A + B = \begin{bmatrix} 8+6 & 3+4\\ 5+4 & 2+1 \end{bmatrix}
+= \begin{bmatrix} 14 & 7\\ 9 & 3 \end{bmatrix}.
+$$
+
+¡Ojo! Dos matrices de **distinto tamaño no se pueden sumar**.
+
+**Definición 1.4.4 (Producto por un escalar).** Multiplicar una matriz
+por un número $c$ multiplica **cada entrada**:
+
+$$(cA)_{ij} = c\,a_{ij}.$$
+
+**Ejemplo (cambio de unidades).** Para expresar la producción de la
+finca 1 en **kilogramos** se multiplica toda la matriz por $1000$:
+
+$$
+1000\,A = \begin{bmatrix} 8000 & 3000\\ 5000 & 2000 \end{bmatrix}
+\text{ kg}.
+$$
+
+Con la suma y el escalar se define la **resta**: $A - B = A + (-1)B$.
+
+**Propiedades (mismo tamaño).** La suma es conmutativa
+($A + B = B + A$) y asociativa; existe la **matriz cero** (puros ceros)
+con $A + 0 = A$; y el escalar se distribuye: $c(A + B) = cA + cB$.
+
+### La transpuesta: filas que se vuelven columnas
+
+**Definición 1.4.5 (Transpuesta).** La **transpuesta** de $A$, escrita
+$A^{T}$, se obtiene convirtiendo **cada fila en una columna**:
+
+$$(A^{T})_{ij} = a_{ji}.$$
+
+Si $A$ es $m \times n$, entonces $A^{T}$ es $n \times m$.
+
+Mírela en cámara lenta en una $2 \times 2$:
+
+$$
+A = \begin{bmatrix} a & b\\ c & d \end{bmatrix}
+\quad\Longrightarrow\quad
+A^{T} = \begin{bmatrix} a & c\\ b & d \end{bmatrix}
+$$
+
+La primera fila $(a\;\; b)$ se convirtió en la primera columna, y la
+segunda fila $(c\;\; d)$ en la segunda columna. Los elementos de la
+**diagonal** ($a$ y $d$) no se mueven: transponer es «reflejar» la
+matriz respecto de su diagonal. Con números:
+
+$$
+A = \begin{bmatrix} 1 & 2\\ 3 & 4 \end{bmatrix},
+\qquad
+A^{T} = \begin{bmatrix} 1 & 3\\ 2 & 4 \end{bmatrix}.
+$$
+
+Y si la matriz no es cuadrada, la transpuesta **cambia de tamaño**:
+una $2 \times 3$ se vuelve $3 \times 2$:
+
+$$
+\begin{bmatrix} 7 & -2 & 0\\ 3 & 5 & 1 \end{bmatrix}^{T}
+=
+\begin{bmatrix} 7 & 3\\ -2 & 5\\ 0 & 1 \end{bmatrix}.
+$$
+
+**Propiedades.** $(A^{T})^{T} = A$ (transponer dos veces devuelve la
+original); $(A + B)^{T} = A^{T} + B^{T}$; $(cA)^{T} = cA^{T}$. Cuando
+$A^{T} = A$ se dice que $A$ es **simétrica**: es idéntica a su reflejo,
+como $\begin{bmatrix} 1 & 5\\ 5 & 2 \end{bmatrix}$. (Falta la propiedad
+que involucra el producto, $(AB)^{T} = B^{T}A^{T}$; la retomamos en
+cuanto definamos el producto.)
+
+### El producto, en tres pasos
+
+El producto de matrices se entiende mejor construyéndolo por partes:
+primero un solo número, luego una columna, y al final la matriz
+completa.
+
+**Paso 1: vector fila por vector columna (producto punto).**
+
+**Definición 1.4.6 (Producto punto).** Un vector fila $1 \times n$ por
+un vector columna $n \times 1$ da un **número**: la suma de los
+productos de las entradas correspondientes:
+
+$$
+\begin{bmatrix} u_1 & u_2 & \cdots & u_n \end{bmatrix}
+\begin{bmatrix} v_1\\ v_2\\ \vdots\\ v_n \end{bmatrix}
+= u_1 v_1 + u_2 v_2 + \cdots + u_n v_n
+= \sum_{i=1}^{n} u_i v_i .
+$$
+
+(Aquí reaparece la notación de sumatoria de la sección 1.1.)
+
+**Ejemplo (costo total).** Una planta agroindustrial compra $2$
+toneladas de azúcar y $3$ de café, a precios por tonelada de $5$ y $4$
+millones. El costo total es un producto punto:
+
+$$
+\begin{bmatrix} 2 & 3 \end{bmatrix}
+\begin{bmatrix} 5\\ 4 \end{bmatrix}
+= 2(5) + 3(4) = 10 + 12 = 22.
+$$
+
+**Paso 2: matriz por vector columna.** Sea $A$ de tamaño $m \times n$
+y $\mathbf{x}$ un vector columna $n \times 1$. El producto
+$A\mathbf{x}$ es el vector columna $m \times 1$ cuya entrada $i$ es el
+**producto punto de la fila $i$ de $A$ con $\mathbf{x}$**:
+
+$$
+A\mathbf{x} =
+\begin{bmatrix}
+\text{fila 1 de } A \cdot \mathbf{x}\\
+\text{fila 2 de } A \cdot \mathbf{x}\\
+\vdots\\
+\text{fila } m \text{ de } A \cdot \mathbf{x}
+\end{bmatrix}.
+$$
+
+**Ejemplo.**
+
+$$
+\begin{bmatrix} 2 & 1\\ 1 & 3 \end{bmatrix}
+\begin{bmatrix} 4\\ 5 \end{bmatrix}
+=
+\begin{bmatrix} 2(4) + 1(5)\\ 1(4) + 3(5) \end{bmatrix}
+=
+\begin{bmatrix} 13\\ 19 \end{bmatrix}.
+$$
+
+**Conexión clave con los sistemas.** Por esto un sistema de ecuaciones
+se escribe $A\mathbf{x} = \mathbf{b}$: la entrada $i$ del producto
+$A\mathbf{x}$ es exactamente el lado izquierdo de la ecuación $i$. Lo
+que en la sección 1.1 eran «$m$ ecuaciones simultáneas» ahora es **un
+solo producto de matriz por vector**.
+
+**Paso 3: dos matrices.**
+
+**Definición 1.4.7 (Producto de matrices).** Si $A$ es $m \times n$ y
+$B$ es $n \times p$ —las **columnas de $A$ deben ser tantas como las
+filas de $B$**—, el producto $AB$ es la matriz $m \times p$ cuya
+entrada $(i,j)$ es el producto punto de la **fila $i$ de $A$** con la
+**columna $j$ de $B$**:
+
+$$
+(AB)_{ij} = a_{i1}b_{1j} + a_{i2}b_{2j} + \cdots + a_{in}b_{nj}
+= \sum_{k=1}^{n} a_{ik}b_{kj}.
+$$
+
+Los tamaños encadenan así:
+
+$$
+(m \times \boxed{n})\,(\boxed{n} \times p) \;\longrightarrow\; (m \times p)
+$$
+
+—los $n$ internos «se cancelan» y quedan los extremos—. Si los números
+internos no coinciden, el producto **no existe**.
+
+**Ejemplo completo $2 \times 2$.** Sean
+
+$$
+A = \begin{bmatrix} 1 & 2\\ 3 & 4 \end{bmatrix},
+\qquad
+B = \begin{bmatrix} 2 & 0\\ 1 & 3 \end{bmatrix}.
+$$
+
+Cada entrada de $AB$ es una fila de $A$ por una columna de $B$:
+
+$$
+AB =
+\begin{bmatrix}
+1(2) + 2(1) & 1(0) + 2(3)\\
+3(2) + 4(1) & 3(0) + 4(3)
+\end{bmatrix}
+=
+\begin{bmatrix} 4 & 6\\ 10 & 12 \end{bmatrix}.
+$$
+
+Invirtamos el orden:
+
+$$
+BA =
+\begin{bmatrix}
+2(1) + 0(3) & 2(2) + 0(4)\\
+1(1) + 3(3) & 1(2) + 3(4)
+\end{bmatrix}
+=
+\begin{bmatrix} 2 & 4\\ 10 & 14 \end{bmatrix}.
+$$
+
+$AB \neq BA$: **el orden de los factores importa**.
+
+**Propiedades del producto.** Con tamaños adecuados: es asociativo,
+$(AB)C = A(BC)$; se distribuye sobre la suma, $A(B + C) = AB + AC$;
+existe la **matriz identidad** $I$ (unos en la diagonal, ceros fuera)
+con $AI = IA = A$; y la transpuesta del producto invierte el orden:
+$(AB)^{T} = B^{T}A^{T}$ (el módulo Python lo verifica con números).
+Cuando $A$ es cuadrada también tiene sentido elevarla: $A^{2} = AA$
+(lo usaremos en la sección 1.8 contando caminos en grafos).
 
 ## 1.4.2 Ejemplos
 
@@ -230,6 +449,101 @@ Costo del producto 1: $16$; del producto 2: $18$. *Si el insumo 2 sube de
 3 a 4, ¿qué entrada de $\mathbf{c}$ cambia y cómo cambian los costos?*
 :::
 
+::: {.callout-note title="Aplicación · Agronomía: producción total por parcela"}
+Dos parcelas sembraron maíz, café y cacao. La matriz $R$ registra el
+rendimiento (toneladas por hectárea) de cada parcela en cada cultivo, y
+el vector $\mathbf{h}$ las hectáreas sembradas de cada cultivo:
+
+$$
+R = \begin{bmatrix} 8 & 3 & 0\\ 0 & 4 & 6 \end{bmatrix}
+\;\text{(parcelas}\times\text{cultivos)}, \qquad
+\mathbf{h} = \begin{bmatrix} 2\\ 3\\ 1 \end{bmatrix}\text{ ha}
+$$
+
+La producción total de cada parcela es un producto **matriz por
+vector**:
+
+$$
+R\,\mathbf{h} =
+\begin{bmatrix} 8(2) + 3(3) + 0(1)\\ 0(2) + 4(3) + 6(1) \end{bmatrix}
+=
+\begin{bmatrix} 25\\ 18 \end{bmatrix}\text{ toneladas.}
+$$
+
+*¿Qué significa la entrada $(2,1)$ de $R$? ¿Y qué pasa con
+$R\mathbf{h}$ si el rendimiento del cacao en la parcela 2 sube de $6$ a
+$7$?*
+:::
+
+::: {.callout-note title="Aplicación · Ciencias Ambientales: índice de riesgo por estación"}
+Tres estaciones de monitoreo registran concentraciones de dos
+contaminantes (PM10 y NO$_2$, en $\mu$g/m$^3$). Un estudio asigna a
+cada contaminante un peso de riesgo: $0.6$ para PM10 y $0.4$ para
+NO$_2$:
+
+$$
+C = \begin{bmatrix} 40 & 30\\ 55 & 25\\ 35 & 45 \end{bmatrix}
+\;\text{(estaciones}\times\text{contaminantes)}, \qquad
+\mathbf{w} = \begin{bmatrix} 0.6\\ 0.4 \end{bmatrix}
+$$
+
+El índice de riesgo de cada estación es el **producto punto** de su
+fila con $\mathbf{w}$:
+
+$$
+C\,\mathbf{w} =
+\begin{bmatrix}
+40(0.6) + 30(0.4)\\
+55(0.6) + 25(0.4)\\
+35(0.6) + 45(0.4)
+\end{bmatrix}
+=
+\begin{bmatrix} 36\\ 43\\ 39 \end{bmatrix}
+$$
+
+La estación 2 es la de mayor riesgo. *¿Cómo cambian los índices si los
+pesos se invierten ($0.4$ y $0.6$)? ¿Cuál estación pasaría a ser la
+crítica?*
+:::
+
+::: {.callout-note title="Aplicación · Mecatrónica: rotar un brazo robot (el producto compone movimientos)"}
+La posición del extremo de un brazo robot en el plano es un vector
+$(x, y)$. Girarlo un ángulo $\theta$ se logra multiplicando por la
+**matriz de rotación**
+
+$$
+R(\theta) =
+\begin{bmatrix} \cos\theta & -\sin\theta\\ \sin\theta & \cos\theta \end{bmatrix}.
+$$
+
+Con $\theta = 90°$ queda
+$R(90°) = \begin{bmatrix} 0 & -1\\ 1 & 0 \end{bmatrix}$, y el punto
+$(1, 0)$ va a dar a
+
+$$
+\begin{bmatrix} 0 & -1\\ 1 & 0 \end{bmatrix}
+\begin{bmatrix} 1\\ 0 \end{bmatrix}
+=
+\begin{bmatrix} 0\\ 1 \end{bmatrix}:
+$$
+
+el brazo quedó apuntando hacia arriba. ¿Y dos giros seguidos de $90°$?
+Se componen **multiplicando matrices**:
+
+$$
+R(90°)\,R(90°) =
+\begin{bmatrix} 0 & -1\\ 1 & 0 \end{bmatrix}
+\begin{bmatrix} 0 & -1\\ 1 & 0 \end{bmatrix}
+=
+\begin{bmatrix} -1 & 0\\ 0 & -1 \end{bmatrix}
+= R(180°).
+$$
+
+El producto de matrices **compone movimientos**: por eso es el lenguaje
+de la robótica. *Verifica que $R(180°)$ aplicada a $(1, 0)$ da
+$(-1, 0)$.*
+:::
+
 ## 1.4.6 Ejercicios adaptativos
 
 ::: {.content-visible when-format="html"}
@@ -400,22 +714,30 @@ Serie interactiva:
 ## 1.4.7 Resumen y glosario
 
 ::: {.callout-tip title="Resumen"}
+- Una matriz $m \times n$ es un arreglo de $m$ filas por $n$ columnas;
+  $a_{ij}$ es la entrada de la fila $i$, columna $j$.
 - Suma y producto por escalar: entrada a entrada (mismo tamaño).
+- Transpuesta: filas por columnas; $(A^{T})^{T} = A$ y
+  $(AB)^{T} = B^{T}A^{T}$.
+- **Producto punto** (fila $1 \times n$ por columna $n \times 1$):
+  $\sum_i u_i v_i$, un número.
+- **Matriz por vector:** cada fila hace producto punto con el vector;
+  por eso un sistema se escribe $A\mathbf{x} = \mathbf{b}$.
 - **Producto de matrices:** $(AB)_{ij}$ = fila $i$ de $A$ $\cdot$
   columna $j$ de $B$; requiere que las columnas de $A$ igualen las filas
-  de $B$.
-- El producto **no** es conmutativo: en general $AB \neq BA$.
-- Transpuesta: filas por columnas; $(AB)^{T} = B^{T}A^{T}$.
+  de $B$, y en general $AB \neq BA$.
 - *Ventana IA:* una capa densa calcula $XW + \mathbf{b}$: el producto de
   matrices es la operación central de las redes neuronales.
 :::
 
 | Término | Significado |
 |---|---|
+| Producto punto | Fila por columna: $\sum_i u_i v_i$; da un número |
 | Matrices conformables | Columnas de $A$ = filas de $B$ (se puede multiplicar) |
 | Matriz identidad | Unos en la diagonal, ceros fuera: $AI = IA = A$ |
 | Transpuesta | $A^{T}$: filas por columnas |
 | Matriz simétrica | $A^{T} = A$ |
+| Matriz de rotación | $R(\theta)$: gira vectores en el plano; componer giros = multiplicar matrices |
 | *Batch* (lote) | Conjunto de muestras procesadas juntas (filas de $X$) |
 | Pesos (*weights*) | Entradas de $W$: lo que aprende la red |
 | Capa densa | Operación $XW + \mathbf{b}$ de una red neuronal |
