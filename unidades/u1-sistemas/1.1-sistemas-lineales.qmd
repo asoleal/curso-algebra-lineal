@@ -256,8 +256,8 @@ geométricamente cada ecuación?*
 :::
 
 ::: {.callout-note title="Aplicación · Veterinaria: mezcla de dos soluciones"}
-Se requieren $100$ ml de una solución al $32\,\%$ mezclando una solución
-al $20\,\%$ con otra al $50\,\%$. Si $x$ e $y$ son los ml de cada una:
+Se requieren $100$ ml de una solución al 32 % mezclando una solución
+al 20 % con otra al 50 %. Si $x$ e $y$ son los ml de cada una:
 
 $$
 \begin{aligned}
