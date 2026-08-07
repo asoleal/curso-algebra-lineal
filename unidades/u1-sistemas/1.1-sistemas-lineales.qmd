@@ -68,24 +68,12 @@ calculamos la pendiente:
 
 $$m = \frac{\Delta y}{\Delta x} = \frac{y_2 - y_1}{x_2 - x_1} = \frac{4 - (-1)}{2 - 1} = \frac{5}{1} = 5.$$
 
-El valor de la pendiente $m = 5$, significa que por cada unidad $\Delta x = 1$, la recta subirá en el eje $y$ 
-$\Delta y = 5$ unidades.
-
-Con la forma $y = mx + b$, sustituimos uno de los puntos, digamos
-$(2, 4)$, para hallar $b$:
-
-$$4 = 5(2) + b \quad\Longrightarrow\quad b = 4 - 10 = -6.$$
-
-La recta es $y = 5x - 6$. **Verificación:** para $(1, -1)$ se tiene
-$5(1) - 6 = -1$ ($\checkmark$) y para $(2, 4)$ se tiene $5(2) - 6 = 4$
-($\checkmark$): ambos puntos satisfacen la ecuación.
-
-El valor de la pendiente $m = 5$ significa que **por cada unidad
-$\Delta x = 1$ que avanza $x$, la recta sube $\Delta y = 5$ en el eje
-$y$**. Y no solo entre esos dos puntos: la misma regla se cumple en
-todas partes — de $(2, 4)$ a $(3, 9)$, de $(3, 9)$ a $(4, 14)$—. Esa
-subida constante, una y otra vez, es justamente lo que hace que la
-gráfica sea una recta.
+El valor de la pendiente $m = 5$ significa que por cada unidad
+$\Delta x = 1$, la recta subirá $\Delta y = 5$ unidades en el eje $y$.
+Y no solo entre esos dos puntos: la misma regla se cumple en todas
+partes — de $(2, 4)$ a $(3, 9)$, de $(3, 9)$ a $(4, 14)$—. Esa subida
+constante, una y otra vez, es justamente lo que hace que la gráfica
+sea una recta, como se aprecia en la figura:
 
 ```{python}
 #| label: fig-escalera-pendiente
@@ -116,6 +104,15 @@ ax.set_xlabel('$x$'); ax.set_ylabel('$y$')
 plt.tight_layout()
 plt.show()
 ```
+
+Con la forma $y = mx + b$, sustituimos uno de los puntos, digamos
+$(2, 4)$, para hallar $b$:
+
+$$4 = 5(2) + b \quad\Longrightarrow\quad b = 4 - 10 = -6.$$
+
+La recta es $y = 5x - 6$. **Verificación:** para $(1, -1)$ se tiene
+$5(1) - 6 = -1$ ($\checkmark$) y para $(2, 4)$ se tiene $5(2) - 6 = 4$
+($\checkmark$): ambos puntos satisfacen la ecuación.
 
 ### De la recta a la ecuación lineal
 
