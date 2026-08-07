@@ -77,6 +77,43 @@ La recta es $y = 5x - 6$. **Verificación:** para $(1, -1)$ se tiene
 $5(1) - 6 = -1$ ($\checkmark$) y para $(2, 4)$ se tiene $5(2) - 6 = 4$
 ($\checkmark$): ambos puntos satisfacen la ecuación.
 
+El valor de la pendiente $m = 5$ significa que **por cada unidad
+$\Delta x = 1$ que avanza $x$, la recta sube $\Delta y = 5$ en el eje
+$y$**. Y no solo entre esos dos puntos: la misma regla se cumple en
+todas partes — de $(2, 4)$ a $(3, 9)$, de $(3, 9)$ a $(4, 14)$—. Esa
+subida constante, una y otra vez, es justamente lo que hace que la
+gráfica sea una recta.
+
+```{python}
+#| label: fig-escalera-pendiente
+#| fig-cap: "La pendiente m = 5 en acción: por cada Δx = 1 que avanza x, la recta sube Δy = 5. La misma subida se repite en todas partes: eso es ser lineal."
+#| echo: false
+import numpy as np
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(figsize=(7, 5))
+xs = np.linspace(0.4, 4.6, 100)
+ax.plot(xs, 5*xs - 6, 'b', lw=2, label='$y = 5x - 6$')
+
+pxs = [1, 2, 3, 4]
+pys = [5*t - 6 for t in pxs]
+ax.plot(pxs, pys, 'ro', ms=7, zorder=5)
+for t, v in zip(pxs, pys):
+    ax.annotate(f'$({t}, {v})$', (t, v), textcoords='offset points', xytext=(9, -5), fontsize=10)
+
+for t in [1, 2, 3]:
+    ax.plot([t, t+1], [5*t-6, 5*t-6], 'k--', lw=1.1)
+    ax.plot([t+1, t+1], [5*t-6, 5*(t+1)-6], 'k--', lw=1.1)
+    ax.annotate('$\\Delta x = 1$', (t + 0.5, 5*t - 6), textcoords='offset points', xytext=(-14, 7), fontsize=9)
+    ax.annotate('$\\Delta y = 5$', (t + 1, 5*t - 6 + 2.5), textcoords='offset points', xytext=(6, -4), fontsize=9)
+
+ax.grid(alpha=0.3); ax.axhline(0, color='k', lw=0.5); ax.axvline(0, color='k', lw=0.5)
+ax.legend(fontsize=10, loc='upper left')
+ax.set_xlabel('$x$'); ax.set_ylabel('$y$')
+plt.tight_layout()
+plt.show()
+```
+
 ### De la recta a la ecuación lineal
 
 La ecuación $y = 5x - 6$ puede reescribirse pasando las incógnitas a un
