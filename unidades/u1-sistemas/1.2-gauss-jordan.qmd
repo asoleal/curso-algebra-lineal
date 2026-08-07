@@ -839,3 +839,31 @@ Serie interactiva completa:
 | *Dataset* | Conjunto de datos organizado como matriz (filas: observaciones; columnas: variables) |
 | *Feature* | Variable medida de cada observación (columna de la matriz de datos) |
 | Parámetros | Valores que ajusta un modelo (el vector $\mathbf{x}$) |
+
+---
+
+## 1.2.8 Ejercicios propuestos
+
+El grupo **A** afianza conceptos y demostraciones sencillas; el **B** aplica el método a las carreras de la sede y a temperaturas, balances y flujos; el **C** es de programación. Para práctica interactiva, vuelva a los *Ejercicios adaptativos*.
+
+**A. Para pensar y demostrar**
+
+1. Decida cuáles de estas matrices están en forma escalonada reducida por filas y justifique: (a) $\begin{pmatrix}1&0\\0&1\end{pmatrix}$; (b) $\begin{pmatrix}1&2\\0&1\end{pmatrix}$; (c) $\begin{pmatrix}1&0&3\\0&0&1\end{pmatrix}$; (d) $\begin{pmatrix}0&1&2\\0&0&0\end{pmatrix}$. (Resp.: (a) y (d); en (c) sobra el 3 sobre el pivote de la segunda fila.)
+2. Demuestre que intercambiar dos filas dos veces deja la matriz como estaba: el intercambio es su propia operación inversa.
+3. Demuestre que si $\mathbf{x}$ y $\mathbf{y}$ son soluciones del mismo sistema, entonces $\tfrac{1}{2}(\mathbf{x}+\mathbf{y})$ también lo es (sustituya en cada ecuación). Concluya que un sistema con dos soluciones distintas tiene infinitas.
+4. En el ejemplo guía de esta sección ($2x+4y=10$, $x+y=3$) se llegó a $\left(\begin{array}{cc|c}1&2&5\\0&-1&-2\end{array}\right)$. ¿Qué dos operaciones elementales faltan para llegar a la forma escalonada reducida? Aplíquelas y lea la solución.
+
+**B. Aplicaciones**
+
+5. (Distribución de temperaturas) Una pared tiene tres puntos interiores; el borde izquierdo está a 100 °C y el derecho a 0 °C. En equilibrio, cada punto es el promedio de sus vecinos: $2T_1-T_2=100$, $-T_1+2T_2-T_3=0$, $-T_2+2T_3=0$. Resuelva por Gauss–Jordan e interprete. (Resp.: $T=(75,50,25)$ °C.)
+6. (Mecatrónica, mallas) En el circuito de tres mallas de esta sección, cambie la fuente a 16 V: $2I_1-I_2=16$, $-I_1+3I_2-I_3=0$, $-I_2+2I_3=0$. Resuelva escalonando. (Resp.: $I=(10,4,2)$ A.)
+7. (Agroindustria) Una planta mezcla tres cafés para obtener 100 kg: $x+y+z=100$; el costo es $12x+8y+15z=1090$ (miles de pesos) y se usan 10 kg menos del primero que del tercero: $x-z=-10$. Resuelva por eliminación gaussiana. (Resp.: $(20,50,30)$ kg.)
+8. (Ciencias ambientales) En una microcuenca llueven 530 mm al año y el agua se reparte en escorrentía $E$, infiltración $I$ y evapotranspiración $ET$: $E+I+ET=530$, con $E=I+50$ y $ET=2I$. Plantee el sistema $3\times3$ y resuélvalo. (Resp.: $I=120$, $E=170$, $ET=240$ mm.)
+9. (Flujos) En una planta, tres líneas transportan $x_1,x_2,x_3$ L/min y en cada unión lo que entra es lo que sale: $x_1+x_2=100$, $x_2+x_3=80$, $x_1+x_3=60$. Halle los tres flujos. (Resp.: $(40,60,20)$.)
+10. Resuelva el sistema $x+y+z=3$, $x-y+z=1$, $2x+2z=4$, y muestre que tiene infinitas soluciones de la forma $(2-t,\,1,\,t)$.
+
+**C. Programación**
+
+11. Verifique los ejercicios 5, 6 y 7 con `numpy.linalg.solve`.
+12. Con `sympy`, calcule la forma escalonada reducida (`.rref()`) del sistema del ejercicio 10 y localice la variable libre.
+13. Escriba una función `paso(A,i,j,k)` que aplique $R_j\leftarrow R_j+kR_i$ e imprima la matriz resultante; úsela para rehacer el ejercicio 6 mostrando cada paso del escalonamiento.

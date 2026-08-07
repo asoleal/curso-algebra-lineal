@@ -514,6 +514,32 @@ verdad.
 | Pivoteo parcial (IA) | Intercambio de filas por estabilidad numérica; da $PA=LU$, la variante que usan las bibliotecas |
 | Reutilización (IA) | Factorizar una vez y resolver para miles de vectores $\mathbf{b}$ (producción, control, monitoreo) |
 
+## 1.6.8 Ejercicios propuestos
+
+El grupo **A** afianza conceptos y demostraciones sencillas; el **B** aplica la factorización LU a temperaturas, circuitos y balances; el **C** es de programación. Para práctica interactiva, vuelva a los *Ejercicios adaptativos*.
+
+**A. Para pensar y demostrar**
+
+1. Verifique que $A=LU$ para $L=\begin{pmatrix}1&0&0\\2&1&0\\4&3&1\end{pmatrix}$ y $U=\begin{pmatrix}2&1&1\\0&1&1\\0&0&2\end{pmatrix}$, calculando el producto. (Resp.: $A=\begin{pmatrix}2&1&1\\4&3&3\\8&7&9\end{pmatrix}$.)
+2. Demuestre con letras $3\times3$ que el producto de dos matrices triangulares inferiores es triangular inferior.
+3. Escriba con letras el sistema $L\mathbf{y}=\mathbf{b}$ para una $L$ triangular inferior con unos en la diagonal, y explique por qué se resuelve «de arriba hacia abajo» sin hacer ninguna división.
+4. Explique con sus palabras por qué conviene guardar $L$ y $U$ cuando hay que resolver $A\mathbf{x}=\mathbf{b}$ con muchos vectores $\mathbf{b}$ distintos y la misma $A$.
+
+**B. Aplicaciones**
+
+5. (Distribución de temperaturas) Tres puntos de una placa cumplen $A\mathbf{x}=\mathbf{b}$ con la $A$ del ejercicio 1 y fuentes $\mathbf{b}=(4,10,24)$. Resuelva por sustitución hacia adelante ($L\mathbf{y}=\mathbf{b}$) y hacia atrás ($U\mathbf{x}=\mathbf{y}$). (Resp.: $\mathbf{x}=(1,1,1)$.)
+6. (Mecatrónica) Un circuito de tres mallas tiene la matriz $A$ del ejercicio 1. **Reutilizando la misma factorización**, resuelva para tres escenarios de fuentes: $\mathbf{b}=(4,10,24)$, $(8,20,46)$ y $(4,10,26)$. (Resp.: $(1,1,1)$, $(2,3,1)$ y $(1,0,2)$.)
+7. (Agroindustria, balance de masa) Tres tanques mezcladores cumplen balances $A\mathbf{x}=\mathbf{b}$ con la misma matriz $A$ cada hora, pero con entradas $\mathbf{b}$ que cambian. ¿Qué parte del cálculo se hace una sola vez? Resuelva la primera hora con $\mathbf{b}=(4,10,24)$.
+8. (Flujos de riego) Tres compuertas reparten el caudal según la matriz $A$ del ejercicio 1. Si el caudal disponible cambia cada semana, ¿por qué basta resolver dos sistemas triangulares en lugar de escalonar de nuevo?
+
+**C. Programación**
+
+9. Implemente `sust_adelante(L,b)` y `sust_atras(U,y)` con ciclos, y pruébelas resolviendo el ejercicio 5.
+10. Aplique `scipy.linalg.lu` a la matriz $A$ del ejercicio 1, identifique las matrices $P$, $L$ y $U$, y verifique la factorización (ojo con la permutación $P$).
+11. Mida cuánto tarda resolver 200 sistemas con la misma $A$ y $\mathbf{b}$ distintos: (a) llamando `np.linalg.solve` cada vez; (b) factorizando una sola vez y reusando $L$ y $U$. Compare.
+
+---
+
 ---
 
 ## Hilo conductor hacia 1.7

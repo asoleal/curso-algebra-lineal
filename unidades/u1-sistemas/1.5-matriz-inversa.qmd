@@ -361,3 +361,31 @@ La inversa $A^{-1}$ es la matriz que **deshace** lo que $A$ hace: $AA^{-1}=A^{-1
 | Regularización (IA) | Técnica (ridge, lasso) que estabiliza $A^TA$ y evita el sobreajuste |
 
 **Hilo conductor hacia 1.6.** Calcular la inversa es innecesario la mayoría de las veces: basta resolver el sistema. Pero, ¿y si hay que resolver $A\mathbf{x}=\mathbf{b}$ para **muchos** vectores $\mathbf{b}$ distintos con la misma $A$ (como cuando un modelo de IA procesa miles de lotes)? La respuesta es **factorizar** $A$ una sola vez. Eso es la factorización LU.
+
+
+---
+
+## 1.5.8 Ejercicios propuestos
+
+El grupo **A** afianza conceptos y demostraciones sencillas; el **B** aplica la inversa a las carreras de la sede; el **C** es de programación. Para práctica interactiva, vuelva a los *Ejercicios adaptativos*.
+
+**A. Para pensar y demostrar**
+
+1. Demuestre que la inversa es única: si $AB=BA=I$ y $AC=CA=I$, entonces $B=C$. (Sugerencia: calcule $B(AC)$ y $(BA)C$.)
+2. Demuestre que $(A^T)^{-1}=(A^{-1})^T$ usando la propiedad $(AB)^T=B^TA^T$.
+3. Demuestre que si $A$ es invertible y $AB=AC$, entonces $B=C$. Luego muestre, con $A=\begin{pmatrix}1&0\\0&0\end{pmatrix}$, $B=\begin{pmatrix}1&1\\2&2\end{pmatrix}$ y $C=\begin{pmatrix}1&1\\3&3\end{pmatrix}$, que sin la invertibilidad la conclusión falla.
+4. Verifique que $\begin{pmatrix}0&1\\1&0\end{pmatrix}$ es su propia inversa. ¿Qué le hace esa matriz al vector $(x,y)$?
+
+**B. Aplicaciones**
+
+5. (Mecatrónica) La matriz de resistencias del circuito de dos mallas es $R=\begin{pmatrix}2&-1\\-1&3\end{pmatrix}$, con inversa $R^{-1}=\tfrac{1}{5}\begin{pmatrix}3&1\\1&2\end{pmatrix}$. Si las fuentes son $\mathbf{v}=(10,5)$ V, halle las corrientes multiplicando, sin volver a escalonar. (Resp.: $(7,4)$ A.)
+6. (Agroindustria) Una mezcla de 100 kg usa dos ingredientes: $x+y=100$ y aporta $0.2x+0.5y=35$ kg de azúcar. Escriba la matriz, calcule su inversa y recupere $(x,y)$ con ella. (Resp.: $(50,50)$ kg.)
+7. (Criptografía) Con la clave $A=\begin{pmatrix}2&1\\1&1\end{pmatrix}$ (cifrado de Hill), codifique el par $(12,1)$ —las letras L y A— calculando $A\mathbf{x}$, y decodifique el resultado con $A^{-1}=\begin{pmatrix}1&-1\\-1&2\end{pmatrix}$. (Resp.: se cifra como $(25,13)$.)
+8. (Distribución de temperaturas) En la pared del ejercicio 5 de la sección 1.2 las temperaturas medidas son $(75,50,25)$ °C y el borde izquierdo está a 100 °C. Use la tercera ecuación para recuperar la temperatura del borde derecho. (Resp.: 0 °C.)
+9. (Veterinaria) Dos fármacos aportan dos principios activos $\alpha$ y $\beta$: cada ml del fármaco 1 aporta $(2,1)$ unidades y cada ml del fármaco 2 aporta $(1,3)$. Se requieren 8 unidades de $\alpha$ y 9 de $\beta$. Plantee $A\mathbf{x}=\mathbf{b}$, calcule $A^{-1}$ y resuelva. (Resp.: $(3,2)$ ml.)
+
+**C. Programación**
+
+10. Calcule `np.linalg.inv` de la matriz $R$ del ejercicio 5 y verifique con `np.allclose` que $R\,R^{-1}\approx I$ (¿por qué no da *exactamente* la identidad?).
+11. Para $n=500$, compare el tiempo de `np.linalg.solve(A,b)` contra `np.linalg.inv(A) @ b`. ¿Cuál gana y por qué cree que pasa eso?
+12. Implemente el cifrado de Hill completo: funciones `codifica(par)` y `decodifica(par)` con la clave del ejercicio 7, y cifre una palabra de cuatro letras (por ejemplo «LUNA», tomada por pares).

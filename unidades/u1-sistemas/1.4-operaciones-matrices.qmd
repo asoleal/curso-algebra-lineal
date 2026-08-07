@@ -795,3 +795,32 @@ Serie interactiva:
 | *Batch* (lote) | Conjunto de muestras procesadas juntas (filas de $X$) |
 | Pesos (*weights*) | Entradas de $W$: lo que aprende la red |
 | Capa densa | Operación $XW + \mathbf{b}$ de una red neuronal |
+
+---
+
+## 1.4.8 Ejercicios propuestos
+
+El grupo **A** afianza conceptos y demostraciones sencillas; el **B** aplica las operaciones a las carreras de la sede; el **C** es de programación. Para práctica interactiva, vuelva a los *Ejercicios adaptativos*.
+
+**A. Para pensar y demostrar**
+
+1. Con matrices de letras $A=\begin{pmatrix}a&b\\c&d\end{pmatrix}$ y $B=\begin{pmatrix}e&f\\g&h\end{pmatrix}$, demuestre que $(A+B)^T=A^T+B^T$.
+2. Demuestre que $(kA)^T=kA^T$ para todo escalar $k$.
+3. Demuestre que si $A$ y $B$ son simétricas y conmutan ($AB=BA$), entonces $AB$ es simétrica.
+4. Calcule $AB$ y $BA$ para $A=\begin{pmatrix}1&1\\0&1\end{pmatrix}$ y $B=\begin{pmatrix}1&0\\1&1\end{pmatrix}$, y concluya que el producto de matrices no es conmutativo. (Resp.: $AB=\begin{pmatrix}2&1\\1&1\end{pmatrix}$, $BA=\begin{pmatrix}1&1\\1&2\end{pmatrix}$.)
+
+**B. Aplicaciones**
+
+5. (Mecatrónica) Aplique la matriz de rotación $R(45^\circ)$ a los vectores $(1,0)$ y $(1,1)$, y dibuje el antes y el después. (Resp.: $(\sqrt{2}/2,\sqrt{2}/2)$ y $(0,\sqrt{2})$.)
+6. Verifique numéricamente que $R(30^\circ)\,R(60^\circ)=R(90^\circ)$: las rotaciones se componen sumando ángulos.
+7. (Ciencias ambientales) Tres veredas se evalúan con dos indicadores, calidad de agua y cobertura boscosa: $C=\begin{pmatrix}80&50\\60&70\\90&40\end{pmatrix}$, con pesos $\mathbf{w}=(0.7,\,0.3)$. Calcule los puntajes $C\mathbf{w}$ y diga qué vereda queda de primera. (Resp.: $(71,63,75)$.)
+8. (Agroindustria) Una fábrica produce jugo y pulpa. La matriz insumo–producto es $A=\begin{pmatrix}2&1\\1&3\\0.5&0.5\end{pmatrix}$ (filas: fruta, envases, energía; columnas: jugo, pulpa). Para producir $\mathbf{p}=(100,200)$, calcule los insumos $A\mathbf{p}$. (Resp.: $(400,700,150)$.)
+9. (Distribución de temperaturas) Las matrices $T_1=\begin{pmatrix}20&22&19\\18&21&20\end{pmatrix}$ y $T_2=\begin{pmatrix}24&22&21\\20&19&22\end{pmatrix}$ registran temperaturas de dos semanas en los mismos puntos. ¿Qué representa $\tfrac{1}{2}(T_1+T_2)$? Calcúlela. (Resp.: $\begin{pmatrix}22&22&20\\19&20&21\end{pmatrix}$.)
+10. (Zootecnia) Una ración diaria combina 4 kg de maíz, 2 kg de soya y 3 kg de pasto, con precios por kg de 25, 18 y 30 (pesos). Exprese el costo como un producto punto y calcúlelo. (Resp.: $[4,2,3]\cdot[25,18,30]=226$.)
+11. (Conceptual) En el ejercicio 7, ¿qué representa la transpuesta $C^T$? ¿Cuándo preferiría guardar la tabla transpuesta?
+
+**C. Programación**
+
+12. Implemente el producto punto con un ciclo `for` (sin numpy) y compare su resultado y su velocidad con `np.dot` para vectores de 1 000 entradas.
+13. Con matrices aleatorias $3\times3$, verifique que $(AB)^T=B^TA^T$ y que, en general, $(AB)^T\neq A^TB^T$.
+14. Grafique el triángulo de vértices $(0,0)$, $(2,0)$, $(0,1)$ y sus rotaciones por $30^\circ$, $60^\circ$ y $90^\circ$ en un mismo plano, usando la matriz $R(\theta)$.

@@ -422,3 +422,30 @@ Serie interactiva:
 | Espacio nulo | Conjunto de todas las soluciones de $A\mathbf{x}=\mathbf{0}$ |
 | Sobreajuste | Modelo que explica los datos vistos pero falla con datos nuevos |
 | Regularización | Información extra para elegir una solución útil entre infinitas |
+
+---
+
+## 1.3.8 Ejercicios propuestos
+
+El grupo **A** afianza conceptos y demostraciones sencillas; el **B** aplica los sistemas homogéneos a balances, flujos y circuitos; el **C** es de programación. Para práctica interactiva, vuelva a los *Ejercicios adaptativos*.
+
+**A. Para pensar y demostrar**
+
+1. Demuestre que todo sistema homogéneo tiene al menos la solución trivial $\mathbf{x}=\mathbf{0}$.
+2. Demuestre que si $\mathbf{x}$ y $\mathbf{y}$ son soluciones de $A\mathbf{x}=\mathbf{0}$, entonces cualquier combinación $a\mathbf{x}+b\mathbf{y}$ también es solución. (Sugerencia: calcule $A(a\mathbf{x}+b\mathbf{y})$ usando la distributiva.)
+3. Muestre con un ejemplo $2\times2$ que la suma de dos soluciones de $A\mathbf{x}=\mathbf{b}$, con $\mathbf{b}\neq\mathbf{0}$, **no** es solución del sistema. ¿Qué sale al calcular $A(\mathbf{x}+\mathbf{y})$?
+4. ¿Puede un sistema homogéneo no tener solución? ¿Puede tener exactamente una? Justifique y dé un ejemplo del segundo caso.
+
+**B. Aplicaciones**
+
+5. (Balance químico) Balancee la combustión del metano $\mathrm{CH_4 + O_2 \rightarrow CO_2 + H_2O}$ planteando el sistema homogéneo y dando la solución entera más pequeña. (Resp.: $(1,2,1,2)$.)
+6. (Balance químico) Balancee la combustión del propano $\mathrm{C_3H_8 + O_2 \rightarrow CO_2 + H_2O}$. (Resp.: $(1,5,3,4)$.)
+7. (Flujos, agroindustria) Tres tanques recirculan jugo en ciclo cerrado: lo que sale de cada tanque entra al siguiente. Plantee el sistema homogéneo y muestre que las soluciones son $(t,t,t)$. ¿Qué significa $t$ físicamente?
+8. (Mecatrónica, puente de Wheatstone) Cuando un puente de resistencias está balanceado, la corriente por el brazo central es cero y las ecuaciones del circuito quedan homogéneas. Explique qué representa físicamente la solución trivial y por qué los instrumentos se calibran buscando ese «cero».
+9. (Zootecnia) Tres corrales intercambian animales cada semana y el sistema está en equilibrio: lo que entra a cada corral es lo que sale. Escriba el sistema homogéneo con variables $x_{ij}$ (animales que van del corral $i$ al corral $j$) y explique por qué hay infinitas soluciones de equilibrio.
+
+**C. Programación**
+
+10. Con `sympy`, calcule el espacio nulo (`.nullspace()`) de la matriz del ejercicio 5 y verifique que es un múltiplo de $(1,2,1,2)$.
+11. Genere una matriz aleatoria $3\times4$, calcule su forma escalonada reducida y cuente las variables libres; repita cinco veces. ¿Qué respuesta sale «casi siempre»?
+12. Verifique numéricamente, calculando `A @ x`, que cualquier combinación de las soluciones básicas del ejercicio 7 sigue siendo solución.

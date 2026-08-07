@@ -575,3 +575,30 @@ describir una **red**: quién se conecta con quién. Y ahí ocurre algo
 maravilloso: las potencias de esa matriz *cuentan caminos*. Es la
 última pieza de la unidad — y la que conecta directo con las redes
 sociales y la IA moderna.
+
+
+---
+
+## 1.7.8 Ejercicios propuestos
+
+El grupo **A** afianza conceptos y demostraciones sencillas; el **B** conecta las matrices elementales con robótica, grafos y datos; el **C** es de programación. Para práctica interactiva, vuelva a los *Ejercicios adaptativos*.
+
+**A. Para pensar y demostrar**
+
+1. Escriba las matrices elementales $3\times3$ correspondientes a: (a) intercambiar $R_1\leftrightarrow R_3$; (b) $R_2\leftarrow 5R_2$; (c) $R_3\leftarrow R_3-4R_1$.
+2. Demuestre que toda matriz elemental es invertible y que su inversa también es elemental; exhíbala para cada uno de los tres tipos en $2\times2$.
+3. Demuestre que $(AB)^{-1}=B^{-1}A^{-1}$. ¿Por qué el orden se invierte? (Piense en la analogía de la sección: al desvestirse, primero los zapatos y luego los calcetines.)
+4. Demuestre que si $E$ es una matriz de intercambio de filas, entonces $E^2=I$.
+
+**B. Aplicaciones**
+
+5. Reduzca $A=\begin{pmatrix}1&2\\3&4\end{pmatrix}$ a la identidad con tres operaciones elementales y escriba $A$ como producto de matrices elementales, $A=E_1^{-1}E_2^{-1}E_3^{-1}$.
+6. (Mecatrónica) Un brazo robótico ejecuta tres movimientos elementales seguidos, dados por $E_1$, $E_2$, $E_3$. ¿Con qué producto de matrices se «deshace» la secuencia completa y en qué orden deben aplicarse?
+7. (Grafos y sensores) Cuatro nodos se renumeran: el orden viejo $(1,2,3,4)$ pasa a $(3,1,4,2)$. Escriba la matriz de permutación $P$ que reordena así las filas de cualquier tabla $4\times n$ y verifique que $P^{-1}=P^T$.
+8. (Distribución de temperaturas) Una estación meteorológica reetiqueta sus puntos de medición. Muestre que reordenar las filas de la matriz de datos equivale a multiplicar por una elemental de permutación, y explique por qué la solución del sistema asociado no cambia (solo se reordenan las ecuaciones).
+
+**C. Programación**
+
+9. Construya en numpy las elementales del ejercicio 5 y verifique que $E_3E_2E_1A=I$.
+10. Con matrices aleatorias invertibles $3\times3$, verifique con `np.allclose` que $(AB)^{-1}=B^{-1}A^{-1}$ y que, en general, $(AB)^{-1}\neq A^{-1}B^{-1}$.
+11. Aplique la permutación del ejercicio 7 a una tabla de datos $4\times3$ calculando `P @ Tabla`, y recupere el orden original con `P.T @ (P @ Tabla)`.

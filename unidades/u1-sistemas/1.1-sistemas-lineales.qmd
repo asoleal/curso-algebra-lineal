@@ -836,3 +836,32 @@ Serie interactiva:
 | Malla | Camino cerrado en un circuito; su ecuación sale de la ley de Ohm y Kirchhoff |
 | Observación | Una fila de datos (una medición, un ejemplo) |
 | Parámetro | Valor desconocido que el modelo debe aprender |
+
+---
+
+## 1.1.8 Ejercicios propuestos
+
+Para resolver con lápiz y papel, y con Python cuando se indica. El grupo **A** afianza conceptos y demostraciones sencillas; el **B** lleva la sección a las carreras de la sede y a otros temas (temperaturas, balances, flujos, grafos); el **C** es de programación. Para práctica interactiva con retroalimentación inmediata, vuelva a los *Ejercicios adaptativos* de esta sección.
+
+**A. Para pensar y demostrar**
+
+1. Decida cuáles de las siguientes ecuaciones son lineales y justifique su respuesta: (a) $3x-2y=7$; (b) $x_1+2x_2x_3=1$; (c) $\sqrt{2}\,x+\pi y=5$; (d) $x+y+z=\tfrac{1}{x}$. (Resp.: solo (a) y (c).)
+2. Halle la ecuación de la recta que pasa por $(1,2)$ y $(4,8)$, y verifíquela con ambos puntos. (Resp.: $y=2x$.)
+3. Demuestre que si $(x_0,y_0)$ es solución de $a_1x+b_1y=c_1$ y también de $a_2x+b_2y=c_2$, entonces lo es de $(a_1+ka_2)x+(b_1+kb_2)y=c_1+kc_2$ para cualquier constante $k$. (Sugerencia: sustituya.) Explique con sus palabras por qué esto dice que «combinar ecuaciones no inventa ni pierde soluciones».
+4. Dos rectas tienen la misma pendiente pero distinto intercepto. Muestre algebraicamente que el sistema correspondiente no tiene solución. (Sugerencia: réstelas.)
+
+**B. Aplicaciones**
+
+5. Verifique que $(2,-1)$ es solución del sistema $3x+y=5$, $x-2y=4$.
+6. (Mecatrónica, ley de Ohm) Dos resistencias en serie, $R_1=2\,\Omega$ y $R_2=4\,\Omega$, se conectan a una fuente de 12 V. Halle la corriente del circuito y la caída de voltaje en cada resistencia. (Resp.: $I=2$ A; caídas de 4 V y 8 V.)
+7. (Mecatrónica, mallas) En el circuito de dos mallas de esta sección, cambie la fuente $V_1$ a 10 V y apague $V_2$: el sistema queda $2I_1-I_2=10$, $-I_1+3I_2=0$. Resuélvalo y diga cuánta corriente pasa por la resistencia compartida. (Resp.: $I_1=6$, $I_2=2$; por la compartida, 4 A.)
+8. (Distribución de temperaturas) Una barra tiene temperatura lineal: en $x=0$ cm está a 20 °C y en $x=10$ cm a 60 °C. Halle $T(x)$, la temperatura en $x=4$ cm y el punto donde $T=50$ °C. (Resp.: $T(x)=4x+20$; 36 °C; $x=7.5$ cm.)
+9. (Agronomía) En una parcela se siembran maíz y fríjol cubriendo 10 ha en total. El maíz rinde 2 t/ha y el fríjol 3 t/ha, y la cosecha total fue de 24 t. ¿Cuántas hectáreas se sembraron de cada cultivo? (Resp.: 6 ha de maíz, 4 ha de fríjol.)
+10. (Zootecnia) Un ternero gana 0.8 kg por día y hoy pesa 32 kg. Escriba su peso como función lineal del tiempo y calcule en cuántos días llegará a 80 kg. (Resp.: $p(t)=0.8t+32$; 60 días.)
+11. (Notación $\Sigma$) Escriba $2x_1-x_2+4x_3=7$ en la forma $\sum_{j=1}^{n} a_jx_j=b$, indicando quiénes son los $a_j$; luego desarrolle la suma $\sum_{j=1}^{4} j\,x_j$.
+
+**C. Programación**
+
+12. Resuelva con `numpy.linalg.solve` los sistemas de los ejercicios 7 y 9, y verifique las respuestas.
+13. Grafique con matplotlib las dos rectas del ejercicio 5 y marque con un punto la solución $(2,-1)$.
+14. (Ventana IA) Una neurona tiene pesos $w_1=0.5$, $w_2=-1$ y sesgo $b=1$. Grafique su frontera de decisión $0.5x_1-x_2+1=0$, sombree la región donde la neurona se activa ($s>0$) y decida si el punto $(1,1)$ la activa.

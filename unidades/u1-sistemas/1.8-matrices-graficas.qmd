@@ -537,6 +537,33 @@ matriz.
 | Capa GNN (IA) | $X'=\hat{M}XW$: cada nodo mezcla features con sus vecinos y aplica pesos |
 | PageRank (IA) | Importancia de páginas como vector propio de una matriz de la web (adelanto de la U6) |
 
+## 1.8.8 Ejercicios propuestos
+
+El grupo **A** afianza conceptos y demostraciones sencillas; el **B** lleva las matrices de grafos a las carreras de la sede; el **C** es de programación. Para práctica interactiva, vuelva a los *Ejercicios adaptativos*.
+
+**A. Para pensar y demostrar**
+
+1. Dibuje el grafo dirigido cuya matriz es $M=\begin{pmatrix}0&1&0\\0&0&1\\1&1&0\end{pmatrix}$ (aristas $1\to2$, $2\to3$, $3\to1$ y $3\to2$).
+2. Demuestre que la matriz de adyacencia de un grafo no dirigido es simétrica. ¿Vale también el recíproco? Justifique.
+3. Usando la definición del producto de matrices, explique por qué la entrada $(M^2)_{ij}$ cuenta los caminos de longitud 2 que van del nodo $i$ al nodo $j$.
+4. Si cada columna de $M$ suma 1 (matriz estocástica por columnas), demuestre que la suma de las entradas de $M\mathbf{x}$ es igual a la suma de las entradas de $\mathbf{x}$: la matriz «conserva el total». (Sugerencia: sume las ecuaciones.)
+
+**B. Aplicaciones**
+
+5. (Veterinaria, rastreo epidemiológico) Tres fincas intercambian animales en ciclo: $M=\begin{pmatrix}0&1&0\\0&0&1\\1&0&0\end{pmatrix}$. Calcule $M^2$ e interprete: ¿qué caminos de contagio de dos pasos existen? (Resp.: cada finca alcanza a cualquier otra en dos pasos.)
+6. (Ciencias ambientales) Cuatro fragmentos de bosque están unidos por corredores: A–B, B–C, C–D y B–D. Escriba la matriz de adyacencia (grafo no dirigido) y verifique que $I+M+M^2+M^3$ no tiene entradas nulas: todo fragmento se comunica con todos.
+7. (Agroindustria) El producto sale de una planta a dos bodegas y de ahí a tres puntos de venta. Modele la red con una matriz $M$ y explique qué representa $M^2$ para la cadena de suministro.
+8. (Mecatrónica, red de sensores) En una red inalámbrica cada nodo solo habla con sus vecinos y $M$ es la matriz de comunicación. Explique cómo hallar, usando potencias de $M$, el número mínimo de «saltos» del sensor 1 al sensor 4.
+9. (Agronomía) Una rotación de cultivos es un grafo dirigido: maíz $\to$ fríjol $\to$ pasto $\to$ maíz. Escriba su matriz $M$ y calcule $M^3$. ¿Qué significa el resultado? (Resp.: $M^3=I$: en tres pasos se vuelve al cultivo inicial.)
+
+**C. Programación**
+
+10. Con numpy, calcule $M^2$ y $M^3$ de la matriz del ejercicio 1 y cuente cuántos caminos de longitud 3 van del nodo 1 al nodo 2.
+11. Verifique el ejercicio 6 calculando las potencias de $M$ con numpy.
+12. Dibuje el grafo del ejercicio 9 con matplotlib (tres nodos en círculo y flechas dirigidas), al estilo de los diagramas de esta unidad.
+
+---
+
 ---
 
 ## Cierre de la Unidad 1
