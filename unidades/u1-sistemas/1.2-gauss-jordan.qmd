@@ -49,6 +49,65 @@ cR_i$ se revierte con $R_i \leftarrow \tfrac{1}{c}R_i$; el reemplazo se
 revierte restando). Por tanto, ninguna operación crea ni destruye
 soluciones. $\blacksquare$
 
+**Las tres operaciones en acción (con matrices $2 \times 2$).** Veamos
+un ejemplo de cada operación sobre el mismo sistema, comprobando que
+la solución **no cambia**. Partimos de
+
+$$
+\begin{aligned}
+2x + 4y &= 10\\
+x + y &= 3
+\end{aligned}
+\qquad\text{con matriz aumentada}\qquad
+\left[\begin{array}{cc|c} 2 & 4 & 10\\ 1 & 1 & 3 \end{array}\right],
+$$
+
+cuya solución es $(x, y) = (1, 2)$, pues $2(1) + 4(2) = 10$ y
+$1 + 2 = 3$.
+
+**(a) Intercambio de filas** ($R_1 \leftrightarrow R_2$):
+
+$$
+\left[\begin{array}{cc|c} 1 & 1 & 3\\ 2 & 4 & 10 \end{array}\right]
+\quad\longleftrightarrow\quad
+\begin{aligned} x + y &= 3\\ 2x + 4y &= 10 \end{aligned}
+$$
+
+Solo cambió el **orden** de las ecuaciones; $(1, 2)$ sigue cumpliendo
+ambas.
+
+**(b) Multiplicar una fila por una constante**
+($R_1 \leftarrow \tfrac{1}{2} R_1$):
+
+$$
+\left[\begin{array}{cc|c} 1 & 2 & 5\\ 1 & 1 & 3 \end{array}\right]
+\quad\longleftrightarrow\quad
+\begin{aligned} x + 2y &= 5\\ x + y &= 3 \end{aligned}
+$$
+
+La primera ecuación se dividió entre $2$: representa la misma recta, y
+$(1, 2)$ la cumple: $1 + 2(2) = 5$ ($\checkmark$).
+
+**(c) Multiplicar una fila por una constante y sumarla a otra**
+($R_2 \leftarrow R_2 + (-1)\,R_1$, es decir, restarle la primera fila a
+la segunda):
+
+$$
+\left[\begin{array}{cc|c} 1 & 2 & 5\\ 0 & -1 & -2 \end{array}\right]
+\quad\longleftrightarrow\quad
+\begin{aligned} x + 2y &= 5\\ -y &= -2 \end{aligned}
+$$
+
+La nueva segunda ecuación es una **combinación** de las anteriores, así
+que cualquier solución de antes la cumple: $-2 = -2$ ($\checkmark$). Y
+de regalo, el sistema ya quedó casi resuelto: de la segunda fila,
+$y = 2$, y sustituyendo en la primera, $x = 5 - 2(2) = 1$.
+
+Las cuatro matrices son **equivalentes por filas**: cada una se obtiene
+de la anterior con una operación elemental, y todas representan
+sistemas con la misma solución $(1, 2)$. Esa es toda la idea del
+método: **operar la matriz hasta que la solución se lea sola**.
+
 **Definición 1.2.4 (Forma escalonada reducida por filas).** Una matriz
 está en **forma escalonada reducida por filas** (RREF) si cumple:
 
@@ -56,6 +115,24 @@ está en **forma escalonada reducida por filas** (RREF) si cumple:
 2. El primer elemento no nulo de cada fila (el **pivote**) es $1$.
 3. Cada pivote está a la derecha del pivote de la fila anterior.
 4. Cada pivote es el **único elemento no nulo** de su columna.
+
+Por ejemplo, esta matriz $3 \times 3$ está en forma escalonada reducida:
+
+$$
+\begin{bmatrix}
+\mathbf{1} & 0 & 3\\
+0 & \mathbf{1} & -1\\
+0 & 0 & 0
+\end{bmatrix}
+$$
+
+Revisemos las cuatro condiciones: la fila nula está al final (1); los
+pivotes (en negrita) son $1$ (2); el pivote de la fila 2 está a la
+derecha del de la fila 1 (3); y cada pivote es el único elemento no
+nulo de su columna (4) — en la columna 1 solo hay el $\mathbf{1}$ de la
+fila 1, y en la columna 2 solo el de la fila 2. La columna 3 **no
+tiene pivote**: si esta matriz viniera de un sistema, $x_3$ sería una
+variable **libre**.
 
 **Método de Gauss–Jordan.** Para resolver un sistema:
 
@@ -415,6 +492,99 @@ Solución: $2$ qq de maíz, $3$ qq de soya y $1$ qq de salvado.
 y no como igualdades exactas?*
 :::
 
+::: {.callout-note title="Aplicación · Mecatrónica: circuito de tres mallas (sistema 3×3)"}
+En la sección 1.1 armamos las ecuaciones de una y dos mallas con la
+ley de Ohm ($V = IR$) y la regla de Kirchhoff (*lo que entrega la
+fuente = suma de caídas de voltaje en las resistencias*). Un circuito
+de **tres mallas** produce un sistema $3 \times 3$. Con una fuente de
+$8$ V y cinco resistencias de $1\ \Omega$ (ver la figura):
+
+$$
+\begin{aligned}
+\text{Malla 1: }\; I_1 + (I_1 - I_2) &= 8\\
+\text{Malla 2: }\; I_2 + (I_2 - I_1) + (I_2 - I_3) &= 0\\
+\text{Malla 3: }\; I_3 + (I_3 - I_2) &= 0
+\end{aligned}
+\qquad\Longrightarrow\qquad
+\begin{aligned}
+2I_1 - I_2 \phantom{{} - I_3} &= 8\\
+-I_1 + 3I_2 - I_3 &= 0\\
+-I_2 + 2I_3 &= 0
+\end{aligned}
+$$
+
+Aplicando Gauss–Jordan a la matriz aumentada:
+
+$$
+\left[\begin{array}{ccc|c}
+2 & -1 & 0 & 8\\
+-1 & 3 & -1 & 0\\
+0 & -1 & 2 & 0
+\end{array}\right]
+\xrightarrow{\;\text{Gauss--Jordan}\;}
+\left[\begin{array}{ccc|c}
+1 & 0 & 0 & 5\\
+0 & 1 & 0 & 2\\
+0 & 0 & 1 & 1
+\end{array}\right]
+$$
+
+Las corrientes de malla son $I_1 = 5$ A, $I_2 = 2$ A, $I_3 = 1$ A. Por
+la resistencia compartida entre las mallas 1 y 2 circulan
+$I_1 - I_2 = 3$ A, y entre las mallas 2 y 3, $I_2 - I_3 = 1$ A. *Si se
+duplica el voltaje de la fuente, ¿qué pasa con las tres corrientes?*
+:::
+
+```{python}
+#| label: fig-circuito-3mallas
+#| fig-cap: "Circuito de tres mallas: tres mallas, tres ecuaciones. Las resistencias compartidas R₄ y R₅ llevan las diferencias I₁ − I₂ e I₂ − I₃."
+#| echo: false
+import numpy as np
+import matplotlib.pyplot as plt
+
+def resistor(ax, p1, p2, n=6, w=0.16):
+    p1, p2 = np.array(p1, float), np.array(p2, float)
+    d = p2 - p1; L = np.hypot(*d); v = np.array([-d[1], d[0]])/L
+    a, b = p1 + 0.25*d, p1 + 0.75*d
+    pts = [p1, a]
+    for k in range(1, n):
+        pts.append(a + (k/n)*(b-a) + (w if k % 2 else -w)*v)
+    pts += [b, p2]
+    xs, ys = zip(*pts); ax.plot(xs, ys, 'k', lw=1.5)
+
+def fuente(ax, p1, p2):
+    p1, p2 = np.array(p1, float), np.array(p2, float)
+    d = p2 - p1; L = np.hypot(*d); v = np.array([-d[1], d[0]])/L
+    c1, c2 = p1 + 0.40*d, p1 + 0.60*d
+    ax.plot(*zip(p1, c1), 'k', lw=1.5); ax.plot(*zip(c2, p2), 'k', lw=1.5)
+    ax.plot(*zip(c1 - 0.16*v, c1 + 0.16*v), 'k', lw=1.1)
+    ax.plot(*zip(c2 - 0.28*v, c2 + 0.28*v), 'k', lw=3.4)
+
+def flecha_malla(ax, c, label, r=0.55, color='#b03a2e'):
+    th = np.linspace(np.pi/2 + 0.5, np.pi/2 - 4.2, 80)
+    xs = c[0] + r*np.cos(th); ys = c[1] + r*np.sin(th)
+    ax.plot(xs, ys, color=color, lw=1.3)
+    ax.annotate('', xy=(xs[-1], ys[-1]), xytext=(xs[-6], ys[-6]),
+                arrowprops=dict(arrowstyle='-|>', color=color, lw=1.3))
+    ax.text(c[0], c[1], label, color=color, fontsize=12, ha='center', va='center')
+
+fig, ax = plt.subplots(figsize=(8.5, 3.2))
+ax.plot([0, 9], [0, 0], 'k', lw=1.5)
+fuente(ax, (0, 0), (0, 3))
+ax.plot([9, 9], [0, 3], 'k', lw=1.5)
+resistor(ax, (3, 0), (3, 3)); resistor(ax, (6, 0), (6, 3))
+resistor(ax, (0, 3), (3, 3)); resistor(ax, (3, 3), (6, 3)); resistor(ax, (6, 3), (9, 3))
+ax.text(-0.4, 1.5, '$V=8$ V', ha='center', va='center', rotation=90, fontsize=10)
+ax.text(1.5, 3.38, '$R_1=1\\ \\Omega$', ha='center', fontsize=10)
+ax.text(4.5, 3.38, '$R_2=1\\ \\Omega$', ha='center', fontsize=10)
+ax.text(7.5, 3.38, '$R_3=1\\ \\Omega$', ha='center', fontsize=10)
+ax.text(3.35, 1.5, '$R_4=1\\ \\Omega$', ha='left', va='center', fontsize=10)
+ax.text(6.35, 1.5, '$R_5=1\\ \\Omega$', ha='left', va='center', fontsize=10)
+flecha_malla(ax, (1.5, 1.5), '$I_1$'); flecha_malla(ax, (4.5, 1.5), '$I_2$'); flecha_malla(ax, (7.5, 1.5), '$I_3$')
+ax.set_xlim(-0.9, 9.4); ax.set_ylim(-0.55, 3.85); ax.axis('off')
+plt.tight_layout(); plt.show()
+```
+
 ## 1.2.6 Ejercicios adaptativos
 
 ::: {.content-visible when-format="html"}
@@ -628,6 +798,7 @@ Serie interactiva completa:
 | Pivote | Primer elemento no nulo de una fila, llevado a $1$ |
 | RREF | Forma escalonada reducida por filas |
 | Equivalencia por filas | Matrices conectadas por operaciones elementales |
+| Malla | Camino cerrado de un circuito; cada una aporta una ecuación (Kirchhoff + ley de Ohm) |
 | *Dataset* | Conjunto de datos organizado como matriz (filas: observaciones; columnas: variables) |
 | *Feature* | Variable medida de cada observación (columna de la matriz de datos) |
 | Parámetros | Valores que ajusta un modelo (el vector $\mathbf{x}$) |

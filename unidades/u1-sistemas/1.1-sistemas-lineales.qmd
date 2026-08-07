@@ -501,6 +501,101 @@ $$
 *¿Por qué la primera ecuación no lleva porcentajes y la segunda sí?*
 :::
 
+::: {.callout-note title="Aplicación · Mecatrónica: de la ley de Ohm a las mallas"}
+**Ley de Ohm.** En una resistencia, el voltaje $V$ (en volts), la
+corriente $I$ (en amperes) y la resistencia $R$ (en ohms, $\Omega$) se
+relacionan por
+
+$$V = IR.$$
+
+Por ejemplo, si una fuente de $12$ V alimenta una resistencia de
+$4\ \Omega$, la corriente es $I = 12/4 = 3$ A. Nada más lineal que
+eso: una ecuación $a x = b$ con una incógnita.
+
+**Una malla, una ecuación.** Una **malla** es un camino cerrado en un
+circuito. La regla para escribir su ecuación (ley de voltajes de
+Kirchhoff) es: *lo que entrega la fuente es igual a la suma de las
+caídas de voltaje en las resistencias del camino*. Si la fuente de
+$12$ V alimenta dos resistencias en serie, $R_1 = 2\ \Omega$ y
+$R_2 = 4\ \Omega$, por ambas pasa la misma corriente $I$ y cada una
+«come» voltaje según la ley de Ohm:
+
+$$2I + 4I = 12 \quad\Longrightarrow\quad 6I = 12
+\quad\Longrightarrow\quad I = 2\ \text{A}.$$
+
+**Dos mallas, un sistema.** Si el circuito tiene dos mallas que
+comparten una resistencia $R_3$ (ver la figura), cada malla tiene su
+propia corriente ($I_1$ e $I_2$) y por la resistencia compartida pasa
+la **diferencia** $I_1 - I_2$. Con $V_1 = 4$ V, $V_2 = 3$ V,
+$R_1 = 1\ \Omega$, $R_2 = 2\ \Omega$ y $R_3 = 1\ \Omega$:
+
+$$
+\begin{aligned}
+\text{Malla 1: }\; R_1 I_1 + R_3(I_1 - I_2) &= V_1\\
+\text{Malla 2: }\; R_2 I_2 + R_3(I_2 - I_1) &= V_2
+\end{aligned}
+\qquad\Longrightarrow\qquad
+\begin{aligned}
+2I_1 - I_2 &= 4\\
+-I_1 + 3I_2 &= 3
+\end{aligned}
+$$
+
+Resolviendo el sistema $2\times2$ se obtiene $I_1 = 3$ A, $I_2 = 2$ A
+(compruébalo sustituyendo). La corriente que realmente pasa por la
+resistencia compartida es $I_1 - I_2 = 1$ A. Con tres mallas el
+sistema sería $3\times3$: lo resolveremos en la sección 1.2 con
+Gauss–Jordan.
+:::
+
+```{python}
+#| label: fig-circuito-2mallas
+#| fig-cap: "Circuito de dos mallas. Cada malla aporta una ecuación (ley de Ohm + Kirchhoff); por la resistencia compartida R₃ circula la diferencia I₁ − I₂."
+#| echo: false
+import numpy as np
+import matplotlib.pyplot as plt
+
+def resistor(ax, p1, p2, n=6, w=0.16):
+    p1, p2 = np.array(p1, float), np.array(p2, float)
+    d = p2 - p1; L = np.hypot(*d); v = np.array([-d[1], d[0]])/L
+    a, b = p1 + 0.25*d, p1 + 0.75*d
+    pts = [p1, a]
+    for k in range(1, n):
+        pts.append(a + (k/n)*(b-a) + (w if k % 2 else -w)*v)
+    pts += [b, p2]
+    xs, ys = zip(*pts); ax.plot(xs, ys, 'k', lw=1.5)
+
+def fuente(ax, p1, p2):
+    p1, p2 = np.array(p1, float), np.array(p2, float)
+    d = p2 - p1; L = np.hypot(*d); v = np.array([-d[1], d[0]])/L
+    c1, c2 = p1 + 0.40*d, p1 + 0.60*d
+    ax.plot(*zip(p1, c1), 'k', lw=1.5); ax.plot(*zip(c2, p2), 'k', lw=1.5)
+    ax.plot(*zip(c1 - 0.16*v, c1 + 0.16*v), 'k', lw=1.1)
+    ax.plot(*zip(c2 - 0.28*v, c2 + 0.28*v), 'k', lw=3.4)
+
+def flecha_malla(ax, c, label, r=0.55, color='#b03a2e'):
+    th = np.linspace(np.pi/2 + 0.5, np.pi/2 - 4.2, 80)
+    xs = c[0] + r*np.cos(th); ys = c[1] + r*np.sin(th)
+    ax.plot(xs, ys, color=color, lw=1.3)
+    ax.annotate('', xy=(xs[-1], ys[-1]), xytext=(xs[-6], ys[-6]),
+                arrowprops=dict(arrowstyle='-|>', color=color, lw=1.3))
+    ax.text(c[0], c[1], label, color=color, fontsize=12, ha='center', va='center')
+
+fig, ax = plt.subplots(figsize=(6.5, 3.2))
+ax.plot([0, 6], [0, 0], 'k', lw=1.5)
+fuente(ax, (0, 0), (0, 3)); fuente(ax, (6, 0), (6, 3))
+resistor(ax, (3, 0), (3, 3))
+resistor(ax, (0, 3), (3, 3)); resistor(ax, (3, 3), (6, 3))
+ax.text(-0.4, 1.5, '$V_1=4$ V', ha='center', va='center', rotation=90, fontsize=10)
+ax.text(6.4, 1.5, '$V_2=3$ V', ha='center', va='center', rotation=90, fontsize=10)
+ax.text(1.5, 3.38, '$R_1=1\\ \\Omega$', ha='center', fontsize=10)
+ax.text(4.5, 3.38, '$R_2=2\\ \\Omega$', ha='center', fontsize=10)
+ax.text(3.35, 1.5, '$R_3=1\\ \\Omega$', ha='left', va='center', fontsize=10)
+flecha_malla(ax, (1.5, 1.5), '$I_1$'); flecha_malla(ax, (4.5, 1.5), '$I_2$')
+ax.set_xlim(-0.9, 6.9); ax.set_ylim(-0.55, 3.85); ax.axis('off')
+plt.tight_layout(); plt.show()
+```
+
 ## 1.1.6 Ejercicios adaptativos
 
 ::: {.content-visible when-format="html"}
@@ -682,6 +777,9 @@ Serie interactiva:
 - Geométricamente ($2\times2$) hay **tres casos**: solución única (se
   cortan), ninguna (paralelas) o infinitas (coincidentes). Esto vale
   para cualquier tamaño de sistema.
+- En un circuito, cada **malla** aporta una ecuación lineal: con la ley
+  de Ohm ($V = IR$) y Kirchhoff, las corrientes quedan como incógnitas
+  de un sistema.
 - *Ventana IA:* las observaciones forman un sistema; entrenar un modelo
   lineal es encontrar sus parámetros.
 :::
@@ -694,5 +792,6 @@ Serie interactiva:
 | Solución | Valores que cumplen todas las ecuaciones a la vez |
 | Sistemas equivalentes | Sistemas con el mismo conjunto solución |
 | Matriz de coeficientes | Arreglo $A$ de los coeficientes del sistema |
+| Malla | Camino cerrado en un circuito; su ecuación sale de la ley de Ohm y Kirchhoff |
 | Observación | Una fila de datos (una medición, un ejemplo) |
 | Parámetro | Valor desconocido que el modelo debe aprender |
