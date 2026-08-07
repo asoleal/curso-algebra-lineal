@@ -1,6 +1,6 @@
 # 1.1 Introducción a los sistemas de ecuaciones lineales {.unnumbered}
 
-## 1.1.1 Presentación formal
+## 1.1.1 Ecuaciones Lineales
 
 Antes de escribir ecuaciones con muchas incógnitas, empecemos por un
 terreno conocido: **la recta en el plano**. De ella salen, casi sin
