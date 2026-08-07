@@ -201,6 +201,7 @@ la que acaba de cambiar en cada operación.
     <button id="gj-prev" style="padding:.35em 1em;border-radius:6px;border:1px solid rgba(0,0,0,.3);background:transparent;cursor:pointer;">&#9664; Anterior</button>
     <span id="gj-contador" style="margin:0 1em;"></span>
     <button id="gj-next" style="padding:.35em 1em;border-radius:6px;border:1px solid rgba(0,0,0,.3);background:transparent;cursor:pointer;">Siguiente &#9654;</button>
+    <button id="gj-auto" style="padding:.35em 1em;border-radius:6px;border:1px solid rgba(0,0,0,.3);background:transparent;cursor:pointer;margin-left:.5em;">&#9205; Auto</button>
   </div>
 </div>
 <script>
@@ -241,6 +242,17 @@ la que acaba de cambiar en cada operación.
   }
   document.getElementById('gj-prev').onclick = function () { if (k > 0) { k--; dibujar(); } };
   document.getElementById('gj-next').onclick = function () { if (k < pasos.length - 1) { k++; dibujar(); } };
+  var auto = null;
+  document.getElementById('gj-auto').onclick = function () {
+    var btn = this;
+    if (auto) { clearInterval(auto); auto = null; btn.innerHTML = '&#9205; Auto'; return; }
+    if (k >= pasos.length - 1) { k = 0; dibujar(); }
+    btn.textContent = '\u23F8 Pausa';
+    auto = setInterval(function () {
+      if (k < pasos.length - 1) { k++; dibujar(); }
+      else { clearInterval(auto); auto = null; btn.innerHTML = '&#9205; Auto'; }
+    }, 1400);
+  };
   dibujar();
 })();
 </script>

@@ -6,8 +6,9 @@ Curso de álgebra lineal para los programas de la sede —agroindustria,
 agronomía, zootecnia, medicina veterinaria, ciencias ambientales y
 mecatrónica— con tres decisiones de diseño:
 
-1. **Modelo Grossman adaptado.** Definición, teorema, ejemplo inmediato,
-   caja de resumen y autoevaluación, con sección computacional en Python.
+1. **Explicaciones sencillas.** Definición, teorema y ejemplo inmediato
+   en lenguaje directo, con caja de resumen, autoevaluación y sección
+   computacional en Python.
 2. **Inteligencia artificial como hilo transversal.** Cada unidad siembra
    conceptos de aprendizaje automático (datos como matrices, vectores como
    *features*, capas como transformaciones lineales) que se consolidan en
@@ -17,10 +18,11 @@ mecatrónica— con tres decisiones de diseño:
    bien y repite el nivel con ayudas escalonadas si fallas.
 
 ::: {.callout-tip title="Estado del curso"}
-Sitio en construcción activa. **Piloto disponible:**
-sección **1.2 Eliminación de Gauss–Jordan**, con los siete bloques
-completos (teoría, ejemplos, Python, interactivo, aplicaciones,
-ejercicios adaptativos y resumen).
+Sitio en construcción activa. **Unidad 1 completa (1.1–1.6):**
+sistemas lineales, Gauss–Jordan, sistemas homogéneos, operaciones con
+matrices, matriz inversa y factorización LU — cada sección con los
+siete bloques completos (teoría, ejemplos, Python, interactivo,
+aplicaciones, ejercicios adaptativos y resumen).
 :::
 
 ## Unidades previstas

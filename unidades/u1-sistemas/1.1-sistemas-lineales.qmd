@@ -1,0 +1,459 @@
+# 1.1 Introducción a los sistemas de ecuaciones lineales {.unnumbered}
+
+## 1.1.1 Presentación formal
+
+**Definición 1.1.1 (Ecuación lineal).** Una **ecuación lineal** en las
+variables $x_1, x_2, \ldots, x_n$ es una ecuación de la forma
+
+$$a_1 x_1 + a_2 x_2 + \cdots + a_n x_n = b,$$
+
+donde $a_1, \ldots, a_n$ y $b$ son números reales. Lo importante: cada
+variable aparece **a la primera potencia** y no hay productos entre
+variables.
+
+**Definición 1.1.2 (Sistema de ecuaciones lineales).** Un **sistema de
+$m$ ecuaciones con $n$ incógnitas** es un conjunto de ecuaciones lineales
+que deben cumplirse *al mismo tiempo*:
+
+$$
+\begin{aligned}
+a_{11}x_1 + a_{12}x_2 + \cdots + a_{1n}x_n &= b_1\\
+a_{21}x_1 + a_{22}x_2 + \cdots + a_{2n}x_n &= b_2\\
+&\;\;\vdots\\
+a_{m1}x_1 + a_{m2}x_2 + \cdots + a_{mn}x_n &= b_m
+\end{aligned}
+$$
+
+Una **solución** del sistema es una lista de valores
+$(x_1, \ldots, x_n)$ que satisface **todas** las ecuaciones
+simultáneamente. El **conjunto solución** es la colección de todas las
+soluciones.
+
+**Definición 1.1.3 (Sistemas equivalentes).** Dos sistemas son
+**equivalentes** si tienen exactamente el mismo conjunto solución.
+
+**Forma matricial.** Todo el sistema se resume en la ecuación
+
+$$A\mathbf{x} = \mathbf{b},$$
+
+donde $A$ es la **matriz de coeficientes** ($m \times n$), $\mathbf{x}$
+es el **vector de incógnitas** y $\mathbf{b}$ el **vector de términos
+independientes**.
+
+**Interpretación geométrica ($2 \times 2$).** Con dos incógnitas, cada
+ecuación es la ecuación de una **recta** en el plano. Resolver el sistema
+es buscar los puntos que están en *ambas* rectas, y solo hay tres
+posibilidades:
+
+1. Las rectas **se cortan en un punto** → solución **única**.
+2. Las rectas son **paralelas distintas** → **no hay solución**.
+3. Las rectas **coinciden** → **infinitas soluciones**.
+
+```{python}
+#| label: fig-tres-casos
+#| fig-cap: "Los tres casos de un sistema 2 x 2: un punto, paralelas, coincidentes."
+import numpy as np
+import matplotlib.pyplot as plt
+
+x = np.linspace(-2, 6, 200)
+fig, ax = plt.subplots(1, 3, figsize=(10, 3.2))
+
+ax[0].plot(x, 5 - x, label='x + y = 5')
+ax[0].plot(x, x - 1, label='x - y = 1')
+ax[0].plot(3, 2, 'ro'); ax[0].set_title('Solución única: (3, 2)')
+
+ax[1].plot(x, 3 - x); ax[1].plot(x, 1 - x)
+ax[1].set_title('Paralelas: sin solución')
+
+ax[2].plot(x, 2 - 0.5 * x); ax[2].plot(x, 2 - 0.5 * x, '--', lw=3, alpha=0.5)
+ax[2].set_title('Coincidentes: infinitas')
+
+for a in ax:
+    a.grid(alpha=0.3); a.axhline(0, color='k', lw=0.5); a.axvline(0, color='k', lw=0.5)
+plt.tight_layout()
+plt.show()
+```
+
+Este resultado es general: **todo** sistema de ecuaciones lineales tiene
+una única solución, ninguna, o infinitas. No hay otra posibilidad.
+
+## 1.1.2 Ejemplos
+
+### Ejemplo 1.1.1 (verificar una solución)
+
+Comprobar si $(3, 2)$ es solución del sistema
+
+$$
+\begin{aligned}
+x + y &= 5\\
+x - y &= 1
+\end{aligned}
+$$
+
+*Solución.* Sustituimos $x = 3$, $y = 2$ en **ambas** ecuaciones:
+
+$$3 + 2 = 5 \;\checkmark \qquad\text{y}\qquad 3 - 2 = 1 \;\checkmark$$
+
+Como se cumplen las dos, $(3, 2)$ **sí es solución**. De hecho es la
+única, porque las rectas se cortan en un solo punto (ver la figura de los
+tres casos).
+
+Nota: para *encontrar* (no solo verificar) soluciones de forma
+sistemática usaremos el método de Gauss–Jordan de la sección 1.2.
+
+::: {.callout-important title="Ventana IA: los datos ya son un sistema (y entrenar es resolverlo)"}
+Imagina que mides en campo: con $1$ kg del alimento $A$ y $2$ kg del $B$
+obtuviste $8$ unidades de energía; con $2$ kg de $A$ y $1$ de $B$,
+$7$ unidades. Si la energía por kg de cada alimento es $e_A$ y $e_B$
+(**los parámetros que no conocemos**), tus propios datos forman el
+sistema
+
+$$
+\begin{aligned}
+e_A + 2e_B &= 8\\
+2e_A + e_B &= 7
+\end{aligned}
+$$
+
+Resolver el sistema es **aprender los parámetros a partir de las
+observaciones**. Eso, en esencia, es *entrenar* un modelo lineal. Cuando
+haya muchas más observaciones que parámetros, el sistema ya no tendrá
+solución exacta y tocará *aproximarla*: ese será el tema de mínimos
+cuadrados (U7), la puerta al aprendizaje automático.
+:::
+
+## 1.1.3 Módulo Python
+
+```{python}
+import numpy as np
+
+# Sistema del Ejemplo 1.1.1:  x + y = 5,  x - y = 1
+A = np.array([[1, 1],
+              [1, -1]], dtype=float)
+b = np.array([5, 1], dtype=float)
+
+x = np.linalg.solve(A, b)
+print("Solución del sistema:", x)
+
+# Verificación de la Ventana IA:  e_A + 2e_B = 8,  2e_A + e_B = 7
+E = np.array([[1, 2],
+              [2, 1]], dtype=float)
+e = np.linalg.solve(E, np.array([8, 7], dtype=float))
+print("Energía por kg (e_A, e_B):", e)
+```
+
+::: {.content-visible when-format="html"}
+[▶ Abrir este módulo en Google Colab](https://colab.research.google.com/github/asoleal/curso-algebra-lineal/blob/main/notebooks/u1-1.1-sistemas-lineales.ipynb){.btn .btn-outline-primary}
+:::
+
+## 1.1.4 Módulo interactivo
+
+::: {.content-visible when-format="html"}
+Explora los tres casos de un sistema $2\times2$. Cada línea es una recta
+$y = mx + c$ (una ecuación del sistema). Mueve los deslizadores y observa
+qué pasa con la solución.
+
+```{=html}
+<div id="rl" style="max-width:700px;margin:1em auto;padding:1em;border:1px solid rgba(0,0,0,.2);border-radius:10px;">
+  <div style="display:flex;flex-wrap:wrap;gap:1em;justify-content:center;font-size:.95em;">
+    <span style="color:#1f77b4;font-weight:600;">Recta 1:</span>
+    <label>m1 = <span id="rl-vm1">1</span> <input id="rl-m1" type="range" min="-5" max="5" step="0.5" value="1"></label>
+    <label>c1 = <span id="rl-vc1">2</span> <input id="rl-c1" type="range" min="-8" max="8" step="1" value="2"></label>
+    <span style="color:#d62728;font-weight:600;">Recta 2:</span>
+    <label>m2 = <span id="rl-vm2">-1</span> <input id="rl-m2" type="range" min="-5" max="5" step="0.5" value="-1"></label>
+    <label>c2 = <span id="rl-vc2">4</span> <input id="rl-c2" type="range" min="-8" max="8" step="1" value="4"></label>
+  </div>
+  <canvas id="rl-canvas" width="520" height="380" style="display:block;margin:.8em auto;border:1px solid rgba(0,0,0,.15);border-radius:8px;background:#fff;"></canvas>
+  <div id="rl-info" style="text-align:center;font-weight:600;"></div>
+</div>
+<script>
+(function () {
+  var cv = document.getElementById('rl-canvas'), ctx = cv.getContext('2d');
+  var W = cv.width, H = cv.height, R = 10;
+  function px(x) { return (x + R) / (2 * R) * W; }
+  function py(y) { return H - (y + R) / (2 * R) * H; }
+  function val(id) { return parseFloat(document.getElementById(id).value); }
+  function linea(m, c, color) {
+    ctx.strokeStyle = color; ctx.lineWidth = 2; ctx.beginPath();
+    var primero = true;
+    for (var x = -R; x <= R; x += 0.2) {
+      var y = m * x + c;
+      if (y < -R || y > R) { primero = true; continue; }
+      if (primero) { ctx.moveTo(px(x), py(y)); primero = false; }
+      else { ctx.lineTo(px(x), py(y)); }
+    }
+    ctx.stroke();
+  }
+  function dibujar() {
+    var m1 = val('rl-m1'), c1 = val('rl-c1'), m2 = val('rl-m2'), c2 = val('rl-c2');
+    document.getElementById('rl-vm1').textContent = m1;
+    document.getElementById('rl-vc1').textContent = c1;
+    document.getElementById('rl-vm2').textContent = m2;
+    document.getElementById('rl-vc2').textContent = c2;
+    ctx.clearRect(0, 0, W, H);
+    ctx.strokeStyle = 'rgba(0,0,0,.12)'; ctx.lineWidth = 1;
+    for (var g = -R; g <= R; g += 2) {
+      ctx.beginPath(); ctx.moveTo(px(g), 0); ctx.lineTo(px(g), H); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(0, py(g)); ctx.lineTo(W, py(g)); ctx.stroke();
+    }
+    ctx.strokeStyle = 'rgba(0,0,0,.5)';
+    ctx.beginPath(); ctx.moveTo(px(0), 0); ctx.lineTo(px(0), H); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(0, py(0)); ctx.lineTo(W, py(0)); ctx.stroke();
+    linea(m1, c1, '#1f77b4'); linea(m2, c2, '#d62728');
+    var info = document.getElementById('rl-info');
+    if (Math.abs(m1 - m2) < 1e-12) {
+      if (Math.abs(c1 - c2) < 1e-12) {
+        info.innerHTML = 'Rectas coincidentes: <b>infinitas soluciones</b>';
+      } else {
+        info.innerHTML = 'Rectas paralelas: <b>no hay soluci\u00f3n</b>';
+      }
+    } else {
+      var x = (c2 - c1) / (m1 - m2), y = m1 * x + c1;
+      info.innerHTML = 'Soluci\u00f3n \u00fanica: x = ' + x.toFixed(2) + ', y = ' + y.toFixed(2);
+      if (Math.abs(x) <= R && Math.abs(y) <= R) {
+        ctx.fillStyle = '#2e7d32'; ctx.beginPath();
+        ctx.arc(px(x), py(y), 6, 0, 2 * Math.PI); ctx.fill();
+      }
+    }
+  }
+  ['rl-m1', 'rl-c1', 'rl-m2', 'rl-c2'].forEach(function (id) {
+    document.getElementById(id).oninput = dibujar;
+  });
+  dibujar();
+})();
+</script>
+```
+
+*Sugerencia:* lleva las dos rectas a la misma pendiente (por ejemplo
+$m_1 = m_2 = 1$) y observa cómo la solución desaparece (paralelas) o se
+vuelve infinita (coincidentes).
+:::
+
+::: {.content-visible when-format="pdf"}
+En la versión web, este módulo permite mover dos rectas con deslizadores
+y observar el punto de corte (solución única), las paralelas (sin
+solución) y las coincidentes (infinitas). La figura de la página anterior
+muestra los tres casos. Versión interactiva:
+[sección 1.1.4 en el sitio del curso](https://asoleal.github.io/curso-algebra-lineal/unidades/u1-sistemas/1.1-sistemas-lineales.html).
+:::
+
+## 1.1.5 Aplicaciones por carrera
+
+::: {.callout-note title="Aplicación · Agronomía: dos fertilizantes, dos nutrientes"}
+Un lote requiere $8$ unidades de N y $7$ de P. El fertilizante $F_1$
+aporta $2$ de N y $1$ de P por saco; el $F_2$ aporta $1$ de N y $2$ de P.
+
+$$
+\begin{aligned}
+2x_1 + x_2 &= 8\\
+x_1 + 2x_2 &= 7
+\end{aligned}
+\qquad\Rightarrow\qquad x_1 = 3,\; x_2 = 2
+$$
+
+Se necesitan $3$ sacos de $F_1$ y $2$ de $F_2$. *¿Qué representa
+geométricamente cada ecuación?*
+:::
+
+::: {.callout-note title="Aplicación · Veterinaria: mezcla de dos soluciones"}
+Se requieren $100$ ml de una solución al $32\,\%$ mezclando una solución
+al $20\,\%$ con otra al $50\,\%$. Si $x$ e $y$ son los ml de cada una:
+
+$$
+\begin{aligned}
+x + y &= 100\\
+0.20x + 0.50y &= 32
+\end{aligned}
+\qquad\Rightarrow\qquad x = 60,\; y = 40
+$$
+
+*¿Por qué la primera ecuación no lleva porcentajes y la segunda sí?*
+:::
+
+## 1.1.6 Ejercicios adaptativos
+
+::: {.content-visible when-format="html"}
+```{=html}
+<div id="qz" style="max-width:680px;margin:1em auto;padding:1em;border:1px solid rgba(0,0,0,.2);border-radius:10px;">
+  <div id="qz-progreso" style="font-weight:600;margin-bottom:.5em;"></div>
+  <div id="qz-desc" style="margin-bottom:.4em;"></div>
+  <div id="qz-pregunta" style="font-size:1.05em;margin:.6em 0;font-family:monospace;"></div>
+  <div id="qz-inputs" style="margin:.5em 0;"></div>
+  <button id="qz-verificar" style="padding:.4em 1.2em;border-radius:6px;border:1px solid rgba(0,0,0,.3);background:transparent;cursor:pointer;">Verificar</button>
+  <button id="qz-variante" style="padding:.4em 1.2em;border-radius:6px;border:1px solid rgba(0,0,0,.3);background:transparent;cursor:pointer;display:none;">Nueva variante (mismo nivel)</button>
+  <button id="qz-reiniciar" style="padding:.4em .8em;border-radius:6px;border:none;background:transparent;cursor:pointer;text-decoration:underline;font-size:.85em;">Reiniciar serie</button>
+  <div id="qz-feedback" style="margin-top:.6em;font-weight:600;"></div>
+  <div id="qz-pista" style="margin-top:.5em;padding:.6em;border-radius:8px;background:rgba(148,180,59,.15);display:none;"></div>
+</div>
+<script>
+(function () {
+  var CLAVE = 'quiz-u1-1.1-v1';
+  var estado = { nivel: 1, racha: 0 };
+  try { var g = localStorage.getItem(CLAVE); if (g) { estado = JSON.parse(g); } } catch (e) {}
+  var item = null, intentos = 0;
+
+  function rnd(a, b) { return Math.floor(Math.random() * (b - a + 1)) + a; }
+  function nz(a, b) { var v = 0; while (v === 0) { v = rnd(a, b); } return v; }
+  function term(c, v, primero) {
+    if (c === 0) { return ''; }
+    var s = (c === 1 ? v : (c === -1 ? '\u2212' + v : c + v));
+    if (primero) { return s; }
+    return (c > 0 ? ' + ' + s : ' \u2212 ' + (c === -1 ? v : Math.abs(c) + v));
+  }
+  function ecStr(A, b, vars) {
+    var lineas = [];
+    for (var i = 0; i < A.length; i++) {
+      var s = '', primero = true;
+      for (var j = 0; j < vars.length; j++) {
+        var t = term(A[i][j], vars[j], primero && s === '');
+        if (t !== '') { s += t; primero = false; }
+      }
+      if (s === '') { s = '0'; }
+      lineas.push(s + ' = ' + b[i]);
+    }
+    return lineas.join('<br>');
+  }
+
+  function gen2x2(amin, amax, smin, smax) {
+    var x = rnd(smin, smax), y = rnd(smin, smax), A, d;
+    do {
+      A = [[rnd(amin, amax), rnd(amin, amax)], [rnd(amin, amax), rnd(amin, amax)]];
+      d = A[0][0] * A[1][1] - A[0][1] * A[1][0];
+    } while (d === 0 || (A[0][0] === 0 && A[0][1] === 0) || (A[1][0] === 0 && A[1][1] === 0));
+    var b = [A[0][0] * x + A[0][1] * y, A[1][0] * x + A[1][1] * y];
+    return { A: A, b: b, resp: [x, y] };
+  }
+  function genN1() {
+    var s = gen2x2(1, 5, 1, 5);
+    return {
+      desc: 'Nivel 1 \u00b7 Resuelve el sistema 2\u00d72 (soluci\u00f3n entera positiva):',
+      html: ecStr(s.A, s.b, ['x', 'y']), vars: ['x', 'y'], resp: s.resp, tol: 0.001,
+      h1: 'Despeja una variable de una ecuaci\u00f3n y sustit\u00fayela en la otra.',
+      h2: 'Camino guiado: elimina y calculando (' + s.A[1][1] + ')\u00b7E1 \u2212 (' + s.A[0][1] + ')\u00b7E2 y despeja x. Luego sustituye x en E1.'
+    };
+  }
+  function genN2() {
+    var s = gen2x2(-4, 5, -3, 4);
+    return {
+      desc: 'Nivel 2 \u00b7 Resuelve el sistema 2\u00d72 (coeficientes con signos):',
+      html: ecStr(s.A, s.b, ['x', 'y']), vars: ['x', 'y'], resp: s.resp, tol: 0.001,
+      h1: 'Cuidado con los signos al restar ecuaciones: resta t\u00e9rmino a t\u00e9rmino.',
+      h2: 'Camino guiado: elimina y calculando (' + s.A[1][1] + ')\u00b7E1 \u2212 (' + s.A[0][1] + ')\u00b7E2 y despeja x. Luego sustituye x en E1.'
+    };
+  }
+  function genN3() {
+    var q = nz(1, 4), r = nz(1, 4), p = nz(-4, 5), b1, b2, k;
+    k = (p * q) / r;
+    do { b1 = rnd(-6, 8); b2 = nz(-6, 8); } while (Math.abs((k / q) * b2 - b1) < 0.05);
+    return {
+      desc: 'Nivel 3 \u00b7 \u00bfPara qu\u00e9 valor de k el sistema es de rectas paralelas (sin soluci\u00f3n)?',
+      html: 'kx' + term(p, 'y', false) + ' = ' + b1 + '<br>' + q + 'x' + term(r, 'y', false) + ' = ' + b2,
+      vars: ['k'], resp: [k], tol: 0.01,
+      h1: 'Dos rectas son paralelas cuando tienen la misma pendiente, es decir, cuando los coeficientes guardan la misma proporci\u00f3n: k/q = p/r.',
+      h2: 'Iguala las razones: k/' + q + ' = (' + p + ')/' + r + ', entonces k = (' + p + ')\u00b7(' + q + ') / (' + r + ').'
+    };
+  }
+  var GEN = [genN1, genN2, genN3];
+
+  function guardar() { try { localStorage.setItem(CLAVE, JSON.stringify(estado)); } catch (e) {} }
+  function progreso() {
+    document.getElementById('qz-progreso').textContent =
+      'Nivel ' + estado.nivel + ' de 3 \u00b7 Aciertos seguidos: ' + estado.racha + ' de 2';
+  }
+  function nuevaPregunta() {
+    item = GEN[estado.nivel - 1]();
+    intentos = 0;
+    progreso();
+    document.getElementById('qz-desc').textContent = item.desc;
+    document.getElementById('qz-pregunta').innerHTML = item.html;
+    var inp = '';
+    for (var j = 0; j < item.vars.length; j++) {
+      inp += '<label style="margin-right:1em;">' + item.vars[j] +
+        ' = <input id="qz-in-' + j + '" type="number" step="any" style="width:6em;padding:.2em;"></label>';
+    }
+    document.getElementById('qz-inputs').innerHTML = inp + '<br><small>Usa punto decimal si hace falta.</small>';
+    document.getElementById('qz-feedback').textContent = '';
+    document.getElementById('qz-pista').style.display = 'none';
+    document.getElementById('qz-variante').style.display = 'none';
+  }
+  function verificar() {
+    if (!item) { return; }
+    var ok = true, v;
+    for (var j = 0; j < item.vars.length; j++) {
+      v = parseFloat(document.getElementById('qz-in-' + j).value);
+      if (isNaN(v) || Math.abs(v - item.resp[j]) > item.tol) { ok = false; }
+    }
+    var fb = document.getElementById('qz-feedback');
+    if (ok) {
+      estado.racha += 1;
+      var msg = '\u2714 Correcto.';
+      if (estado.racha >= 2 && estado.nivel < 3) {
+        estado.nivel += 1; estado.racha = 0;
+        msg += ' \u00a1Subes al nivel ' + estado.nivel + '!';
+      }
+      fb.style.color = '#2e7d32'; fb.textContent = msg;
+      guardar(); setTimeout(nuevaPregunta, 1300);
+    } else {
+      intentos += 1;
+      fb.style.color = '#c62828';
+      var pista = document.getElementById('qz-pista');
+      if (intentos === 1) {
+        fb.textContent = '\u2716 A\u00fan no. Lee la pista y reintenta.';
+        pista.innerHTML = '<b>Pista 1:</b> ' + item.h1;
+      } else {
+        fb.textContent = '\u2716 Segundo intento. Revisa la soluci\u00f3n guiada y practica otra variante.';
+        pista.innerHTML = '<b>Soluci\u00f3n guiada:</b> ' + item.h2;
+        document.getElementById('qz-variante').style.display = 'inline-block';
+        estado.racha = 0; guardar();
+      }
+      pista.style.display = 'block';
+      progreso();
+    }
+  }
+  document.getElementById('qz-verificar').onclick = verificar;
+  document.getElementById('qz-variante').onclick = nuevaPregunta;
+  document.getElementById('qz-reiniciar').onclick = function () {
+    estado = { nivel: 1, racha: 0 }; guardar(); nuevaPregunta();
+  };
+  nuevaPregunta();
+})();
+</script>
+```
+:::
+
+::: {.content-visible when-format="pdf"}
+Ítems de muestra de la serie adaptativa (versión interactiva en el
+sitio):
+
+1. *(Nivel 1)* Resolver: $2x + y = 8$, $\;x + y = 5$.
+   **Solución:** $x = 3$, $y = 2$.
+2. *(Nivel 2)* Resolver: $x - 2y = -1$, $\;3x + y = 11$.
+   **Solución:** $x = 3$, $y = 2$.
+3. *(Nivel 3)* Hallar $k$ para que $kx + 2y = 4$, $\;3x + 6y = 5$ no
+   tenga solución. **Solución:** $k = 1$ (rectas paralelas).
+
+Serie interactiva:
+[sección 1.1.6 en el sitio del curso](https://asoleal.github.io/curso-algebra-lineal/unidades/u1-sistemas/1.1-sistemas-lineales.html).
+:::
+
+## 1.1.7 Resumen y glosario
+
+::: {.callout-tip title="Resumen"}
+- Una ecuación lineal tiene variables a la primera potencia, sin
+  productos entre ellas.
+- Un sistema se resume como $A\mathbf{x} = \mathbf{b}$.
+- Geométricamente ($2\times2$): cada ecuación es una recta; hay **tres
+  casos**: solución única (se cortan), ninguna (paralelas) o infinitas
+  (coincidentes). Esto vale para cualquier tamaño de sistema.
+- *Ventana IA:* las observaciones forman un sistema; entrenar un modelo
+  lineal es encontrar sus parámetros.
+:::
+
+| Término | Significado |
+|---|---|
+| Ecuación lineal | $a_1x_1 + \cdots + a_nx_n = b$ |
+| Solución | Valores que cumplen todas las ecuaciones a la vez |
+| Sistemas equivalentes | Sistemas con el mismo conjunto solución |
+| Matriz de coeficientes | Arreglo $A$ de los coeficientes del sistema |
+| Observación | Una fila de datos (una medición, un ejemplo) |
+| Parámetro | Valor desconocido que el modelo debe aprender |

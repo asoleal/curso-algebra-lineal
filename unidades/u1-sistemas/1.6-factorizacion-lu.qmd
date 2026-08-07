@@ -1,0 +1,520 @@
+# 1.6 Factorización LU {.unnumbered}
+
+> **Qué aprenderá aquí.** A escribir una matriz cuadrada como el producto
+> $A = LU$ de una matriz **triangular inferior** $L$ y una **triangular
+> superior** $U$, y a usar esa factorización para resolver
+> $A\mathbf{x}=\mathbf{b}$ en dos pasos sencillos. Aprenderá por qué esta
+> idea es la que usan los computadores de verdad — y los modelos de IA —
+> cuando hay que resolver **muchos sistemas con la misma matriz**.
+
+## 1.6.1 Presentación formal
+
+En la sección 1.2 resolvimos sistemas llevando la matriz aumentada a su
+forma escalonada. Aquí veremos que ese mismo proceso de eliminación
+guarda un tesoro: si anotamos los **multiplicadores** usados en cada
+paso, obtenemos una segunda matriz que, junto con la escalonada,
+*reconstruye* la matriz original.
+
+**Definición 1.6.1 (Factorización LU).** Sea $A$ una matriz $n\times n$.
+Una **factorización LU** de $A$ es un par de matrices $L$ y $U$ tales
+que
+
+$$A = LU,$$
+
+donde $L$ es **triangular inferior con unos en la diagonal** (es decir,
+$\ell_{ij}=0$ si $j>i$ y $\ell_{ii}=1$) y $U$ es **triangular superior**
+($u_{ij}=0$ si $i>j$).
+
+**Cómo aparecen $L$ y $U$ en la eliminación.** Al eliminar con la
+operación $R_j \leftarrow R_j - m\,R_i$:
+
+- El multiplicador $m$ se guarda en la posición $(j,i)$ de $L$.
+- La matriz escalonada que queda al final (sin dividir pivotes, sin
+  eliminar hacia arriba) es $U$.
+
+**Teorema 1.6.1 (Existencia y unicidad).** Si la matriz $A$ se puede
+llevar a una forma escalonada **sin intercambios de filas**, entonces
+$A$ admite una factorización $A = LU$, y con la condición de que $L$
+tenga unos en la diagonal, esa factorización es **única**.
+
+**Por qué resuelve sistemas más rápido.** Si $A = LU$, el sistema
+$A\mathbf{x}=\mathbf{b}$ equivale a $LU\mathbf{x}=\mathbf{b}$. Llamando
+$\mathbf{y}=U\mathbf{x}$, se resuelve en dos pasos:
+
+1. **Sustitución hacia adelante:** resolver $L\mathbf{y}=\mathbf{b}$
+   (fácil, porque $L$ es triangular inferior: se despeja $y_1$, luego
+   $y_2$, y así).
+2. **Sustitución hacia atrás:** resolver $U\mathbf{x}=\mathbf{y}$
+   (fácil, porque $U$ es triangular superior: se despeja $x_n$, luego
+   $x_{n-1}$, y así).
+
+La ganancia práctica: **factorizar se hace una sola vez**; cada nuevo
+vector $\mathbf{b}$ solo cuesta las dos sustituciones, que son mucho más
+baratas que repetir toda la eliminación.
+
+## 1.6.2 Ejemplos
+
+### Ejemplo 1.6.1 (factorizar y resolver en dos pasos)
+
+Resolver el sistema
+
+$$
+\begin{aligned}
+2x + y + z &= 5\\
+4x + y + 3z &= 9\\
+-2x - 4y + 4z &= -6
+\end{aligned}
+$$
+
+*Paso 1: eliminación anotando multiplicadores.* Trabajamos sobre $A$
+(sin la columna aumentada):
+
+$$
+A=\begin{pmatrix}
+2 & 1 & 1\\
+4 & 1 & 3\\
+-2 & -4 & 4
+\end{pmatrix}
+\xrightarrow{R_2 \leftarrow R_2 - 2R_1}
+\begin{pmatrix}
+2 & 1 & 1\\
+0 & -1 & 1\\
+-2 & -4 & 4
+\end{pmatrix}
+\xrightarrow{R_3 \leftarrow R_3 + R_1}
+\begin{pmatrix}
+2 & 1 & 1\\
+0 & -1 & 1\\
+0 & -3 & 5
+\end{pmatrix}
+\xrightarrow{R_3 \leftarrow R_3 - 3R_2}
+\underbrace{\begin{pmatrix}
+2 & 1 & 1\\
+0 & -1 & 1\\
+0 & 0 & 2
+\end{pmatrix}}_{U}
+$$
+
+Los multiplicadores fueron $m_{21}=2$, $m_{31}=-1$ (por eso la
+operación fue *sumar* $R_1$) y $m_{32}=3$. Los colocamos en $L$:
+
+$$
+L=\begin{pmatrix}
+1 & 0 & 0\\
+2 & 1 & 0\\
+-1 & 3 & 1
+\end{pmatrix}
+$$
+
+*Comprobación del paso 1:*
+
+$$
+LU=\begin{pmatrix}
+1 & 0 & 0\\
+2 & 1 & 0\\
+-1 & 3 & 1
+\end{pmatrix}
+\begin{pmatrix}
+2 & 1 & 1\\
+0 & -1 & 1\\
+0 & 0 & 2
+\end{pmatrix}
+=\begin{pmatrix}
+2 & 1 & 1\\
+4 & 1 & 3\\
+-2 & -4 & 4
+\end{pmatrix}=A \;\checkmark
+$$
+
+*Paso 2: sustitución hacia adelante* $L\mathbf{y}=\mathbf{b}$:
+
+$$
+\begin{cases}
+y_1 = 5\\
+2y_1 + y_2 = 9 \;\Rightarrow\; y_2 = 9-2(5) = -1\\
+-y_1 + 3y_2 + y_3 = -6 \;\Rightarrow\; y_3 = -6 + 5 + 3 = 2
+\end{cases}
+\qquad\Rightarrow\qquad \mathbf{y}=\begin{pmatrix}5\\-1\\2\end{pmatrix}
+$$
+
+*Paso 3: sustitución hacia atrás* $U\mathbf{x}=\mathbf{y}$:
+
+$$
+\begin{cases}
+2z = 2 \;\Rightarrow\; z = 1\\
+-y + z = -1 \;\Rightarrow\; y = 1 + 1 = 2\\
+2x + y + z = 5 \;\Rightarrow\; x = \dfrac{5-2-1}{2} = 1
+\end{cases}
+\qquad\Rightarrow\qquad \boxed{\,x=1,\quad y=2,\quad z=1\,}
+$$
+
+*Verificación:* $2(1)+2+1=5$; $\;4(1)+2+3(1)=9$;
+$\;-2(1)-4(2)+4(1)=-6$. $\checkmark$
+
+**Observación clave.** Si mañana llega un nuevo vector
+$\mathbf{b}'=(8,\,18,\,4)$ con la **misma matriz** $A$, no repetimos
+ninguna eliminación: con las mismas $L$ y $U$ basta resolver
+$L\mathbf{y}=\mathbf{b}'$ (da $\mathbf{y}=(8,2,6)$) y luego
+$U\mathbf{x}=\mathbf{y}$ (da $\mathbf{x}=(2,1,3)$). Esto es exactamente
+lo que aprovechan los programas de cómputo científico.
+
+::: {.callout-important title="Ventana IA: factorizar una vez, resolver mil veces"}
+Cuando un modelo de IA entra en producción, los mismos cálculos se
+repiten millones de veces: cada lote de productos, cada imagen, cada
+lectura de sensores genera un nuevo vector $\mathbf{b}$, pero la matriz
+$A$ del modelo **no cambia**. La estrategia universal es la que acaba de
+ver: pre-calcular una factorización de $A$ **una sola vez** y luego
+resolver cada caso con dos sustituciones baratas.
+
+De hecho, cuando en la sección 1.5 dijimos que «nadie calcula la
+inversa», la alternativa que usa la biblioteca NumPy por dentro es
+precisamente una variante de LU (llamada LU con pivoteo parcial). Los
+métodos de optimización que entrenan redes neuronales —como el método
+de Newton— resuelven en cada iteración un sistema lineal con la misma
+estructura, y ahí también vive LU. La moraleja que se repetirá en todo
+el curso: **las factorizaciones son el verdadero motor numérico del
+aprendizaje automático**; en la U7 conocerá la factorización QR y en
+la U8 la SVD, la reina de todas.
+:::
+
+## 1.6.3 Módulo Python
+
+Verifiquemos el Ejemplo 1.6.1 con `sympy`, que muestra las matrices $L$
+y $U$ exactas:
+
+```{python}
+import sympy as sp
+
+A = sp.Matrix([[2, 1, 1],
+               [4, 1, 3],
+               [-2, -4, 4]])
+b = sp.Matrix([5, 9, -6])
+
+L, U, _ = A.LUdecomposition()
+print("L ="); print(L)
+print("U ="); print(U)
+print("¿L·U = A?", L * U == A)
+
+# Resolver en dos pasos: Ly = b, luego Ux = y
+y = L.solve(b)   # sustitución hacia adelante
+x = U.solve(y)   # sustitución hacia atrás
+print("y =", y.T)
+print("x =", x.T)
+print("Verificación, A·x =", (A * x).T)
+```
+
+**El premio de reutilizar.** Llega un segundo vector $\mathbf{b}'$
+(misma $A$, como en producción):
+
+```{python}
+b2 = sp.Matrix([8, 18, 4])
+y2 = L.solve(b2)   # mismas L y U: solo dos sustituciones
+x2 = U.solve(y2)
+print("Para b' =", b2.T, " la solución es x =", x2.T)
+```
+
+::: {.content-visible when-format="html"}
+[▶ Abrir este módulo en Google Colab](https://colab.research.google.com/github/asoleal/curso-algebra-lineal/blob/main/notebooks/u1-1.6-factorizacion-lu.ipynb){.btn .btn-outline-primary}
+:::
+
+::: {.content-visible when-format="pdf"}
+**Cuaderno en línea.** Este módulo está disponible como cuaderno
+ejecutable en el repositorio del curso:
+[notebooks/u1-1.6-factorizacion-lu.ipynb](https://github.com/asoleal/curso-algebra-lineal/blob/main/notebooks/u1-1.6-factorizacion-lu.ipynb)
+(abrible en Google Colab).
+:::
+
+## 1.6.4 Paso a paso interactivo
+
+Recorra el Ejemplo 1.6.1 paso a paso. Observe cómo la matriz $L$ se va
+llenando con los multiplicadores mientras la matriz de trabajo se
+convierte en $U$; después verá las dos sustituciones que dan la
+solución.
+
+::: {.content-visible when-format="html"}
+```{=html}
+<div id="lu-stepper" style="max-width:700px;margin:1em auto;padding:1em;border:1px solid rgba(0,0,0,.2);border-radius:10px;">
+  <div id="lu-op" style="min-height:2.6em;font-weight:600;"></div>
+  <div id="lu-mat" style="display:flex;flex-wrap:wrap;gap:1.4em;justify-content:center;align-items:flex-start;"></div>
+  <div style="text-align:center;margin-top:.9em;">
+    <button id="lu-prev" style="padding:.35em 1em;border-radius:6px;border:1px solid rgba(0,0,0,.3);background:transparent;cursor:pointer;">&#9664; Anterior</button>
+    <span id="lu-contador" style="margin:0 1em;"></span>
+    <button id="lu-next" style="padding:.35em 1em;border-radius:6px;border:1px solid rgba(0,0,0,.3);background:transparent;cursor:pointer;">Siguiente &#9654;</button>
+    <button id="lu-auto" style="padding:.35em 1em;border-radius:6px;border:1px solid rgba(0,0,0,.3);background:transparent;cursor:pointer;margin-left:.5em;">&#9205; Auto</button>
+  </div>
+</div>
+<script>
+(function () {
+  var A0=[[2,1,1],[4,1,3],[-2,-4,4]];
+  var A1=[[2,1,1],[0,-1,1],[-2,-4,4]];
+  var A2=[[2,1,1],[0,-1,1],[0,-3,5]];
+  var U =[[2,1,1],[0,-1,1],[0,0,2]];
+  var L0=[[1,0,0],['?',1,0],['?','?',1]];
+  var L1=[[1,0,0],[2,1,0],['?','?',1]];
+  var L2=[[1,0,0],[2,1,0],[-1,'?',1]];
+  var LF=[[1,0,0],[2,1,0],[-1,3,1]];
+  var vb=[[5],[9],[-6]], vy=[[5],[-1],[2]], vx=[[1],[2],[1]];
+  var pasos = [
+    {op:'Punto de partida: la matriz A. La iremos escalonando; cada multiplicador usado se anota en L.',
+     bloques:[{t:'A (matriz de trabajo)',m:A0,c:[]},{t:'L (vacía)',m:L0,c:[]}]},
+    {op:'R2 ← R2 − 2·R1.  Multiplicador m₂₁ = 2 → se guarda en la posición (2,1) de L.',
+     bloques:[{t:'Trabajo',m:A1,c:[1]},{t:'L',m:L1,c:[1]}]},
+    {op:'R3 ← R3 + R1, es decir, R3 − (−1)·R1.  Multiplicador m₃₁ = −1 → posición (3,1) de L.',
+     bloques:[{t:'Trabajo',m:A2,c:[2]},{t:'L',m:L2,c:[2]}]},
+    {op:'R3 ← R3 − 3·R2.  Multiplicador m₃₂ = 3 → posición (3,2) de L. La matriz de trabajo ya es U.',
+     bloques:[{t:'U (terminada)',m:U,c:[2]},{t:'L (terminada)',m:LF,c:[2]}]},
+    {op:'Factorización lista: A = LU. Verifique la fila 2 de A: 2·(2,1,1) + 1·(0,−1,1) = (4,1,3). ✓',
+     bloques:[{t:'L',m:LF,c:[]},{t:'U',m:U,c:[]}]},
+    {op:'Resolver Ly = b (hacia adelante): y₁ = 5;  y₂ = 9 − 2·5 = −1;  y₃ = −6 −(−1)·5 − 3·(−1) = 2.',
+     bloques:[{t:'L',m:LF,c:[]},{t:'b',m:vb,c:[]},{t:'y = L⁻¹b (por sustitución)',m:vy,c:[0,1,2]}]},
+    {op:'Resolver Ux = y (hacia atrás): 2z = 2 ⇒ z = 1;  −y + z = −1 ⇒ y = 2;  2x + y + z = 5 ⇒ x = 1.',
+     bloques:[{t:'U',m:U,c:[]},{t:'y',m:vy,c:[]},{t:'x (solución)',m:vx,c:[0,1,2]}]},
+    {op:'Solución: x = 1, y = 2, z = 1. Comprobación: A·x = (5, 9, −6) = b. ✓  Con las mismas L y U, cualquier otro vector b se resuelve solo con los pasos 5 y 6.',
+     bloques:[{t:'x',m:vx,c:[]},{t:'A·x = b ✓',m:vb,c:[0,1,2]}]}
+  ];
+  var k = 0, auto = null;
+  function tabla(b){
+    var html = '<div><div style="font-size:.85em;text-align:center;margin-bottom:.25em;">'+b.t+'</div>';
+    html += '<table class="gj-matrix"><tbody>';
+    for (var i = 0; i < b.m.length; i++) {
+      html += '<tr' + (b.c.indexOf(i) >= 0 ? ' class="gj-fila-cambio"' : '') + '>';
+      for (var j = 0; j < b.m[i].length; j++) html += '<td>' + b.m[i][j] + '</td>';
+      html += '</tr>';
+    }
+    return html + '</tbody></table></div>';
+  }
+  function dibujar(){
+    var p = pasos[k];
+    var html = '';
+    for (var i = 0; i < p.bloques.length; i++) html += tabla(p.bloques[i]);
+    document.getElementById('lu-mat').innerHTML = html;
+    document.getElementById('lu-op').textContent = p.op;
+    document.getElementById('lu-contador').textContent = 'Paso ' + (k + 1) + ' de ' + pasos.length;
+    document.getElementById('lu-prev').disabled = (k === 0);
+    document.getElementById('lu-next').disabled = (k === pasos.length - 1);
+  }
+  document.getElementById('lu-prev').onclick = function () { if (k > 0) { k--; dibujar(); } };
+  document.getElementById('lu-next').onclick = function () { if (k < pasos.length - 1) { k++; dibujar(); } };
+  document.getElementById('lu-auto').onclick = function () {
+    var btn = this;
+    if (auto) { clearInterval(auto); auto = null; btn.innerHTML = '&#9205; Auto'; return; }
+    if (k >= pasos.length - 1) { k = 0; dibujar(); }
+    btn.textContent = '⏸ Pausa';
+    auto = setInterval(function () {
+      if (k < pasos.length - 1) { k++; dibujar(); }
+      else { clearInterval(auto); auto = null; btn.innerHTML = '&#9205; Auto'; }
+    }, 2400);
+  };
+  dibujar();
+})();
+</script>
+```
+
+**Retos:** (a) en el paso 4, verifique a mano las filas 1 y 3 del
+producto $LU$; (b) con las mismas $L$ y $U$, resuelva en papel el
+sistema con $\mathbf{b}=(4,8,-2)$ usando solo los pasos 5 y 6
+(debe obtener $\mathbf{x}=(1,1,1)$).
+:::
+
+::: {.content-visible when-format="pdf"}
+**Versión estática del paso a paso.** Eliminación sobre $A$ anotando
+multiplicadores: $R_2\leftarrow R_2-2R_1$ (guarda $2$ en $L_{21}$),
+$R_3\leftarrow R_3+R_1$ (guarda $-1$ en $L_{31}$),
+$R_3\leftarrow R_3-3R_2$ (guarda $3$ en $L_{32}$). Resultado:
+$L=\begin{pmatrix}1&0&0\\2&1&0\\-1&3&1\end{pmatrix}$ y
+$U=\begin{pmatrix}2&1&1\\0&-1&1\\0&0&2\end{pmatrix}$. Luego
+$L\mathbf{y}=\mathbf{b}$ da $\mathbf{y}=(5,-1,2)$ y
+$U\mathbf{x}=\mathbf{y}$ da $\mathbf{x}=(1,2,1)$. En la versión web, un
+paso a paso interactivo recorre cada operación con las filas
+resaltadas.
+:::
+
+## 1.6.5 Aplicaciones en los programas de la sede
+
+::: {.callout-note}
+## Aplicación en Ciencias Ambientales — una estación que monitorea todos los días
+Una estación de monitoreo estima las emisiones $x_1,x_2,x_3$ de tres
+fuentes (una vía, un cultivo y una planta de compostaje) a partir de
+tres sensores cuya **matriz de calibración** es la $A$ del Ejemplo
+1.6.1 (los coeficientes negativos corrigen interferencias entre
+sensores). Cada día llega un vector de lecturas $\mathbf{b}$ nuevo,
+pero la calibración no cambia. Día 1: $\mathbf{b}=(5,9,-6)$ →
+emisiones $\mathbf{x}=(1,2,1)$. Día 2: $\mathbf{b}'=(8,18,4)$ → con las
+**mismas** $L$ y $U$ ya calculadas, solo dos sustituciones:
+$L\mathbf{y}=\mathbf{b}'$ da $\mathbf{y}=(8,2,6)$ y
+$U\mathbf{x}=\mathbf{y}$ da $\mathbf{x}=(2,1,3)$. Así trabaja el
+monitoreo continuo: calibrar (factorizar) una vez, usar todos los días.
+:::
+
+::: {.callout-note}
+## Aplicación en Mecatrónica — control en tiempo real
+En el lazo de control de un robot, cada ciclo (por ejemplo, cada 5 ms)
+hay que resolver un sistema con la matriz dinámica del brazo y un
+vector de referencias que cambia en cada ciclo. La estrategia estándar:
+al arrancar el controlador se factoriza la matriz **una sola vez**
+(costo permitido, fuera del lazo) y dentro del lazo solo se ejecutan
+las dos sustituciones triangulares, que son rápidas y de tiempo
+predecible. Con la matriz del Ejemplo 1.6.1 y referencia
+$\mathbf{b}=(4,8,-2)$, el lazo calcularía $\mathbf{y}=(4,0,2)$ y luego
+$\mathbf{x}=(1,1,1)$ en microsegundos. Sin LU habría que repetir toda
+la eliminación en cada ciclo: impensable en tiempo real.
+:::
+
+## 1.6.6 Ejercicios adaptativos
+
+::: {.content-visible when-format="html"}
+Responda con números enteros (o decimales si hace falta). Dos aciertos
+seguidos suben el nivel; dos fallos seguidos muestran la solución
+guiada.
+
+```{=html}
+<div id="quiz-u1-1-6" style="border:1px solid #ccc; border-radius:10px; padding:1em 1.2em; margin:1em 0;">
+  <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:.5em;">
+    <b>Ejercicios adaptativos — 1.6 Factorización LU</b>
+    <span>Nivel: <b id="q-nivel">1</b> / 3 &nbsp;·&nbsp; Racha: <b id="q-racha">0</b></span>
+  </div>
+  <div id="q-enun" style="margin:.9em 0 .4em;"></div>
+  <div id="q-inputs" style="display:flex; gap:.8em; align-items:center; flex-wrap:wrap; margin:.4em 0;"></div>
+  <button id="q-verificar" style="padding:.45em 1.2em; border-radius:8px; border:1.5px solid #005c3f; background:#005c3f; color:#fff; cursor:pointer; font-weight:600;">Verificar</button>
+  <button id="q-nueva" style="display:none; padding:.45em 1.2em; border-radius:8px; border:1.5px solid #005c3f; background:#fff; color:#005c3f; cursor:pointer; font-weight:600;">Nueva variante</button>
+  <div id="q-feedback" style="margin-top:.7em;"></div>
+</div>
+<script>
+(function(){
+  var CLAVE='quiz-u1-1.6-v1';
+  var estado={nivel:1,racha:0};
+  try{ var g=localStorage.getItem(CLAVE); if(g){ estado=JSON.parse(g); } }catch(e){}
+  function guardar(){ try{ localStorage.setItem(CLAVE,JSON.stringify(estado)); }catch(e){} }
+  var actual=null, fallos=0;
+  function rnd(a,b){ return Math.floor(Math.random()*(b-a+1))+a; }
+  function nz(a,b){ var v=0; while(v===0){ v=rnd(a,b); } return v; }
+
+  function genN1(){
+    var p=nz(1,4), m=nz(-3,3), s=nz(-4,4), t=nz(-4,4);
+    return { desc:'El multiplicador es «entrada a eliminar ÷ pivote»: m = a₂₁ / a₁₁.',
+      html:'A = [['+p+', '+s+'],['+(p*m)+', '+t+']]. &nbsp;Multiplicador m de R2 ← R2 − m·R1:',
+      vars:['m'], resp:[m], tol:0.001,
+      h1:'Divida la entrada (2,1) entre el pivote (1,1): m = '+(p*m)+' / '+p+'.',
+      h2:'m = '+(p*m)+'/'+p+' = '+m+'. Ese número queda guardado en la posición (2,1) de L.' };
+  }
+  function genN2(){
+    var l=nz(-3,3), b1=nz(-5,5), b2=nz(-5,5);
+    return { desc:'Sustitución hacia adelante: primero y₁ (sale gratis), luego y₂.',
+      html:'L = [[1, 0],['+l+', 1]], b = ('+b1+', '+b2+'). &nbsp;Si Ly = b, entonces y₂ =',
+      vars:['y₂'], resp:[b2-l*b1], tol:0.001,
+      h1:'y₁ = b₁ = '+b1+'. La segunda fila dice: '+l+'·y₁ + y₂ = '+b2+'.',
+      h2:'y₂ = '+b2+' − ('+l+')·('+b1+') = '+(b2-l*b1)+'.' };
+  }
+  function genN3(){
+    var u1=nz(1,2), u2=nz(1,3), u3=nz(1,2), x2=nz(-3,3), x1=nz(-3,3);
+    var y2=u3*x2, y1=u1*x1+u2*x2;
+    return { desc:'Sustitución hacia atrás: primero la última variable, luego las anteriores.',
+      html:'U = [['+u1+', '+u2+'],[0, '+u3+']], y = ('+y1+', '+y2+'). &nbsp;Si Ux = y: &nbsp;x₂ y x₁ =',
+      vars:['x₂','x₁'], resp:[x2,x1], tol:0.001,
+      h1:'Última fila: '+u3+'·x₂ = '+y2+' ⇒ x₂. Luego: '+u1+'·x₁ + '+u2+'·x₂ = '+y1+'.',
+      h2:'x₂ = '+y2+'/'+u3+' = '+x2+'. &nbsp;x₁ = ('+y1+' − '+u2+'·'+x2+')/'+u1+' = '+x1+'.' };
+  }
+  var gens={1:genN1,2:genN2,3:genN3};
+
+  function pintar(){
+    document.getElementById('q-nivel').textContent=estado.nivel;
+    document.getElementById('q-racha').textContent=estado.racha;
+  }
+  function nueva(){
+    actual=gens[estado.nivel](); fallos=0;
+    document.getElementById('q-enun').innerHTML='<i>'+actual.desc+'</i><br>'+actual.html;
+    var c=document.getElementById('q-inputs'); c.innerHTML='';
+    actual.vars.forEach(function(v,i){
+      var s=document.createElement('span'); s.innerHTML=v+' = ';
+      var inp=document.createElement('input'); inp.id='q-ans-'+i; inp.type='number'; inp.step='any';
+      inp.style.cssText='width:6.5em; padding:.35em; border:1.5px solid #8a7fb8; border-radius:6px;';
+      c.appendChild(s); c.appendChild(inp);
+    });
+    document.getElementById('q-feedback').innerHTML='';
+    document.getElementById('q-nueva').style.display='none';
+    document.getElementById('q-verificar').style.display='inline-block';
+    pintar();
+  }
+  document.getElementById('q-verificar').onclick=function(){
+    var ok=true;
+    for(var i=0;i<actual.resp.length;i++){
+      var v=parseFloat(document.getElementById('q-ans-'+i).value);
+      if(isNaN(v)||Math.abs(v-actual.resp[i])>actual.tol){ ok=false; }
+    }
+    var fb=document.getElementById('q-feedback');
+    if(ok){
+      estado.racha++;
+      if(estado.racha>=2 && estado.nivel<3){ estado.nivel++; estado.racha=0;
+        fb.innerHTML='<span style="color:#1b5e20; font-weight:600;">¡Correcto dos veces seguidas! Sube al nivel '+estado.nivel+'.</span>';
+      } else {
+        fb.innerHTML='<span style="color:#1b5e20; font-weight:600;">¡Correcto! '+ (estado.nivel<3?'Un acierto más y sube de nivel.':'Nivel máximo: siga practicando.') +'</span>';
+      }
+      guardar(); setTimeout(nueva,1600);
+    } else {
+      fallos++; estado.racha=0; guardar();
+      if(fallos===1){ fb.innerHTML='<span style="color:#b26a00; font-weight:600;">Aún no.</span> <b>Ayuda:</b> '+actual.h1; }
+      else { fb.innerHTML='<span style="color:#b71c1c; font-weight:600;">Solución guiada:</span> '+actual.h2;
+        document.getElementById('q-nueva').style.display='inline-block';
+        document.getElementById('q-verificar').style.display='none';
+      }
+    }
+    pintar();
+  };
+  document.getElementById('q-nueva').onclick=nueva;
+  nueva();
+})();
+</script>
+```
+
+**Banco escrito.** 1) Factorice $A=\begin{pmatrix}2&4\\6&10\end{pmatrix}$ como $LU$. 2) Con $L=\begin{pmatrix}1&0\\3&1\end{pmatrix}$ y $U=\begin{pmatrix}2&1\\0&4\end{pmatrix}$, resuelva $A\mathbf{x}=\mathbf{b}$ para $\mathbf{b}=(8,26)$. 3) En el Ejemplo 1.6.1, ¿cuántas operaciones de eliminación se ahorran al llegar un segundo vector $\mathbf{b}$? 4) ¿Por qué $L$ lleva unos en la diagonal y no $U$? 5) Si en la eliminación se necesita un intercambio de filas, ¿existe aún $A=LU$ tal como la definimos?
+:::
+
+::: {.content-visible when-format="pdf"}
+**Ejercicios de la sección.** 1) Factorice $A=\begin{pmatrix}2&4\\6&10\end{pmatrix}$ como $LU$. 2) Con $L=\begin{pmatrix}1&0\\3&1\end{pmatrix}$ y $U=\begin{pmatrix}2&1\\0&4\end{pmatrix}$, resuelva $A\mathbf{x}=\mathbf{b}$ para $\mathbf{b}=(8,26)$. 3) En el Ejemplo 1.6.1, ¿qué trabajo se ahorra al llegar un segundo vector $\mathbf{b}$? 4) ¿Por qué $L$ lleva unos en la diagonal y no $U$? 5) Si en la eliminación se necesita un intercambio de filas, ¿existe aún $A=LU$ tal como la definimos?
+
+**Soluciones:** 1) $L=\begin{pmatrix}1&0\\3&1\end{pmatrix}$, $U=\begin{pmatrix}2&4\\0&-2\end{pmatrix}$. 2) $L\mathbf{y}=\mathbf{b}$: $y_1=8$, $y_2=26-24=2$; $U\mathbf{x}=\mathbf{y}$: $x_2=1/2$, $x_1=(8-1/2)/2=15/4$. 3) Toda la eliminación: solo se repiten las dos sustituciones. 4) Para que la factorización sea única: convención que fija los $n$ grados de libertad sobrantes. 5) No en general; hace falta una matriz de permutación: $PA=LU$ (es lo que usa NumPy por dentro). La versión web incluye ejercicios adaptativos con tres niveles y ayudas graduales.
+:::
+
+## 1.6.7 Resumen y glosario
+
+::: {.callout-tip}
+## Idea clave
+Escalonar $A$ **anotando multiplicadores** produce dos matrices: $L$
+(triangular inferior con unos en la diagonal) y $U$ (triangular
+superior) con $A=LU$. Resolver $A\mathbf{x}=\mathbf{b}$ se convierte en
+dos sustituciones baratas: $L\mathbf{y}=\mathbf{b}$ y luego
+$U\mathbf{x}=\mathbf{y}$. Se factoriza una vez y se resuelve muchas
+veces: es el método que los computadores —y los modelos de IA— usan de
+verdad.
+:::
+
+| Término | Significado |
+|---|---|
+| Factorización LU | Escritura $A=LU$ con $L$ triangular inferior (unos en la diagonal) y $U$ triangular superior |
+| Multiplicador $m_{ji}$ | Factor de la operación $R_j\leftarrow R_j-mR_i$; se guarda en $L_{ji}$ |
+| Sustitución hacia adelante | Resolución de $L\mathbf{y}=\mathbf{b}$ de la primera a la última variable |
+| Sustitución hacia atrás | Resolución de $U\mathbf{x}=\mathbf{y}$ de la última a la primera variable |
+| Pivoteo parcial (IA) | Intercambio de filas por estabilidad numérica; da $PA=LU$, la variante que usan las bibliotecas |
+| Reutilización (IA) | Factorizar una vez y resolver para miles de vectores $\mathbf{b}$ (producción, control, monitoreo) |
+
+---
+
+## Cierre de la Unidad 1
+
+Ha recorrido el camino completo: qué es un sistema lineal (1.1), cómo
+resolverlo con Gauss–Jordan (1.2), qué pasa cuando hay más incógnitas
+que ecuaciones (1.3), cómo operar con matrices (1.4), cómo «deshacer»
+una matriz (1.5) y cómo factorizarla para resolver una y otra vez
+(1.6). El hilo de IA nos acompañó en cada sección: un dataset es una
+matriz, entrenar es resolver, el sobreajuste es tener infinitas
+soluciones, una capa de red es un producto de matrices, la
+colinealidad es una matriz casi singular y la producción es reutilizar
+una factorización.
+
+**Hacia la Unidad 2.** En la sección 1.5 apareció un número mágico que
+decide si una matriz tiene inversa: $ad-bc$. Ese número es el
+**determinante**, y en la próxima unidad aprenderá a calcularlo para
+matrices de cualquier tamaño, sus propiedades y su significado
+geométrico (áreas, volúmenes y cómo una transformación «estira» el
+espacio — algo central para entender qué le hace una red neuronal a
+sus datos).

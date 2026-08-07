@@ -28,7 +28,12 @@ book:
     - prefacio.qmd
     - part: "Unidad 1. Sistemas de ecuaciones lineales y matrices"
       chapters:
+        - unidades/u1-sistemas/1.1-sistemas-lineales.qmd
         - unidades/u1-sistemas/1.2-gauss-jordan.qmd
+        - unidades/u1-sistemas/1.3-sistemas-homogeneos.qmd
+        - unidades/u1-sistemas/1.4-operaciones-matrices.qmd
+        - unidades/u1-sistemas/1.5-matriz-inversa.qmd
+        - unidades/u1-sistemas/1.6-factorizacion-lu.qmd
 
 format:
   html:

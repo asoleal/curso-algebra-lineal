@@ -4,8 +4,8 @@ Cada sección temática sigue la misma plantilla de **siete bloques**. La
 uniformidad es intencional: siempre sabrás qué esperar y dónde
 encontrarlo.
 
-1. **Presentación formal.** Definiciones, teoremas y notación, al estilo
-   del texto de Grossman.
+1. **Presentación formal.** Definiciones, teoremas y notación en
+   lenguaje sencillo y directo.
 2. **Ejemplos.** Un ejemplo clásico resuelto paso a paso y una
    *Ventana IA*: el mismo concepto con el lenguaje del aprendizaje
    automático.
