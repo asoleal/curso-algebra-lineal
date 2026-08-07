@@ -33,8 +33,9 @@ book:
 format:
   html:
     theme:
-      light: [cosmo, assets/css/custom.css]
-      dark: [darkly, assets/css/custom.css]
+      light: cosmo
+      dark: darkly
+    css: assets/css/custom.css
     code-copy: true
     code-tools: true
     toc: true
