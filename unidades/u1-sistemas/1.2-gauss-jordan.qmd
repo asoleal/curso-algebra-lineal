@@ -1,0 +1,525 @@
+# 1.2 Eliminación de Gauss–Jordan {.unnumbered}
+
+## 1.2.1 Presentación formal
+
+Todo sistema de ecuaciones lineales se puede representar con una sola
+matriz. Sobre esa matriz se trabaja el método de esta sección.
+
+**Definición 1.2.1 (Matriz aumentada).** Para el sistema de $m$
+ecuaciones con $n$ incógnitas
+
+$$
+\begin{aligned}
+a_{11}x_1 + a_{12}x_2 + \cdots + a_{1n}x_n &= b_1\\
+a_{21}x_1 + a_{22}x_2 + \cdots + a_{2n}x_n &= b_2\\
+&\;\;\vdots\\
+a_{m1}x_1 + a_{m2}x_2 + \cdots + a_{mn}x_n &= b_m
+\end{aligned}
+$$
+
+la **matriz aumentada** del sistema es
+
+$$
+\left[\begin{array}{cccc|c}
+a_{11} & a_{12} & \cdots & a_{1n} & b_1\\
+a_{21} & a_{22} & \cdots & a_{2n} & b_2\\
+\vdots & \vdots & \ddots & \vdots & \vdots\\
+a_{m1} & a_{m2} & \cdots & a_{mn} & b_m
+\end{array}\right].
+$$
+
+**Definición 1.2.2 (Operaciones elementales de fila).** Sobre las filas
+de una matriz se permiten tres operaciones:
+
+1. **Intercambio:** $R_i \leftrightarrow R_j$.
+2. **Escalamiento:** $R_i \leftarrow c\,R_i$, con $c \neq 0$.
+3. **Reemplazo:** $R_i \leftarrow R_i + c\,R_j$.
+
+**Definición 1.2.3 (Equivalencia por filas).** Dos matrices son
+**equivalentes por filas** si una se obtiene de la otra mediante una
+sucesión finita de operaciones elementales de fila.
+
+**Teorema 1.2.1.** Si las matrices aumentadas de dos sistemas lineales
+son equivalentes por filas, entonces los dos sistemas tienen **exactamente
+las mismas soluciones**.
+
+*Idea de la demostración.* Cada operación elemental es **reversible**
+(el intercambio se revierte intercambiando de nuevo; $R_i \leftarrow
+cR_i$ se revierte con $R_i \leftarrow \tfrac{1}{c}R_i$; el reemplazo se
+revierte restando). Por tanto, ninguna operación crea ni destruye
+soluciones. $\blacksquare$
+
+**Definición 1.2.4 (Forma escalonada reducida por filas).** Una matriz
+está en **forma escalonada reducida por filas** (RREF) si cumple:
+
+1. Las filas nulas (si las hay) están al final.
+2. El primer elemento no nulo de cada fila (el **pivote**) es $1$.
+3. Cada pivote está a la derecha del pivote de la fila anterior.
+4. Cada pivote es el **único elemento no nulo** de su columna.
+
+**Método de Gauss–Jordan.** Para resolver un sistema:
+
+1. Escribir la matriz aumentada.
+2. Mediante operaciones elementales de fila, llevarla a su forma
+   escalonada reducida.
+3. Leer la solución: las variables de columnas con pivote quedan
+   determinadas; las de columnas sin pivote (si las hay) son libres.
+
+**Observación (tipos de solución).** Al final del proceso:
+
+- Si aparece una fila $[\,0\ \cdots\ 0 \mid c\,]$ con $c \neq 0$, el
+  sistema es **inconsistente** (no tiene solución).
+- Si cada variable tiene pivote, la solución es **única**.
+- En otro caso hay **infinitas soluciones**, descritas con parámetros.
+
+## 1.2.2 Ejemplos
+
+### Ejemplo 1.2.1 (solución única)
+
+Resolver el sistema
+
+$$
+\begin{aligned}
+x + y + z &= 6\\
+2x - y + z &= 3\\
+x + 2y - z &= 2
+\end{aligned}
+$$
+
+*Solución.* Escribimos la matriz aumentada y reducimos:
+
+$$
+\left[\begin{array}{ccc|c}
+1 & 1 & 1 & 6\\
+2 & -1 & 1 & 3\\
+1 & 2 & -1 & 2
+\end{array}\right]
+\xrightarrow[R_3 \leftarrow R_3 - R_1]{R_2 \leftarrow R_2 - 2R_1}
+\left[\begin{array}{ccc|c}
+1 & 1 & 1 & 6\\
+0 & -3 & -1 & -9\\
+0 & 1 & -2 & -4
+\end{array}\right]
+\xrightarrow{R_2 \leftrightarrow R_3}
+\left[\begin{array}{ccc|c}
+1 & 1 & 1 & 6\\
+0 & 1 & -2 & -4\\
+0 & -3 & -1 & -9
+\end{array}\right]
+$$
+
+$$
+\xrightarrow[R_3 \leftarrow R_3 + 3R_2]{R_1 \leftarrow R_1 - R_2}
+\left[\begin{array}{ccc|c}
+1 & 0 & 3 & 10\\
+0 & 1 & -2 & -4\\
+0 & 0 & -7 & -21
+\end{array}\right]
+\xrightarrow{R_3 \leftarrow -\tfrac{1}{7}R_3}
+\left[\begin{array}{ccc|c}
+1 & 0 & 3 & 10\\
+0 & 1 & -2 & -4\\
+0 & 0 & 1 & 3
+\end{array}\right]
+\xrightarrow[R_2 \leftarrow R_2 + 2R_3]{R_1 \leftarrow R_1 - 3R_3}
+\left[\begin{array}{ccc|c}
+1 & 0 & 0 & 1\\
+0 & 1 & 0 & 2\\
+0 & 0 & 1 & 3
+\end{array}\right]
+$$
+
+La última matriz está en forma escalonada reducida y se lee directamente:
+
+$$\boxed{x = 1, \qquad y = 2, \qquad z = 3}$$
+
+*Verificación:* $1+2+3 = 6$; $\;2(1)-2+3 = 3$; $\;1+2(2)-3 = 2$. $\checkmark$
+
+::: {.callout-important title="Ventana IA: un dataset es una matriz, entrenar es resolver"}
+En aprendizaje automático los datos se organizan en una matriz: cada
+**fila es una observación** y cada **columna es una variable** (una
+*feature*). Resolver el sistema $A\mathbf{x} = \mathbf{b}$ es encontrar
+los **parámetros** $\mathbf{x}$ de un modelo lineal que reproduce las
+observaciones $\mathbf{b}$.
+
+Piensa en tres alimentos y tres nutrientes: la tabla *alimentos* $\times$
+*nutrientes* es una matriz $A$; las porciones de cada alimento que
+cumplen exactamente los requerimientos nutricionales son la solución
+$\mathbf{x}$. Cuando más adelante haya más datos que ecuaciones, ya no
+podremos *resolver* exactamente: habrá que *aproximar*, y ahí entran los
+mínimos cuadrados de la U7 — el corazón matemático del aprendizaje
+supervisado.
+:::
+
+## 1.2.3 Módulo Python
+
+Verifiquemos el Ejemplo 1.2.1 con `numpy` y veamos la forma escalonada
+reducida con `sympy`:
+
+```{python}
+import numpy as np
+
+A = np.array([[1, 1, 1],
+              [2, -1, 1],
+              [1, 2, -1]], dtype=float)
+b = np.array([6, 3, 2], dtype=float)
+
+x = np.linalg.solve(A, b)
+print("Solución:", x)
+print("Verificación, A@x - b =", A @ x - b)  # debe dar ceros
+```
+
+```{python}
+import sympy as sp
+
+M = sp.Matrix([[1, 1, 1, 6],
+               [2, -1, 1, 3],
+               [1, 2, -1, 2]])
+M.rref()[0]  # forma escalonada reducida de la matriz aumentada
+```
+
+::: {.content-visible when-format="html"}
+[▶ Abrir este módulo en Google Colab](https://colab.research.google.com/github/asoleal/curso-algebra-lineal/blob/main/notebooks/u1-1.2-gauss-jordan.ipynb){.btn .btn-outline-primary}
+:::
+
+::: {.content-visible when-format="pdf"}
+*Cuaderno ejecutable en línea:*
+`colab.research.google.com/github/asoleal/curso-algebra-lineal`
+:::
+
+## 1.2.4 Módulo interactivo
+
+::: {.content-visible when-format="html"}
+Recorre la reducción del Ejemplo 1.2.1 paso a paso. La fila resaltada es
+la que acaba de cambiar en cada operación.
+
+```{=html}
+<div id="gj-stepper" style="max-width:640px;margin:1em auto;padding:1em;border:1px solid rgba(0,0,0,.2);border-radius:10px;">
+  <div id="gj-op" style="min-height:1.6em;font-weight:600;"></div>
+  <div id="gj-mat"></div>
+  <div style="text-align:center;margin-top:.6em;">
+    <button id="gj-prev" style="padding:.35em 1em;border-radius:6px;border:1px solid rgba(0,0,0,.3);background:transparent;cursor:pointer;">&#9664; Anterior</button>
+    <span id="gj-contador" style="margin:0 1em;"></span>
+    <button id="gj-next" style="padding:.35em 1em;border-radius:6px;border:1px solid rgba(0,0,0,.3);background:transparent;cursor:pointer;">Siguiente &#9654;</button>
+  </div>
+</div>
+<script>
+(function () {
+  var pasos = [
+    { op: "Matriz aumentada del sistema",
+      m: [[1,1,1,6],[2,-1,1,3],[1,2,-1,2]], cambio: [] },
+    { op: "R2 \u2190 R2 \u2212 2R1   y   R3 \u2190 R3 \u2212 R1",
+      m: [[1,1,1,6],[0,-3,-1,-9],[0,1,-2,-4]], cambio: [1,2] },
+    { op: "R2 \u2194 R3 (pivote 1 en la segunda fila)",
+      m: [[1,1,1,6],[0,1,-2,-4],[0,-3,-1,-9]], cambio: [1,2] },
+    { op: "R1 \u2190 R1 \u2212 R2   y   R3 \u2190 R3 + 3R2",
+      m: [[1,0,3,10],[0,1,-2,-4],[0,0,-7,-21]], cambio: [0,2] },
+    { op: "R3 \u2190 \u2212(1/7)R3 (pivote 1)",
+      m: [[1,0,3,10],[0,1,-2,-4],[0,0,1,3]], cambio: [2] },
+    { op: "R1 \u2190 R1 \u2212 3R3   y   R2 \u2190 R2 + 2R3",
+      m: [[1,0,0,1],[0,1,0,2],[0,0,1,3]], cambio: [0,1] },
+    { op: "Forma escalonada reducida: x = 1, y = 2, z = 3",
+      m: [[1,0,0,1],[0,1,0,2],[0,0,1,3]], cambio: [] }
+  ];
+  var k = 0;
+  function dibujar() {
+    var p = pasos[k];
+    var html = '<table class="gj-matrix"><tbody>';
+    for (var i = 0; i < 3; i++) {
+      html += '<tr' + (p.cambio.indexOf(i) >= 0 ? ' class="gj-fila-cambio"' : '') + '>';
+      for (var j = 0; j < 4; j++) {
+        html += '<td' + (j === 3 ? ' class="gj-barra"' : '') + '>' + p.m[i][j] + '</td>';
+      }
+      html += '</tr>';
+    }
+    html += '</tbody></table>';
+    document.getElementById('gj-mat').innerHTML = html;
+    document.getElementById('gj-op').textContent = p.op;
+    document.getElementById('gj-contador').textContent = 'Paso ' + (k + 1) + ' de ' + pasos.length;
+    document.getElementById('gj-prev').disabled = (k === 0);
+    document.getElementById('gj-next').disabled = (k === pasos.length - 1);
+  }
+  document.getElementById('gj-prev').onclick = function () { if (k > 0) { k--; dibujar(); } };
+  document.getElementById('gj-next').onclick = function () { if (k < pasos.length - 1) { k++; dibujar(); } };
+  dibujar();
+})();
+</script>
+```
+:::
+
+::: {.content-visible when-format="pdf"}
+En la versión web, este módulo permite recorrer la reducción del Ejemplo
+1.2.1 paso a paso (fila resaltada en cada operación). Versión interactiva:
+
+`asoleal.github.io/curso-algebra-lineal/unidades/u1-sistemas/1.2-gauss-jordan.html`
+
+La secuencia completa de la reducción es la desarrollada en el Ejemplo
+1.2.1: matriz inicial $\rightarrow$ ceros bajo el primer pivote
+$\rightarrow$ intercambio $R_2 \leftrightarrow R_3$ $\rightarrow$ ceros
+sobre y bajo el segundo pivote $\rightarrow$ pivote $1$ en la tercera
+fila $\rightarrow$ ceros sobre el tercer pivote, llegando a
+$x = 1,\; y = 2,\; z = 3$.
+:::
+
+## 1.2.5 Aplicaciones por carrera
+
+::: {.callout-note title="Aplicación · Agroindustria: mezcla de concentrados"}
+Una planta mezcla tres concentrados ($C_1, C_2, C_3$). Cada tonelada
+aporta las siguientes unidades de nutrientes:
+
+| Nutriente | $C_1$ | $C_2$ | $C_3$ | Requerido |
+|---|:---:|:---:|:---:|:---:|
+| Azúcares | 1 | 2 | 1 | 8 |
+| Proteína | 2 | 1 | 3 | 11 |
+| Sólidos | 3 | 1 | 1 | 12 |
+
+¿Cuántas toneladas de cada concentrado se necesitan? El sistema
+$A\mathbf{x} = \mathbf{b}$ tiene solución $x_1 = 3$, $x_2 = 2$,
+$x_3 = 1$. *¿Qué ocurre si el requerimiento de proteína cambia a 12?*
+:::
+
+::: {.callout-note title="Aplicación · Agronomía: mezcla de fertilizantes NPK"}
+Tres fertilizantes comerciales aportan, por saco, las unidades de N, P y
+K que muestra la tabla. Un lote requiere 11 de N, 15 de P y 13 de K.
+
+| Nutriente | $F_1$ | $F_2$ | $F_3$ | Requerido |
+|---|:---:|:---:|:---:|:---:|
+| N | 2 | 1 | 1 | 11 |
+| P | 1 | 3 | 1 | 15 |
+| K | 1 | 1 | 2 | 13 |
+
+Solución: $2$ sacos de $F_1$, $3$ de $F_2$ y $4$ de $F_3$.
+*Si el análisis de suelo pide más potasio, ¿qué fila del sistema cambia?*
+:::
+
+::: {.callout-note title="Aplicación · Zootecnia: dieta con tres ingredientes"}
+Se formulan raciones con maíz, soya y salvado. Por quintal de ingrediente,
+los aportes de proteína, energía y fibra son:
+
+| Componente | Maíz | Soya | Salvado | Meta |
+|---|:---:|:---:|:---:|:---:|
+| Proteína | 3 | 4 | 1 | 19 |
+| Energía | 4 | 3 | 2 | 19 |
+| Fibra | 1 | 1 | 3 | 8 |
+
+Solución: $2$ qq de maíz, $3$ qq de soya y $1$ qq de salvado.
+*¿Por qué en la práctica las dietas se plantean luego como desigualdades
+y no como igualdades exactas?*
+:::
+
+## 1.2.6 Ejercicios adaptativos
+
+::: {.content-visible when-format="html"}
+Serie interactiva con **tres niveles**. Si aciertas dos seguidas, subes de
+nivel; si fallas, recibes pistas y una nueva variante del mismo nivel.
+Tu avance se guarda solo en tu navegador.
+
+```{=html}
+<div id="qz" style="max-width:680px;margin:1em auto;padding:1em;border:1px solid rgba(0,0,0,.2);border-radius:10px;">
+  <div id="qz-progreso" style="font-weight:600;margin-bottom:.5em;"></div>
+  <div id="qz-desc" style="margin-bottom:.4em;"></div>
+  <div id="qz-pregunta" style="font-size:1.05em;margin:.6em 0;font-family:monospace;"></div>
+  <div id="qz-inputs" style="margin:.5em 0;"></div>
+  <button id="qz-verificar" style="padding:.4em 1.2em;border-radius:6px;border:1px solid rgba(0,0,0,.3);background:transparent;cursor:pointer;">Verificar</button>
+  <button id="qz-variante" style="padding:.4em 1.2em;border-radius:6px;border:1px solid rgba(0,0,0,.3);background:transparent;cursor:pointer;display:none;">Nueva variante (mismo nivel)</button>
+  <button id="qz-reiniciar" style="padding:.4em .8em;border-radius:6px;border:none;background:transparent;cursor:pointer;text-decoration:underline;font-size:.85em;">Reiniciar serie</button>
+  <div id="qz-feedback" style="margin-top:.6em;font-weight:600;"></div>
+  <div id="qz-pista" style="margin-top:.5em;padding:.6em;border-radius:8px;background:rgba(148,180,59,.15);display:none;"></div>
+</div>
+<script>
+(function () {
+  var CLAVE = 'quiz-u1-1.2-v1';
+  var estado = { nivel: 1, racha: 0 };
+  try {
+    var g = localStorage.getItem(CLAVE);
+    if (g) { estado = JSON.parse(g); }
+  } catch (e) {}
+  var item = null, intentos = 0;
+
+  function rnd(a, b) { return Math.floor(Math.random() * (b - a + 1)) + a; }
+  function nz(a, b) { var v = 0; while (v === 0) { v = rnd(a, b); } return v; }
+  function det2(A) { return A[0][0] * A[1][1] - A[0][1] * A[1][0]; }
+  function det3(A) {
+    return A[0][0] * (A[1][1] * A[2][2] - A[1][2] * A[2][1])
+         - A[0][1] * (A[1][0] * A[2][2] - A[1][2] * A[2][0])
+         + A[0][2] * (A[1][0] * A[2][1] - A[1][1] * A[2][0]);
+  }
+  function term(c, v, primero) {
+    if (c === 0) { return ''; }
+    var s = (c === 1 ? v : (c === -1 ? '\u2212' + v : c + v));
+    if (primero) { return s; }
+    return (c > 0 ? ' + ' + s : ' \u2212 ' + (c === -1 ? v : Math.abs(c) + v));
+  }
+  function ecStr(A, b, vars) {
+    var lineas = [];
+    for (var i = 0; i < A.length; i++) {
+      var s = '', primero = true;
+      for (var j = 0; j < vars.length; j++) {
+        var t = term(A[i][j], vars[j], primero && s === '');
+        if (t !== '') { s += t; primero = false; }
+      }
+      if (s === '') { s = '0'; }
+      lineas.push(s + ' = ' + b[i]);
+    }
+    return lineas.join('<br>');
+  }
+
+  function genN1() {
+    var x = rnd(-3, 4), y = rnd(-3, 4), A, d;
+    do {
+      A = [[rnd(-4, 5), rnd(-4, 5)], [rnd(-4, 5), rnd(-4, 5)]];
+      d = det2(A);
+    } while (d === 0 || (A[0][0] === 0 && A[0][1] === 0) || (A[1][0] === 0 && A[1][1] === 0));
+    var b = [A[0][0] * x + A[0][1] * y, A[1][0] * x + A[1][1] * y];
+    return {
+      desc: 'Nivel 1 \u00b7 Resuelve el sistema 2\u00d72 (soluci\u00f3n entera):',
+      html: ecStr(A, b, ['x', 'y']), vars: ['x', 'y'], resp: [x, y], tol: 0.001,
+      h1: 'Forma la matriz aumentada y haz 1 el primer pivote; o despeja una variable de una ecuaci\u00f3n y sustit\u00fayela en la otra.',
+      h2: 'Camino guiado: elimina y calculando (' + A[1][1] + ')\u00b7E1 \u2212 (' + A[0][1] + ')\u00b7E2 y despeja x. Luego sustituye x en E1 para hallar y.'
+    };
+  }
+  function genN2() {
+    var x = rnd(-2, 3), y = rnd(-2, 3), z = rnd(-2, 3), A;
+    do {
+      A = [[rnd(-3, 4), rnd(-3, 4), rnd(-3, 4)],
+           [rnd(-3, 4), rnd(-3, 4), rnd(-3, 4)],
+           [rnd(-3, 4), rnd(-3, 4), rnd(-3, 4)]];
+    } while (det3(A) === 0);
+    var b = [];
+    for (var i = 0; i < 3; i++) { b.push(A[i][0] * x + A[i][1] * y + A[i][2] * z); }
+    return {
+      desc: 'Nivel 2 \u00b7 Resuelve el sistema 3\u00d73 (soluci\u00f3n entera):',
+      html: ecStr(A, b, ['x', 'y', 'z']), vars: ['x', 'y', 'z'], resp: [x, y, z], tol: 0.001,
+      h1: 'Usa la primera fila como pivote para hacer ceros en la primera columna de las filas 2 y 3.',
+      h2: 'Camino guiado: forma la matriz aumentada y aplica R2 \u2190 R2 \u2212 c2\u00b7R1 y R3 \u2190 R3 \u2212 c3\u00b7R1, donde c2 y c3 son los coeficientes de x en E2 y E3 divididos por el de E1.'
+    };
+  }
+  function genN3() {
+    var p = nz(-4, 5), q = nz(-4, 5), r = nz(1, 4);
+    var b1 = rnd(-6, 8), b2 = rnd(-6, 8);
+    return {
+      desc: 'Nivel 3 \u00b7 \u00bfPara qu\u00e9 valor de k el sistema NO tiene soluci\u00f3n \u00fanica? (2 decimales si hace falta)',
+      html: 'kx' + term(p, 'y', false) + ' = ' + b1 + '<br>' + term(q, 'x', true) + term(r, 'y', false) + ' = ' + b2,
+      vars: ['k'], resp: [(p * q) / r], tol: 0.01,
+      h1: 'Un sistema 2\u00d72 deja de tener soluci\u00f3n \u00fanica cuando el determinante de la matriz de coeficientes es cero.',
+      h2: 'det = k\u00b7(' + r + ') \u2212 (' + p + ')(' + q + ') = 0. Despeja: k = (' + (p * q) + ') / (' + r + ').'
+    };
+  }
+  var GEN = [genN1, genN2, genN3];
+
+  function guardar() {
+    try { localStorage.setItem(CLAVE, JSON.stringify(estado)); } catch (e) {}
+  }
+  function progreso() {
+    document.getElementById('qz-progreso').textContent =
+      'Nivel ' + estado.nivel + ' de 3 \u00b7 Aciertos seguidos: ' + estado.racha + ' de 2';
+  }
+  function nuevaPregunta() {
+    item = GEN[estado.nivel - 1]();
+    intentos = 0;
+    progreso();
+    document.getElementById('qz-desc').textContent = item.desc;
+    document.getElementById('qz-pregunta').innerHTML = item.html;
+    var inp = '';
+    for (var j = 0; j < item.vars.length; j++) {
+      inp += '<label style="margin-right:1em;">' + item.vars[j] +
+        ' = <input id="qz-in-' + j + '" type="number" step="any" style="width:6em;padding:.2em;"></label>';
+    }
+    document.getElementById('qz-inputs').innerHTML = inp + '<br><small>Usa punto decimal si hace falta.</small>';
+    document.getElementById('qz-feedback').textContent = '';
+    document.getElementById('qz-feedback').style.color = '';
+    document.getElementById('qz-pista').style.display = 'none';
+    document.getElementById('qz-variante').style.display = 'none';
+  }
+  function verificar() {
+    if (!item) { return; }
+    var ok = true, v;
+    for (var j = 0; j < item.vars.length; j++) {
+      v = parseFloat(document.getElementById('qz-in-' + j).value);
+      if (isNaN(v) || Math.abs(v - item.resp[j]) > item.tol) { ok = false; }
+    }
+    var fb = document.getElementById('qz-feedback');
+    if (ok) {
+      estado.racha += 1;
+      var msg = '\u2714 Correcto.';
+      if (estado.racha >= 2 && estado.nivel < 3) {
+        estado.nivel += 1; estado.racha = 0;
+        msg += ' \u00a1Subes al nivel ' + estado.nivel + '!';
+      } else if (estado.nivel === 3 && estado.racha >= 2) {
+        msg += ' Dominas esta serie: completa otra para afianzar.';
+      }
+      fb.style.color = '#2e7d32';
+      fb.textContent = msg;
+      guardar();
+      setTimeout(nuevaPregunta, 1300);
+    } else {
+      intentos += 1;
+      fb.style.color = '#c62828';
+      var pista = document.getElementById('qz-pista');
+      if (intentos === 1) {
+        fb.textContent = '\u2716 A\u00fan no. Lee la pista y reintenta.';
+        pista.innerHTML = '<b>Pista 1:</b> ' + item.h1;
+        pista.style.display = 'block';
+      } else {
+        fb.textContent = '\u2716 Segundo intento fallido. Revisa la soluci\u00f3n guiada y practica con una variante del mismo nivel.';
+        pista.innerHTML = '<b>Soluci\u00f3n guiada:</b> ' + item.h2;
+        pista.style.display = 'block';
+        document.getElementById('qz-variante').style.display = 'inline-block';
+        estado.racha = 0;
+        guardar();
+      }
+      progreso();
+    }
+  }
+  document.getElementById('qz-verificar').onclick = verificar;
+  document.getElementById('qz-variante').onclick = nuevaPregunta;
+  document.getElementById('qz-reiniciar').onclick = function () {
+    estado = { nivel: 1, racha: 0 };
+    guardar(); nuevaPregunta();
+  };
+  nuevaPregunta();
+})();
+</script>
+```
+:::
+
+::: {.content-visible when-format="pdf"}
+En la versión web, este bloque es una **serie adaptativa** con tres
+niveles y pistas escalonadas. Ítems de muestra:
+
+1. *(Nivel 1)* Resolver: $x + y = 3$, $\;x - y = 1$.
+   **Solución:** $x = 2$, $y = 1$.
+2. *(Nivel 2)* Resolver el sistema del Ejemplo 1.2.1.
+   **Solución:** $x = 1$, $y = 2$, $z = 3$.
+3. *(Nivel 3)* Hallar $k$ para que el sistema $kx + 2y = 1$,
+   $3x + 4y = 2$ no tenga solución única.
+   **Solución:** $4k - 6 = 0 \Rightarrow k = \tfrac{3}{2}$.
+
+Serie interactiva completa:
+`asoleal.github.io/curso-algebra-lineal/unidades/u1-sistemas/1.2-gauss-jordan.html`
+:::
+
+## 1.2.7 Resumen y glosario
+
+::: {.callout-tip title="Resumen"}
+- Un sistema lineal se representa por su **matriz aumentada**.
+- Las **operaciones elementales de fila** no cambian las soluciones
+  (Teorema 1.2.1).
+- El **método de Gauss–Jordan** lleva la matriz a su **forma escalonada
+  reducida**: pivotes $1$ y únicos no nulos de su columna.
+- Al final: solución **única** (todas las variables con pivote),
+  **infinitas soluciones** (variables libres) o **ninguna** (fila
+  inconsistente $[\,0\ \cdots\ 0 \mid c \neq 0\,]$).
+- *Ventana IA:* un dataset es una matriz; entrenar un modelo lineal es,
+  en esencia, resolver o aproximar un sistema $A\mathbf{x}=\mathbf{b}$.
+:::
+
+| Término | Significado |
+|---|---|
+| Matriz aumentada | Coeficientes del sistema más la columna de términos independientes |
+| Pivote | Primer elemento no nulo de una fila, llevado a $1$ |
+| RREF | Forma escalonada reducida por filas |
+| Equivalencia por filas | Matrices conectadas por operaciones elementales |
+| *Dataset* | Conjunto de datos organizado como matriz (filas: observaciones; columnas: variables) |
+| *Feature* | Variable medida de cada observación (columna de la matriz de datos) |
+| Parámetros | Valores que ajusta un modelo (el vector $\mathbf{x}$) |

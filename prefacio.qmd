@@ -1,0 +1,37 @@
+# Prefacio: cómo usar este curso {.unnumbered}
+
+Cada sección temática sigue la misma plantilla de **siete bloques**. La
+uniformidad es intencional: siempre sabrás qué esperar y dónde
+encontrarlo.
+
+1. **Presentación formal.** Definiciones, teoremas y notación, al estilo
+   del texto de Grossman.
+2. **Ejemplos.** Un ejemplo clásico resuelto paso a paso y una
+   *Ventana IA*: el mismo concepto con el lenguaje del aprendizaje
+   automático.
+3. **Módulo Python.** Código breve con NumPy/SymPy para *calcular y
+   verificar* la teoría. Se ejecuta solo al compilar el sitio: lo que ves
+   es lo que el código realmente produce. También puedes abrirlo en
+   Google Colab.
+4. **Módulo interactivo.** Una animación o applet manipulable del
+   concepto central.
+5. **Aplicaciones por carrera.** Cajas etiquetadas por programa, con
+   datos verosímiles y escala calculable.
+6. **Ejercicios adaptativos.** Serie interactiva con tres niveles: si
+   aciertas, sube la dificultad; si fallas, repites el nivel con pistas
+   escalonadas.
+7. **Resumen y glosario.** Caja de repaso y términos clave.
+
+::: {.callout-note title="Tu progreso en los ejercicios"}
+El avance en las series adaptativas se guarda **solo en tu navegador**
+(almacenamiento local). No hay servidor ni registro institucional: si
+cambias de navegador o de equipo, la serie empieza de nuevo.
+:::
+
+## Una fuente, dos salidas
+
+El sitio web y el libro PDF se generan del mismo archivo fuente por
+sección. Cuando algo cambia en una página, el PDF del capítulo cambia en
+la misma compilación. Los componentes interactivos (que el papel no puede
+reproducir) aparecen en el PDF como figuras estáticas con el enlace a la
+versión viva.

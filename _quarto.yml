@@ -1,0 +1,49 @@
+# ============================================================
+# Configuración fuente única: sitio web + libro PDF
+# Quarto Book: un mismo .qmd alimenta las dos salidas
+# ============================================================
+project:
+  type: book
+  output-dir: _book
+
+lang: es
+
+execute:
+  echo: true
+  warning: false
+
+book:
+  title: "Álgebra Lineal con Aplicaciones e Inteligencia Artificial"
+  subtitle: "Curso interactivo en GitHub Pages"
+  author: "John Jairo Leal Gómez"
+  date: today
+  date-format: "D [de] MMMM [de] YYYY"
+  site-url: "https://asoleal.github.io/curso-algebra-lineal/"
+  repo-url: "https://github.com/asoleal/curso-algebra-lineal"
+  repo-branch: main
+  page-navigation: true
+  downloads: [pdf]
+  chapters:
+    - index.qmd
+    - prefacio.qmd
+    - part: "Unidad 1. Sistemas de ecuaciones lineales y matrices"
+      chapters:
+        - unidades/u1-sistemas/1.2-gauss-jordan.qmd
+
+format:
+  html:
+    theme:
+      light: [cosmo, assets/css/custom.css]
+      dark: [darkly, assets/css/custom.css]
+    code-copy: true
+    code-tools: true
+    toc: true
+    toc-depth: 3
+    toc-title: "En esta página"
+    highlight-style: github
+  pdf:
+    pdf-engine: tectonic
+    documentclass: book
+    papersize: a4
+    toc-depth: 2
+    fig-pos: "H"

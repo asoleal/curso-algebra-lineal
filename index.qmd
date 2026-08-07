@@ -1,0 +1,44 @@
+# Álgebra Lineal con Aplicaciones e Inteligencia Artificial {.unnumbered}
+
+**Universidad Nacional de Colombia** · Prof. John Jairo Leal Gómez
+
+Curso de álgebra lineal para los programas de la sede —agroindustria,
+agronomía, zootecnia, medicina veterinaria, ciencias ambientales y
+mecatrónica— con tres decisiones de diseño:
+
+1. **Modelo Grossman adaptado.** Definición, teorema, ejemplo inmediato,
+   caja de resumen y autoevaluación, con sección computacional en Python.
+2. **Inteligencia artificial como hilo transversal.** Cada unidad siembra
+   conceptos de aprendizaje automático (datos como matrices, vectores como
+   *features*, capas como transformaciones lineales) que se consolidan en
+   el capítulo especial U8.
+3. **Interactividad y evaluación adaptativa.** Animaciones y applets
+   manipulables, más un motor de ejercicios que sube la dificultad si vas
+   bien y repite el nivel con ayudas escalonadas si fallas.
+
+::: {.callout-tip title="Estado del curso"}
+Sitio en construcción activa. **Piloto disponible:**
+sección **1.2 Eliminación de Gauss–Jordan**, con los siete bloques
+completos (teoría, ejemplos, Python, interactivo, aplicaciones,
+ejercicios adaptativos y resumen).
+:::
+
+## Unidades previstas
+
+| Unidad | Contenido | Semanas |
+|:------:|-----------|:-------:|
+| U1 | Sistemas de ecuaciones lineales y matrices | 1–3 |
+| U2 | Determinantes | 4 |
+| U3 | Vectores en $\mathbb{R}^2$ y $\mathbb{R}^3$ | 5 |
+| U4 | Espacios vectoriales | 6–8 |
+| U5 | Transformaciones lineales | 9–10 |
+| U6 | Valores y vectores propios | 11–12 |
+| U7 | Ortogonalidad y mínimos cuadrados | 13 |
+| U8 | **Capítulo especial:** álgebra lineal para IA | 13–14 |
+| — | Proyecto integrador por carrera | 14–15 |
+
+::: {.content-visible when-format="html"}
+Este mismo contenido genera el **libro PDF descargable** (barra lateral,
+botón *PDF*): sitio y libro salen de una misma fuente, por lo que siempre
+están sincronizados.
+:::

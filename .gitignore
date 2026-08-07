@@ -1,0 +1,7 @@
+_book/
+_book_pdf/
+.quarto/
+.jupyter_cache/
+__pycache__/
+*.pyc
+.DS_Store
