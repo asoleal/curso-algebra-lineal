@@ -69,7 +69,7 @@ calculamos la pendiente:
 $$m = \frac{\Delta y}{\Delta x} = \frac{y_2 - y_1}{x_2 - x_1} = \frac{4 - (-1)}{2 - 1} = \frac{5}{1} = 5.$$
 
 El valor de la pendiente $$m = 5$$, significa que por cada unidad $$\Delta x = 1$$, la recta subirá en el eje $$y$$ 
-$$\Delta y = 5$$
+$$\Delta y = 5$$ unidades.
 
 Con la forma $y = mx + b$, sustituimos uno de los puntos, digamos
 $(2, 4)$, para hallar $b$:
