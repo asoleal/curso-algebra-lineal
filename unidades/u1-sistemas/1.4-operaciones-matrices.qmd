@@ -307,6 +307,60 @@ se construyen las redes reales, y verificamos que coincide con el
 cálculo a mano.
 :::
 
+El mapa completo de una capa, en dibujo —observa **dónde aparece la
+función de activación**: después de la suma ponderada, justo antes de
+la salida.
+
+```{python}
+#| label: fig-red-capa
+#| fig-cap: "Una capa densa: cada neurona calcula su suma ponderada (el producto XW + b) y luego aplica la función de activación ReLU, máx(0, ·), antes de entregar su salida."
+#| echo: false
+import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib.patches import FancyBboxPatch
+
+def nodo(ax, c, label, r=0.42, fc='#e3f2fd', ec='#1565c0', fs=12):
+    ax.add_patch(plt.Circle(c, r, fc=fc, ec=ec, lw=1.6, zorder=3))
+    ax.text(c[0], c[1], label, ha='center', va='center', fontsize=fs, zorder=4)
+
+def caja(ax, c, label, w=1.2, h=0.66, fc='#f3e5f5', ec='#6a1b9a', fs=11):
+    ax.add_patch(FancyBboxPatch((c[0]-w/2, c[1]-h/2), w, h,
+                 boxstyle='round,pad=0.07', fc=fc, ec=ec, lw=1.6, zorder=3))
+    ax.text(c[0], c[1], label, ha='center', va='center', fontsize=fs, zorder=4)
+
+def flecha(ax, p, q, label='', frac=0.5, dy=0.15, color='#374151', fs=10, trim=(0.45, 0.55), ls='-'):
+    p, q = np.array(p, float), np.array(q, float)
+    d = q - p; L = np.hypot(*d); u = d / L
+    a = p + trim[0]*u; b = q - trim[1]*u
+    ax.annotate('', xy=b, xytext=a, arrowprops=dict(arrowstyle='-|>', color=color, lw=1.4, linestyle=ls), zorder=2)
+    if label:
+        m = a + (b - a)*frac
+        ax.text(m[0], m[1] + dy, label, fontsize=fs, color=color, ha='center')
+
+fig, ax = plt.subplots(figsize=(8.6, 4.2))
+for k, y in enumerate([2.0, 1.0, 0.0]):
+    nodo(ax, (0, y), f'$x_{k+1}$')
+nodo(ax, (2.7, 1.65), '$\\Sigma$', r=0.46, fc='#fff3e0', ec='#e65100', fs=14)
+nodo(ax, (2.7, 0.35), '$\\Sigma$', r=0.46, fc='#fff3e0', ec='#e65100', fs=14)
+for y in [2.0, 1.0, 0.0]:
+    flecha(ax, (0, y), (2.7, 1.65), '', trim=(0.44, 0.5))
+    flecha(ax, (0, y), (2.7, 0.35), '', trim=(0.44, 0.5))
+ax.text(1.15, 2.15, '$W$', fontsize=12, color='#374151')
+caja(ax, (4.6, 1.65), 'ReLU', w=1.15)
+caja(ax, (4.6, 0.35), 'ReLU', w=1.15)
+flecha(ax, (2.7, 1.65), (4.6, 1.65), '', trim=(0.5, 0.62))
+flecha(ax, (2.7, 0.35), (4.6, 0.35), '', trim=(0.5, 0.62))
+nodo(ax, (6.7, 1.65), '$s_1$', r=0.4, fc='#e8f5e9', ec='#2e7d32', fs=12)
+nodo(ax, (6.7, 0.35), '$s_2$', r=0.4, fc='#e8f5e9', ec='#2e7d32', fs=12)
+flecha(ax, (4.6, 1.65), (6.7, 1.65), '', trim=(0.62, 0.45))
+flecha(ax, (4.6, 0.35), (6.7, 0.35), '', trim=(0.62, 0.45))
+ax.text(2.7, -0.55, 'suma ponderada\n$S = XW + b$', fontsize=10, ha='center', va='top', color='#e65100')
+ax.text(4.6, -0.55, 'activación\n$\\max(0, S)$', fontsize=10, ha='center', va='top', color='#6a1b9a')
+ax.text(6.7, -0.55, 'salida', fontsize=10, ha='center', va='top', color='#2e7d32')
+ax.set_xlim(-0.9, 7.6); ax.set_ylim(-1.8, 2.7); ax.axis('off')
+plt.tight_layout(); plt.show()
+```
+
 ## 1.4.3 Módulo Python
 
 ```{python}

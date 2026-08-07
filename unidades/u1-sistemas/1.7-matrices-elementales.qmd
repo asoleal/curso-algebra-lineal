@@ -179,6 +179,52 @@ en factores —no en la matriz final— es casi siempre la jugada
 ganadora.
 :::
 
+La red completa, en dibujo: las capas se encadenan y la red entera es
+la **composición** de sus matrices — un producto de factores. Entrenar
+(*backpropagation*) ajusta cada factor viajando hacia atrás.
+
+```{python}
+#| label: fig-red-profunda
+#| fig-cap: "Una red profunda es una cadena de capas: cada capa es una matriz, la red es su producto. Backpropagation ajusta los pesos en sentido contrario."
+#| echo: false
+import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib.patches import FancyBboxPatch
+
+def nodo(ax, c, label, r=0.42, fc='#e3f2fd', ec='#1565c0', fs=12):
+    ax.add_patch(plt.Circle(c, r, fc=fc, ec=ec, lw=1.6, zorder=3))
+    ax.text(c[0], c[1], label, ha='center', va='center', fontsize=fs, zorder=4)
+
+def caja(ax, c, label, w=1.6, h=0.66, fc='#fff3e0', ec='#e65100', fs=11):
+    ax.add_patch(FancyBboxPatch((c[0]-w/2, c[1]-h/2), w, h,
+                 boxstyle='round,pad=0.07', fc=fc, ec=ec, lw=1.6, zorder=3))
+    ax.text(c[0], c[1], label, ha='center', va='center', fontsize=fs, zorder=4)
+
+def flecha(ax, p, q, trim=(0.45, 0.55)):
+    p, q = np.array(p, float), np.array(q, float)
+    d = q - p; L = np.hypot(*d); u = d / L
+    ax.annotate('', xy=q - trim[1]*u, xytext=p + trim[0]*u,
+                arrowprops=dict(arrowstyle='-|>', color='#374151', lw=1.4), zorder=2)
+
+fig, ax = plt.subplots(figsize=(9, 3.2))
+nodo(ax, (0, 0), '$\\mathbf{x}$')
+caja(ax, (1.9, 0), 'capa 1: $W_1$')
+caja(ax, (4.1, 0), 'capa 2: $W_2$')
+caja(ax, (6.3, 0), 'capa 3: $W_3$')
+nodo(ax, (8.3, 0), '$\\hat{y}$', fc='#e8f5e9', ec='#2e7d32')
+flecha(ax, (0, 0), (1.9, 0), trim=(0.45, 0.85))
+flecha(ax, (1.9, 0), (4.1, 0), trim=(0.85, 0.85))
+flecha(ax, (4.1, 0), (6.3, 0), trim=(0.85, 0.85))
+flecha(ax, (6.3, 0), (8.3, 0), trim=(0.85, 0.45))
+ax.text(4.1, -0.95, 'salida $= f_3(W_3\\, f_2(W_2\\, f_1(W_1\\,\\mathbf{x})))$: una cadena de productos de matrices',
+        fontsize=11, ha='center', va='top', color='#b03a2e')
+ax.annotate('', xy=(1.9, 0.8), xytext=(6.3, 0.8),
+            arrowprops=dict(arrowstyle='-|>', color='#6a1b9a', lw=1.3, linestyle='--'))
+ax.text(4.1, 0.95, 'backpropagation: ajusta los pesos hacia atrás', fontsize=10, ha='center', color='#6a1b9a')
+ax.set_xlim(-0.9, 9.2); ax.set_ylim(-1.7, 1.5); ax.axis('off')
+plt.tight_layout(); plt.show()
+```
+
 ## 1.7.3 Módulo Python
 
 Verifiquemos los tres ejemplos: la operación como producto, la inversa

@@ -323,8 +323,49 @@ resolver: se aproximará con mínimos cuadrados (U7) — el mismo corazón,
 más datos.
 :::
 
-La figura y el código siguientes materializan la idea: calibran la
-neurona resolviendo el sistema y dibujan su frontera de decisión.
+La neurona, en dibujo, para que no quede en abstracto: las entradas se
+multiplican por los pesos, se suman con el sesgo, y el signo de la
+salida decide la clase.
+
+```{python}
+#| label: fig-red-neurona
+#| fig-cap: "Una neurona artificial: entradas, pesos, suma con sesgo y salida. La frontera de decisión es donde s = 0."
+#| echo: false
+import numpy as np
+import matplotlib.pyplot as plt
+
+def nodo(ax, c, label, r=0.42, fc='#e3f2fd', ec='#1565c0', fs=12):
+    ax.add_patch(plt.Circle(c, r, fc=fc, ec=ec, lw=1.6, zorder=3))
+    ax.text(c[0], c[1], label, ha='center', va='center', fontsize=fs, zorder=4)
+
+def flecha(ax, p, q, label='', frac=0.5, dy=0.15, color='#374151', fs=10, trim=(0.45, 0.55), ls='-'):
+    p, q = np.array(p, float), np.array(q, float)
+    d = q - p; L = np.hypot(*d); u = d / L
+    a = p + trim[0]*u; b = q - trim[1]*u
+    ax.annotate('', xy=b, xytext=a, arrowprops=dict(arrowstyle='-|>', color=color, lw=1.4, linestyle=ls), zorder=2)
+    if label:
+        m = a + (b - a)*frac
+        ax.text(m[0], m[1] + dy, label, fontsize=fs, color=color, ha='center')
+
+fig, ax = plt.subplots(figsize=(8, 4))
+nodo(ax, (0, 1.7), '$x_1$'); nodo(ax, (0, 0), '$x_2$'); nodo(ax, (0, -1.7), '$1$')
+ax.text(0, 1.08, 'humedad', ha='center', fontsize=9, color='#555')
+ax.text(0, -0.62, 'materia org.', ha='center', fontsize=9, color='#555')
+ax.text(0, -2.32, 'sesgo', ha='center', fontsize=9, color='#555')
+nodo(ax, (3.2, 0.5), '$\\Sigma$', r=0.5, fc='#fff3e0', ec='#e65100', fs=15)
+nodo(ax, (6.0, 0.5), '$s$', r=0.45, fc='#e8f5e9', ec='#2e7d32', fs=13)
+flecha(ax, (0, 1.7), (3.2, 0.5), '$w_1$', dy=0.12)
+flecha(ax, (0, 0), (3.2, 0.5), '$w_2$', dy=0.14)
+flecha(ax, (0, -1.7), (3.2, 0.5), '$b$', dy=-0.3)
+flecha(ax, (3.2, 0.5), (6.0, 0.5), '', trim=(0.52, 0.5))
+ax.text(3.2, 1.6, '$s = w_1 x_1 + w_2 x_2 + b$', fontsize=12, ha='center', color='#b03a2e')
+ax.text(6.0, -0.6, '$s>0$: clase 1\n$s<0$: clase 0', fontsize=10, ha='center', va='top')
+ax.set_xlim(-1.2, 7.2); ax.set_ylim(-2.7, 2.2); ax.axis('off')
+plt.tight_layout(); plt.show()
+```
+
+El código siguiente materializa la idea: calibra la neurona resolviendo
+el sistema y dibuja su frontera de decisión.
 
 ```{python}
 #| label: fig-neurona

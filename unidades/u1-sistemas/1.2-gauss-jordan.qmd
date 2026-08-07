@@ -293,6 +293,43 @@ más datos que parámetros el sistema será incompatible y tocará
 aproximar: mínimos cuadrados (U7).
 :::
 
+El modelo de la Ventana IA también puede dibujarse como una neurona,
+esta vez con tres entradas $(1, x, x^2)$ y tres pesos $(a, b, c)$:
+
+```{python}
+#| label: fig-red-modelo
+#| fig-cap: "El modelo cuadrático como neurona: entradas (1, x, x²), pesos (a, b, c), salida ŷ. Entrenar es encontrar los pesos resolviendo el sistema."
+#| echo: false
+import numpy as np
+import matplotlib.pyplot as plt
+
+def nodo(ax, c, label, r=0.42, fc='#e3f2fd', ec='#1565c0', fs=12):
+    ax.add_patch(plt.Circle(c, r, fc=fc, ec=ec, lw=1.6, zorder=3))
+    ax.text(c[0], c[1], label, ha='center', va='center', fontsize=fs, zorder=4)
+
+def flecha(ax, p, q, label='', frac=0.5, dy=0.15, color='#374151', fs=10, trim=(0.45, 0.55), ls='-'):
+    p, q = np.array(p, float), np.array(q, float)
+    d = q - p; L = np.hypot(*d); u = d / L
+    a = p + trim[0]*u; b = q - trim[1]*u
+    ax.annotate('', xy=b, xytext=a, arrowprops=dict(arrowstyle='-|>', color=color, lw=1.4, linestyle=ls), zorder=2)
+    if label:
+        m = a + (b - a)*frac
+        ax.text(m[0], m[1] + dy, label, fontsize=fs, color=color, ha='center')
+
+fig, ax = plt.subplots(figsize=(8, 4))
+nodo(ax, (0, 1.7), '$1$'); nodo(ax, (0, 0), '$x$'); nodo(ax, (0, -1.7), '$x^2$')
+nodo(ax, (3.2, 0.5), '$\\Sigma$', r=0.5, fc='#fff3e0', ec='#e65100', fs=15)
+nodo(ax, (6.0, 0.5), '$\\hat{y}$', r=0.45, fc='#e8f5e9', ec='#2e7d32', fs=13)
+flecha(ax, (0, 1.7), (3.2, 0.5), '$a$', dy=0.12)
+flecha(ax, (0, 0), (3.2, 0.5), '$b$', dy=0.14)
+flecha(ax, (0, -1.7), (3.2, 0.5), '$c$', dy=-0.3)
+flecha(ax, (3.2, 0.5), (6.0, 0.5), '', trim=(0.52, 0.5))
+ax.text(3.2, 1.6, '$\\hat{y} = a + bx + cx^2$', fontsize=12, ha='center', color='#b03a2e')
+ax.text(6.0, -0.6, 'entrenar = resolver\nel sistema con los datos\n(Gauss–Jordan)', fontsize=10, ha='center', va='top')
+ax.set_xlim(-1.2, 7.2); ax.set_ylim(-2.7, 2.2); ax.axis('off')
+plt.tight_layout(); plt.show()
+```
+
 El código siguiente entrena el modelo de la Ventana IA dos veces —con
 Gauss–Jordan vía `numpy` y con la biblioteca profesional
 `scikit-learn`— y dibuja el resultado:
