@@ -213,6 +213,23 @@ x2 = U.solve(y2)
 print("Para b' =", b2.T, " la solución es x =", x2.T)
 ```
 
+**Así lo hace la industria.** La biblioteca `scipy` (sobre LAPACK, el
+motor de cómputo científico) tiene exactamente el patrón
+«factorizar una vez, resolver muchas»:
+
+```{python}
+import numpy as np
+from scipy.linalg import lu_factor, lu_solve
+
+An = np.array([[2, 1, 1],
+               [4, 1, 3],
+               [-2, -4, 4]], dtype=float)
+
+lu_piv = lu_factor(An)          # se factoriza UNA vez (con pivoteo parcial)
+for bvec in [[5, 9, -6], [8, 18, 4], [4, 8, -2]]:
+    print("b =", bvec, "-> x =", lu_solve(lu_piv, bvec))   # solo sustituciones
+```
+
 ::: {.content-visible when-format="html"}
 [▶ Abrir este módulo en Google Colab](https://colab.research.google.com/github/asoleal/curso-algebra-lineal/blob/main/notebooks/u1-1.6-factorizacion-lu.ipynb){.btn .btn-outline-primary}
 :::
@@ -499,22 +516,11 @@ verdad.
 
 ---
 
-## Cierre de la Unidad 1
+## Hilo conductor hacia 1.7
 
-Ha recorrido el camino completo: qué es un sistema lineal (1.1), cómo
-resolverlo con Gauss–Jordan (1.2), qué pasa cuando hay más incógnitas
-que ecuaciones (1.3), cómo operar con matrices (1.4), cómo «deshacer»
-una matriz (1.5) y cómo factorizarla para resolver una y otra vez
-(1.6). El hilo de IA nos acompañó en cada sección: un dataset es una
-matriz, entrenar es resolver, el sobreajuste es tener infinitas
-soluciones, una capa de red es un producto de matrices, la
-colinealidad es una matriz casi singular y la producción es reutilizar
-una factorización.
-
-**Hacia la Unidad 2.** En la sección 1.5 apareció un número mágico que
-decide si una matriz tiene inversa: $ad-bc$. Ese número es el
-**determinante**, y en la próxima unidad aprenderá a calcularlo para
-matrices de cualquier tamaño, sus propiedades y su significado
-geométrico (áreas, volúmenes y cómo una transformación «estira» el
-espacio — algo central para entender qué le hace una red neuronal a
-sus datos).
+En esta sección «guardamos multiplicadores» mientras eliminábamos.
+Pero, ¿qué *es* realmente una operación de filas? En la próxima
+sección veremos que cada una es, en el fondo, **multiplicar por una
+matriz** —la matriz elemental— y que esa idea explica por qué
+funcionan LU y el método de la inversa: todo era composición de
+transformaciones.

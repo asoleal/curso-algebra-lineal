@@ -18,11 +18,12 @@ mecatrónica— con tres decisiones de diseño:
    bien y repite el nivel con ayudas escalonadas si fallas.
 
 ::: {.callout-tip title="Estado del curso"}
-Sitio en construcción activa. **Unidad 1 completa (1.1–1.6):**
+Sitio en construcción activa. **Unidad 1 completa (1.1–1.8):**
 sistemas lineales, Gauss–Jordan, sistemas homogéneos, operaciones con
-matrices, matriz inversa y factorización LU — cada sección con los
-siete bloques completos (teoría, ejemplos, Python, interactivo,
-aplicaciones, ejercicios adaptativos y resumen).
+matrices, matriz inversa, factorización LU, matrices elementales y la
+aplicación a gráficas — cada sección con los siete bloques completos
+(teoría, ejemplos, Python, interactivo, aplicaciones, ejercicios
+adaptativos y resumen) y su Ventana IA.
 :::
 
 ## Unidades previstas

@@ -1,0 +1,521 @@
+# 1.8 Matrices y gráficas: una aplicación {.unnumbered}
+
+> **Qué aprenderá aquí.** Que una red —de caminos, de contactos, de
+> computadores, de moléculas— se puede guardar en una **matriz de
+> adyacencia**, y que las **potencias** de esa matriz responden una
+> pregunta sorprendente: ¿cuántos caminos de longitud $k$ hay entre dos
+> nodos? Es la puerta a la teoría de grafos y a buena parte de la IA
+> moderna.
+
+## 1.8.1 Presentación formal
+
+En logística, en epidemiología, en redes sociales y en química aparece
+una misma estructura: un conjunto de *objetos* y *conexiones* entre
+ellos. Matemáticamente eso es una gráfica.
+
+**Definición 1.8.1 (Gráfica).** Una **gráfica** (o **grafo**) es un par
+$(V, A)$ donde $V=\{v_1,\ldots,v_n\}$ es un conjunto de **nodos** (o
+vértices) y $A$ es un conjunto de **aristas**, es decir, pares de
+nodos. Si el orden del par importa —la arista va *de* $v_i$ *a*
+$v_j$—, la gráfica es **dirigida**; si no, es **no dirigida**.
+
+**Definición 1.8.2 (Matriz de adyacencia).** La **matriz de
+adyacencia** de una gráfica de $n$ nodos es la matriz $M$ de
+$n\times n$ dada por
+
+$$m_{ij}=\begin{cases}1 & \text{si hay una arista de } v_i \text{ a } v_j\\ 0 & \text{si no la hay}\end{cases}$$
+
+En una gráfica **no dirigida**, $m_{ij}=m_{ji}$: la matriz es
+**simétrica** ($M^T=M$, sección 1.4).
+
+**Definición 1.8.3 (Camino).** Un **camino de longitud $k$** de $v_i$
+a $v_j$ es una sucesión de $k$ aristas que empieza en $v_i$ y termina
+en $v_j$ (puede repetir nodos).
+
+Y aquí está el teorema que hace cantar a las matrices:
+
+**Teorema 1.8.1 (Las potencias cuentan caminos).** Si $M$ es la matriz
+de adyacencia de una gráfica, entonces la entrada $(i,j)$ de $M^k$ es
+exactamente el **número de caminos de longitud $k$** del nodo $v_i$ al
+nodo $v_j$.
+
+*Idea de la demostración.* Para $k=1$ es la definición de $M$. Para
+$k=2$: la entrada $(i,j)$ de $M^2$ es $\sum_{\ell} m_{i\ell}\,
+m_{\ell j}$, y el sumando $m_{i\ell}m_{\ell j}$ vale $1$ exactamente
+cuando existe el camino $v_i\to v_\ell\to v_j$ pasando por $v_\ell$:
+la suma los cuenta todos. El mismo argumento, aplicado por inducción,
+vale para cualquier $k$: un camino de longitud $k$ es un camino de
+longitud $k-1$ más una última arista. $\blacksquare$
+
+**Observación (conexidad).** Si alguna entrada $(i,j)$ de
+$I+M+M^2+\cdots+M^{\,n-1}$ es positiva, existe al menos un camino de
+$v_i$ a $v_j$. Si todas lo son, la gráfica es **conexa**.
+
+**Observación (matriz de incidencia).** Otra matriz útil es la de
+**incidencia** (nodos $\times$ aristas): $+1$ si la arista sale del
+nodo, $-1$ si llega, $0$ si no la toca. Aparece en redes eléctricas e
+hidráulicas — y está emparentada con las matrices de Kirchhoff de la
+sección 1.3.
+
+## 1.8.2 Ejemplos
+
+### Ejemplo 1.8.1 (rutas de distribución de una planta)
+
+Una empresa tiene 4 puntos logísticos: planta ($v_1$), bodega norte
+($v_2$), bodega sur ($v_3$) y cliente ($v_4$), con estas rutas
+directas:
+
+$$v_1\to v_2,\qquad v_1\to v_3,\qquad v_2\to v_3,\qquad v_2\to v_4,\qquad v_3\to v_4$$
+
+Su matriz de adyacencia y sus potencias son
+
+$$
+M=\begin{pmatrix}
+0&1&1&0\\
+0&0&1&1\\
+0&0&0&1\\
+0&0&0&0
+\end{pmatrix},
+\qquad
+M^2=\begin{pmatrix}
+0&0&1&2\\
+0&0&0&1\\
+0&0&0&0\\
+0&0&0&0
+\end{pmatrix},
+\qquad
+M^3=\begin{pmatrix}
+0&0&0&1\\
+0&0&0&0\\
+0&0&0&0\\
+0&0&0&0
+\end{pmatrix}
+$$
+
+Lectura del resultado:
+
+- $(M^2)_{13}=1$: de la planta a la bodega sur hay **un** camino de dos
+  tramos ($v_1\to v_2\to v_3$), además del directo.
+- $(M^2)_{14}=2$: de la planta al cliente hay **dos** rutas de dos
+  tramos: $v_1\to v_2\to v_4$ y $v_1\to v_3\to v_4$.
+- $(M^3)_{14}=1$: una ruta de tres tramos: $v_1\to v_2\to v_3\to v_4$.
+- Las filas nulas de $v_4$ dicen que del cliente no sale ninguna ruta:
+  es un **sumidero**.
+
+En total hay $2+1=3$ formas de llevar producto de la planta al
+cliente. Y todo lo respondimos *multiplicando matrices*.
+
+::: {.callout-important title="Ventana IA: las redes neuronales de grafos y el buscador que cambió el mundo"}
+**El concepto.** Muchos datos de IA no son tablas sino **redes**:
+amistades entre personas, átomos en una molécula, intersecciones en un
+mapa. Una **red neuronal de grafos (GNN)** aprende sobre ellas con una
+idea que ya conoce: cada nodo tiene un vector de *features* (fila de
+una matriz $X$), y en cada capa cada nodo **promedia la información de
+sus vecinos** y luego aplica pesos. En forma matricial, una capa GNN
+es literalmente
+
+$$X' = \hat{M}\,X\,W$$
+
+donde $\hat{M}$ es la matriz de adyacencia (normalizada): el producto
+$\hat{M}X$ mezcla cada nodo con sus vecinos, y $W$ aprende, como en
+1.4. Las potencias $M^k$ dicen qué tan lejos viaja la información en
+$k$ capas: con dos capas, cada nodo «ve» a los vecinos de sus vecinos
+— exactamente lo que cuenta $M^2$.
+
+**El buscador.** Google nació de una matriz de adyacencia gigante: la
+web como grafo (página → enlace). Su algoritmo *PageRank* pregunta por
+el reparto estable de «importancia» que queda al navegar los enlaces
+al azar una y otra vez; ese reparto es un **vector propio** de una
+matriz derivada de $M$ — el tema estrella de nuestra Unidad 6.
+
+**Cómo se usa.** En el código siguiente, una mini-capa GNN con
+`numpy` propaga features en la red del Ejemplo 1.8.1; en el cuaderno
+Colab, la biblioteca `networkx` dibuja la gráfica y calcula caminos y
+centralidades reales.
+:::
+
+## 1.8.3 Módulo Python
+
+Verifiquemos el Teorema 1.8.1 con la red logística y probemos una
+mini-capa de GNN:
+
+```{python}
+import numpy as np
+
+# Matriz de adyacencia del Ejemplo 1.8.1
+M = np.array([[0, 1, 1, 0],
+              [0, 0, 1, 1],
+              [0, 0, 0, 1],
+              [0, 0, 0, 0]])
+
+print("M^2 =\n", M @ M)      # caminos de longitud 2
+print("M^3 =\n", M @ M @ M)  # caminos de longitud 3
+print("Caminos planta->cliente, longitud <= 3:", (M + M@M + M@M@M)[0, 3].sum())
+```
+
+```{python}
+# Ventana IA: una capa de red neuronal de grafos  X' = M̂ X W
+# Cada nodo promedia los features de los nodos que lo apuntan, luego aplica pesos
+X = np.array([[1.0, 0.0],   # features del nodo v1 (planta)
+              [0.0, 1.0],   # v2 (bodega norte)
+              [1.0, 1.0],   # v3 (bodega sur)
+              [0.5, 0.5]])  # v4 (cliente)
+
+# Adyacencia con "quién me apunta", normalizada por filas (promedio de vecinos)
+Min = M.T
+grados = Min.sum(axis=1, keepdims=True)
+grados[grados == 0] = 1          # el cliente no recibe rutas: se queda consigo mismo
+Mhat = Min / grados
+
+W = np.array([[0.5, -0.2],
+              [0.3,  0.8]])
+Xp = Mhat @ X @ W
+print("Features tras la capa GNN (X' = M̂ X W):\n", np.round(Xp, 3))
+```
+
+::: {.content-visible when-format="html"}
+[▶ Abrir este módulo en Google Colab](https://colab.research.google.com/github/asoleal/curso-algebra-lineal/blob/main/notebooks/u1-1.8-matrices-graficas.ipynb){.btn .btn-outline-primary}
+:::
+
+::: {.content-visible when-format="pdf"}
+**Cuaderno en línea.** Este módulo está disponible como cuaderno
+ejecutable en el repositorio del curso:
+[notebooks/u1-1.8-matrices-graficas.ipynb](https://github.com/asoleal/curso-algebra-lineal/blob/main/notebooks/u1-1.8-matrices-graficas.ipynb)
+(abrible en Google Colab; incluye la visualización con `networkx`).
+:::
+
+## 1.8.4 Laboratorio interactivo: construya su grafo y cuente caminos
+
+Active o desactive aristas de un grafo no dirigido de 4 nodos. El
+laboratorio dibuja el grafo, calcula su matriz de adyacencia $M$ y
+$M^2$, y le muestra cuántos caminos de longitud 2 hay entre el par de
+nodos que elija — y por dónde pasan.
+
+::: {.content-visible when-format="html"}
+```{=html}
+<div style="margin:1.2em 0; padding:1em 1.2em; border:1px solid #d4cfe4; border-radius:12px;">
+  <div style="display:flex; flex-wrap:wrap; gap:1.5em;">
+    <div>
+      <canvas id="gr-canvas" width="380" height="260" style="border:1px solid #ccc; border-radius:8px; background:#fff;"></canvas>
+      <div id="gr-edges" style="margin-top:.5em; font-size:.95em; line-height:1.7em;"></div>
+    </div>
+    <div style="flex:1; min-width:280px;">
+      <div style="display:flex; flex-wrap:wrap; gap:1.4em;">
+        <div><b>M (adyacencia)</b><div id="gr-m"></div></div>
+        <div><b>M² (caminos de long. 2)</b><div id="gr-m2"></div></div>
+      </div>
+      <div style="margin-top:.7em;">
+        Caminos de longitud 2 de
+        <select id="gr-i"></select> a <select id="gr-j"></select>:
+        <b id="gr-count"></b>
+        <div id="gr-paths" style="font-size:.95em; margin-top:.2em;"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var EDGES=[[0,1],[0,2],[0,3],[1,2],[1,3],[2,3]];
+  var NAMES=['v1','v2','v3','v4'];
+  var POS=[[70,60],[310,60],[310,200],[70,200]];
+  var activas=[true,false,true,true,false,true];  // cuadrado v1-v2-v3-v4-v1
+  var cont=document.getElementById('gr-edges');
+  EDGES.forEach(function(e,k){
+    var lab=document.createElement('label'); lab.style.marginRight='.8em';
+    var cb=document.createElement('input'); cb.type='checkbox'; cb.checked=activas[k];
+    cb.onchange=function(){ activas[k]=cb.checked; dibujar(); };
+    lab.appendChild(cb); lab.appendChild(document.createTextNode(' '+NAMES[e[0]]+'–'+NAMES[e[1]]));
+    cont.appendChild(lab);
+  });
+  var si=document.getElementById('gr-i'), sj=document.getElementById('gr-j');
+  NAMES.forEach(function(n,k){ si.options.add(new Option(n,k)); sj.options.add(new Option(n,k)); });
+  si.value='0'; sj.value='2';
+  si.onchange=dibujar; sj.onchange=dibujar;
+  function matriz(){
+    var M=[[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]];
+    EDGES.forEach(function(e,k){ if(activas[k]){ M[e[0]][e[1]]=1; M[e[1]][e[0]]=1; } });
+    return M;
+  }
+  function mult(A,B){
+    var C=[[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]];
+    for(var i=0;i<4;i++) for(var j=0;j<4;j++){ var s=0; for(var k=0;k<4;k++) s+=A[i][k]*B[k][j]; C[i][j]=s; }
+    return C;
+  }
+  function tabla(M,res){
+    var h='<table class="gj-matrix" style="margin-top:.3em;"><tbody>';
+    for(var i=0;i<4;i++){ h+='<tr>'; for(var j=0;j<4;j++){
+      var es = res && res[0]===i && res[1]===j;
+      h+='<td'+(es?' style="background:#fff3cd; font-weight:700;"':'')+'>'+M[i][j]+'</td>';
+    } h+='</tr>'; }
+    return h+'</tbody></table>';
+  }
+  function dibujar(){
+    var M=matriz(), M2=mult(M,M);
+    var a=parseInt(si.value), b=parseInt(sj.value);
+    var cv=document.getElementById('gr-canvas').getContext('2d');
+    cv.clearRect(0,0,380,260);
+    EDGES.forEach(function(e,k){
+      if(!activas[k]) return;
+      cv.beginPath(); cv.moveTo(POS[e[0]][0],POS[e[0]][1]); cv.lineTo(POS[e[1]][0],POS[e[1]][1]);
+      cv.strokeStyle='#5e3c99'; cv.lineWidth=2; cv.stroke();
+    });
+    for(var n=0;n<4;n++){
+      cv.beginPath(); cv.arc(POS[n][0],POS[n][1],17,0,7);
+      cv.fillStyle='#005c3f'; cv.fill();
+      cv.fillStyle='#fff'; cv.font='bold 13px sans-serif'; cv.textAlign='center'; cv.textBaseline='middle';
+      cv.fillText(NAMES[n],POS[n][0],POS[n][1]);
+    }
+    document.getElementById('gr-m').innerHTML=tabla(M,null);
+    document.getElementById('gr-m2').innerHTML=tabla(M2,[a,b]);
+    document.getElementById('gr-count').textContent=M2[a][b];
+    var lista=[];
+    for(var k=0;k<4;k++){ if(M[a][k]&&M[k][b]) lista.push(NAMES[a]+' → '+NAMES[k]+' → '+NAMES[b]); }
+    document.getElementById('gr-paths').textContent = lista.length? lista.join('  ·  ') : 'No hay caminos de longitud 2 entre ese par.';
+  }
+  dibujar();
+})();
+</script>
+```
+
+**Retos:** (a) construya el cuadrado y verifique que $(M^2)_{13}=2$:
+¿cuáles son los dos caminos?; (b) agregue la diagonal $v_1$–$v_3$:
+¿cuántos caminos de longitud 2 de $v_2$ a $v_4$ aparecen?; (c) quite
+aristas hasta que algún par quede **incomunicado** y observe el cero
+en $M^2$; (d) ¿qué significan los números de la **diagonal** de $M^2$?
+(pista: cuéntelos sobre el dibujo).
+:::
+
+::: {.content-visible when-format="pdf"}
+**Versión estática del laboratorio.** Para el cuadrado
+$v_1\!-\!v_2\!-\!v_3\!-\!v_4\!-\!v_1$:
+$M=\begin{pmatrix}0&1&0&1\\1&0&1&0\\0&1&0&1\\1&0&1&0\end{pmatrix}$ y
+$M^2=\begin{pmatrix}2&0&2&0\\0&2&0&2\\2&0&2&0\\0&2&0&2\end{pmatrix}$.
+Así, entre $v_1$ y $v_3$ hay 2 caminos de longitud 2
+($v_1\!\to\!v_2\!\to\!v_3$ y $v_1\!\to\!v_4\!\to\!v_3$), y la diagonal
+muestra que cada nodo tiene 2 «ida y vuelta» posibles (uno por cada
+vecino). En la versión web, un laboratorio interactivo permite activar
+aristas y recalcula $M$ y $M^2$ en vivo.
+:::
+
+## 1.8.5 Aplicaciones en los programas de la sede
+
+::: {.callout-note}
+## Aplicación en Medicina Veterinaria — rastreo epidemiológico
+En un hato, cuatro corrales intercambian animales según una red de
+contactos (aristas). Si aparece un patógeno en el corral $v_1$, los
+contactos **directos** están en la fila 1 de $M$; los contactos **de
+segundo nivel** (contactos de los contactos — el frente real de
+contagio) están en la fila 1 de $M^2$. Con el cuadrado del laboratorio,
+desde $v_1$ hay 2 cadenas de contagio de dos pasos hacia el corral
+opuesto $v_3$: la vigilancia debe cubrir ambas. Así trabaja la
+trazabilidad sanitaria moderna.
+:::
+
+::: {.callout-note}
+## Aplicación en Agroindustria — ¿queda conectada la red si cae una ruta?
+Con la matriz del Ejemplo 1.8.1, la suma $M+M^2+M^3$ tiene ceros en
+varias entradas: hay pares sin comunicación (del cliente no sale nada
+— es sumidero). Si una vía entre dos bodegas se cierra por
+mantenimiento, basta recalcular $M+M^2+M^3$ con la arista eliminada
+para saber **al instante** qué pares de puntos quedan desconectados o
+pierden rutas alternas. La planeación de contingencias logísticas es
+álgebra de matrices.
+:::
+
+## 1.8.6 Ejercicios adaptativos
+
+::: {.content-visible when-format="html"}
+Responda con números enteros. Dos aciertos seguidos suben el nivel;
+dos fallos seguidos muestran la solución guiada.
+
+```{=html}
+<div id="quiz-u1-1-8" style="border:1px solid #ccc; border-radius:10px; padding:1em 1.2em; margin:1em 0;">
+  <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:.5em;">
+    <b>Ejercicios adaptativos — 1.8 Matrices y gráficas</b>
+    <span>Nivel: <b id="q-nivel">1</b> / 3 &nbsp;·&nbsp; Racha: <b id="q-racha">0</b></span>
+  </div>
+  <div id="q-enun" style="margin:.9em 0 .4em;"></div>
+  <div id="q-inputs" style="display:flex; gap:.8em; align-items:center; flex-wrap:wrap; margin:.4em 0;"></div>
+  <button id="q-verificar" style="padding:.45em 1.2em; border-radius:8px; border:1.5px solid #005c3f; background:#005c3f; color:#fff; cursor:pointer; font-weight:600;">Verificar</button>
+  <button id="q-nueva" style="display:none; padding:.45em 1.2em; border-radius:8px; border:1.5px solid #005c3f; background:#fff; color:#005c3f; cursor:pointer; font-weight:600;">Nueva variante</button>
+  <div id="q-feedback" style="margin-top:.7em;"></div>
+</div>
+<script>
+(function(){
+  var CLAVE='quiz-u1-1.8-v1';
+  var estado={nivel:1,racha:0};
+  try{ var g=localStorage.getItem(CLAVE); if(g){ estado=JSON.parse(g); } }catch(e){}
+  function guardar(){ try{ localStorage.setItem(CLAVE,JSON.stringify(estado)); }catch(e){} }
+  var actual=null, fallos=0;
+  function rnd(a,b){ return Math.floor(Math.random()*(b-a+1))+a; }
+  var POSIBLES=[[0,1],[0,2],[0,3],[1,2],[1,3],[2,3]];
+  function nom(k){ return 'v'+(k+1); }
+  function grafo(nAristas){
+    var copia=POSIBLES.slice(), sel=[];
+    for(var t=0;t<nAristas;t++){ sel.push(copia.splice(rnd(0,copia.length-1),1)[0]); }
+    var M=[[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]];
+    sel.forEach(function(e){ M[e[0]][e[1]]=1; M[e[1]][e[0]]=1; });
+    return {sel:sel, M:M};
+  }
+  function txtGrafo(sel){ return 'aristas: '+sel.map(function(e){return nom(e[0])+'–'+nom(e[1]);}).join(', '); }
+
+  function genN1(){
+    var g=grafo(3), par=POSIBLES[rnd(0,5)], resp=g.M[par[0]][par[1]];
+    return { desc:'La entrada (i,j) de M es 1 si hay arista, 0 si no.',
+      html:'Grafo con '+txtGrafo(g.sel)+'. &nbsp;Entrada ('+(par[0]+1)+','+(par[1]+1)+') de M:',
+      vars:['m'], resp:[resp], tol:0.001,
+      h1:'¿Está la arista '+nom(par[0])+'–'+nom(par[1])+' en la lista?',
+      h2:(resp?'Sí está: la entrada es 1.':'No está: la entrada es 0.')+' Recuerde que en grafos no dirigidos M es simétrica.' };
+  }
+  function genN2(){
+    var g=grafo(4), i=rnd(0,3), j=rnd(0,3); while(j===i){ j=rnd(0,3); }
+    var comun=[]; for(var k=0;k<4;k++){ if(g.M[i][k]&&g.M[k][j]) comun.push(k); }
+    return { desc:'(M²)ᵢⱼ cuenta los vecinos comunes de i y j.',
+      html:'Grafo con '+txtGrafo(g.sel)+'. &nbsp;Número de caminos de longitud 2 de '+nom(i)+' a '+nom(j)+':',
+      vars:['n'], resp:[comun.length], tol:0.001,
+      h1:'Busque nodos k con aristas '+nom(i)+'–k y k–'+nom(j)+' a la vez.',
+      h2: comun.length? 'Los intermediarios son: '+comun.map(nom).join(', ')+'. Respuesta: '+comun.length+'.'
+                      : 'Ningún nodo toca a ambos a la vez. Respuesta: 0.' };
+  }
+  function genN3(){
+    var g=grafo(4), suma=0, k,i,j;
+    for(i=0;i<4;i++) for(j=0;j<4;j++){ var s=0; for(k=0;k<4;k++) s+=g.M[i][k]*g.M[k][j]; suma+=s; }
+    return { desc:'La suma de TODAS las entradas de M² = total de caminos de longitud 2.',
+      html:'Grafo con '+txtGrafo(g.sel)+'. &nbsp;Total de caminos de longitud 2 en el grafo:',
+      vars:['t'], resp:[suma], tol:0.001,
+      h1:'Calcule (M²)ᵢⱼ para cada par (vecinos comunes) y sume. Ojo: en grafos no dirigidos cada camino i→k→j cuenta también como j→k→i.',
+      h2:'Sumando las entradas de M² (incluida la diagonal: cada arista da 2 caminos ida-y-vuelta por nodo): '+suma+'.' };
+  }
+  var gens={1:genN1,2:genN2,3:genN3};
+
+  function pintar(){
+    document.getElementById('q-nivel').textContent=estado.nivel;
+    document.getElementById('q-racha').textContent=estado.racha;
+  }
+  function nueva(){
+    actual=gens[estado.nivel](); fallos=0;
+    document.getElementById('q-enun').innerHTML='<i>'+actual.desc+'</i><br>'+actual.html;
+    var c=document.getElementById('q-inputs'); c.innerHTML='';
+    actual.vars.forEach(function(v,i){
+      var s=document.createElement('span'); s.innerHTML=v+' = ';
+      var inp=document.createElement('input'); inp.id='q-ans-'+i; inp.type='number'; inp.step='any';
+      inp.style.cssText='width:6.5em; padding:.35em; border:1.5px solid #8a7fb8; border-radius:6px;';
+      c.appendChild(s); c.appendChild(inp);
+    });
+    document.getElementById('q-feedback').innerHTML='';
+    document.getElementById('q-nueva').style.display='none';
+    document.getElementById('q-verificar').style.display='inline-block';
+    pintar();
+  }
+  document.getElementById('q-verificar').onclick=function(){
+    var ok=true;
+    for(var i=0;i<actual.resp.length;i++){
+      var v=parseFloat(document.getElementById('q-ans-'+i).value);
+      if(isNaN(v)||Math.abs(v-actual.resp[i])>actual.tol){ ok=false; }
+    }
+    var fb=document.getElementById('q-feedback');
+    if(ok){
+      estado.racha++;
+      if(estado.racha>=2 && estado.nivel<3){ estado.nivel++; estado.racha=0;
+        fb.innerHTML='<span style="color:#1b5e20; font-weight:600;">¡Correcto dos veces seguidas! Sube al nivel '+estado.nivel+'.</span>';
+      } else {
+        fb.innerHTML='<span style="color:#1b5e20; font-weight:600;">¡Correcto! '+ (estado.nivel<3?'Un acierto más y sube de nivel.':'Nivel máximo: siga practicando.') +'</span>';
+      }
+      guardar(); setTimeout(nueva,1600);
+    } else {
+      fallos++; estado.racha=0; guardar();
+      if(fallos===1){ fb.innerHTML='<span style="color:#b26a00; font-weight:600;">Aún no.</span> <b>Ayuda:</b> '+actual.h1; }
+      else { fb.innerHTML='<span style="color:#b71c1c; font-weight:600;">Solución guiada:</span> '+actual.h2;
+        document.getElementById('q-nueva').style.display='inline-block';
+        document.getElementById('q-verificar').style.display='none';
+      }
+    }
+    pintar();
+  };
+  document.getElementById('q-nueva').onclick=nueva;
+  nueva();
+})();
+</script>
+```
+
+**Banco escrito.** 1) Dibuje la gráfica con matriz
+$M=\begin{pmatrix}0&1&1\\1&0&1\\1&1&0\end{pmatrix}$ y calcule $M^2$.
+2) Para la gráfica del Ejemplo 1.8.1, ¿cuántos caminos de longitud 3
+hay en total? 3) Una gráfica no dirigida tiene 5 aristas; ¿cuánto vale
+la suma de las entradas de su matriz de adyacencia? 4) Muestre que en
+una gráfica no dirigida, la entrada $(i,i)$ de $M^2$ es el número de
+aristas que tocan el nodo $v_i$ (su **grado**). 5) Dé un ejemplo de
+gráfica conexa de 4 nodos y otro de gráfica no conexa, y verifíquelo
+con $I+M+M^2+M^3$.
+:::
+
+::: {.content-visible when-format="pdf"}
+**Ejercicios de la sección.** 1) Dibuje la gráfica con matriz
+$M=\begin{pmatrix}0&1&1\\1&0&1\\1&1&0\end{pmatrix}$ y calcule $M^2$.
+2) Para la gráfica del Ejemplo 1.8.1, ¿cuántos caminos de longitud 3
+hay en total? 3) Una gráfica no dirigida tiene 5 aristas; ¿cuánto vale
+la suma de las entradas de su $M$? 4) Muestre que $(M^2)_{ii}$ es el
+grado del nodo $v_i$. 5) Dé una gráfica conexa y una no conexa de 4
+nodos y verifíquelo con $I+M+M^2+M^3$.
+
+**Soluciones:** 1) Triángulo completo;
+$M^2=\begin{pmatrix}2&1&1\\1&2&1\\1&1&2\end{pmatrix}$. 2) Solo uno:
+$v_1\to v_2\to v_3\to v_4$. 3) $10$ (cada arista aporta dos unos, por
+simetría). 4) $(M^2)_{ii}=\sum_\ell m_{i\ell}m_{\ell
+i}=\sum_\ell m_{i\ell}^2=\sum_\ell m_{i\ell}=$ grado de $v_i$. 5)
+Conexa: el cuadrado del laboratorio (la suma queda sin ceros); no
+conexa: dos pares aislados $\{v_1,v_2\}$ y $\{v_3,v_4\}$ (la suma
+conserva ceros). La versión web incluye ejercicios adaptativos con
+tres niveles y ayudas graduales.
+:::
+
+## 1.8.7 Resumen y glosario
+
+::: {.callout-tip}
+## Idea clave
+Una gráfica se codifica en su **matriz de adyacencia** $M$
+($m_{ij}=1$ si hay arista $v_i\to v_j$). El producto matricial cobra
+entonces un sentido combinatorio: $(M^k)_{ij}$ **cuenta los caminos de
+longitud $k$** entre $v_i$ y $v_j$. Conexidad, contagio, logística,
+propagación de información en GNN: todo se lee en las potencias de una
+matriz.
+:::
+
+| Término | Significado |
+|---|---|
+| Gráfica (grafo) | Par $(V,A)$: nodos y aristas entre ellos |
+| Gráfica dirigida | Las aristas tienen sentido ($v_i\to v_j$) |
+| Matriz de adyacencia | $m_{ij}=1$ si hay arista $v_i\to v_j$; simétrica si la gráfica no es dirigida |
+| Camino de longitud $k$ | Sucesión de $k$ aristas encadenadas |
+| Teorema 1.8.1 | $(M^k)_{ij}$ = número de caminos de longitud $k$ de $v_i$ a $v_j$ |
+| Gráfica conexa | Todo par de nodos se comunica; $I+M+\cdots+M^{n-1}$ sin ceros |
+| Capa GNN (IA) | $X'=\hat{M}XW$: cada nodo mezcla features con sus vecinos y aplica pesos |
+| PageRank (IA) | Importancia de páginas como vector propio de una matriz de la web (adelanto de la U6) |
+
+---
+
+## Cierre de la Unidad 1
+
+Ha recorrido el camino completo: qué es un sistema lineal (1.1), cómo
+resolverlo con Gauss–Jordan o con eliminación gaussiana (1.2), qué
+pasa cuando hay más incógnitas que ecuaciones (1.3), cómo operar con
+matrices (1.4), cómo «deshacer» una matriz (1.5), cómo factorizarla
+para resolver una y otra vez (1.6), por qué toda operación de filas es
+un producto de matrices (1.7) y cómo una matriz puede describir una
+red entera (1.8).
+
+El hilo de IA nos acompañó en cada sección: calibrar una neurona es
+resolver un sistema, entrenar un modelo es resolver un sistema, el
+sobreajuste es tener infinitas soluciones, una capa de red es un
+producto de matrices, la colinealidad es una matriz casi singular, la
+producción es reutilizar una factorización, una red profunda es una
+composición de transformaciones y una red de grafos es, literalmente,
+una matriz de adyacencia aprendiendo.
+
+**Hacia la Unidad 2.** En la sección 1.5 apareció un número que
+decide si una matriz tiene inversa: $ad-bc$. Ese número es el
+**determinante**, y en la próxima unidad aprenderá a calcularlo para
+matrices de cualquier tamaño, sus propiedades y su significado
+geométrico —áreas, volúmenes y cuánto «estira» una transformación el
+espacio—, algo central para entender qué le hace una red neuronal a
+sus datos.

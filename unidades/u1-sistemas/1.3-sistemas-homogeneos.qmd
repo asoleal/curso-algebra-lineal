@@ -72,21 +72,69 @@ Cada valor de $t$ da una solución: $(0,0,0)$, $(-1,1,1)$, $(-2,2,2)$,
 etc. *Verificación con $t = 1$:* $-1 + 2 - 1 = 0$ y $-2 + 1 + 1 = 0$.
 $\checkmark$
 
-::: {.callout-important title="Ventana IA: cuando infinitos modelos explican perfectamente los datos"}
-En aprendizaje automático, un sistema con **más incógnitas que
-ecuaciones** es la norma cuando hay más variables (*features*) que
-observaciones: pocas muestras, muchas columnas. El Teorema 1.3.1 dice
-que entonces hay **infinitos** conjuntos de parámetros que ajustan
-*perfectamente* los datos.
+::: {.callout-important title="Ventana IA: más parámetros que datos = infinitos modelos perfectos (y el sobreajuste)"}
+**El concepto.** En IA ocurre todo el tiempo: un modelo con tres
+parámetros y solo dos datos para entrenarlo. Continuemos con el modelo
+cuadrático $\hat{y}=a+bx+cx^2$ de la sección 1.2, pero supongamos que
+solo medimos **dos** días: día $10$ → $12{,}0$ y día $20$ → $14{,}5$.
 
-Eso suena bien, pero es un problema: ¿cuál de los infinitos modelos
-elegir? Si todos explican lo visto, nada garantiza que funcionen con
-datos nuevos (**sobreajuste**). Por eso en IA se añade información extra
-—*regularización*, más datos, o eliminar variables redundantes—: es la
-forma práctica de convertir "infinitas soluciones" en "una solución
-útil". El espacio nulo de $A$ es exactamente el conjunto de cambios que
-puedes hacer a los parámetros **sin que el ajuste empeore**.
+**De dónde sale el sistema.** Cada dato es una ecuación, y solo hay
+dos:
+
+$$
+\begin{aligned}
+a + 10b + 100c &= 12{,}0\\
+a + 20b + 400c &= 14{,}5
+\end{aligned}
+\qquad\text{(2 ecuaciones, 3 incógnitas)}
+$$
+
+**Resolución.** El Teorema 1.3.1 anuncia infinitas soluciones.
+Despejando con $c$ como variable libre:
+
+$$a = 9{,}5 + 200c, \qquad b = 0{,}25 - 30c, \qquad c\ \text{libre}$$
+
+**Qué significa.** Para **cada** valor de $c$ se obtiene un modelo
+distinto que pasa *exactamente* por los dos datos: ajuste perfecto en
+entrenamiento. Pero entre dato y dato —y fuera de ellos— se comportan
+de forma muy distinta (véase la figura): unos predicen que el día $30$
+dará $16$ °Brix, otros $19{,}5$. Elegir mal es **sobreajuste**:
+memorizar lo visto sin aprender la tendencia.
+
+**Cómo se usa en la práctica.** La IA resuelve la ambigüedad añadiendo
+un criterio extra: quedarse con el modelo «más simple» posible. Eso es
+la **regularización**: por ejemplo *ridge* elige, entre todas las
+soluciones, la de coeficientes más pequeños (aquí empuja $c$ hacia $0$,
+es decir, hacia la recta). La regla de oro que ya puede enunciar:
+*menos grados de libertad libres = modelos que generalizan mejor*.
 :::
+
+El código muestra la familia de modelos de la Ventana IA: todos pasan
+por los dos datos, pero difieren en todo lo demás.
+
+```{python}
+#| label: fig-sobreajuste
+#| fig-cap: "Tres modelos de la familia (distintos valores del parámetro libre c). Todos ajustan perfecto los dos datos de entrenamiento; solo uno se acerca a la realidad del día 30. Esa es la cara visible del sobreajuste."
+import numpy as np
+import matplotlib.pyplot as plt
+
+xx = np.linspace(5, 35, 200)
+for c, estilo in [(0, '-'), (0.002, '--'), (-0.004, ':')]:
+    a, b = 9.5 + 200*c, 0.25 - 30*c
+    plt.plot(xx, a + b*xx + c*xx**2, estilo, label=f'c = {c}')
+plt.plot([10, 20], [12.0, 14.5], 'o', ms=10, label='datos de entrenamiento')
+plt.plot(30, 16.0, 's', ms=10, label='dato real día 30 (no usado)')
+plt.xlabel('día de cosecha'); plt.ylabel('°Brix')
+plt.grid(alpha=0.3); plt.legend(); plt.show()
+
+# Comprobación simbólica de la familia: a = 9.5 + 200c, b = 0.25 - 30c
+import sympy as sp
+c = sp.symbols('c', real=True)
+a = sp.Rational(19, 2) + 200*c
+b = sp.Rational(1, 4) - 30*c
+print("y(10) =", sp.expand(a + 10*b + 100*c), " y(20) =", sp.expand(a + 20*b + 400*c))
+print("¿Dependen de c? ¡No: todos los modelos pasan exactamente por los datos!")
+```
 
 ## 1.3.3 Módulo Python
 

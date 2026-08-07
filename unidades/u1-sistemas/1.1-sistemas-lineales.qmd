@@ -101,26 +101,73 @@ tres casos).
 Nota: para *encontrar* (no solo verificar) soluciones de forma
 sistemática usaremos el método de Gauss–Jordan de la sección 1.2.
 
-::: {.callout-important title="Ventana IA: los datos ya son un sistema (y entrenar es resolverlo)"}
-Imagina que mides en campo: con $1$ kg del alimento $A$ y $2$ kg del $B$
-obtuviste $8$ unidades de energía; con $2$ kg de $A$ y $1$ de $B$,
-$7$ unidades. Si la energía por kg de cada alimento es $e_A$ y $e_B$
-(**los parámetros que no conocemos**), tus propios datos forman el
-sistema
+::: {.callout-important title="Ventana IA: qué es una neurona artificial y cómo se calibra resolviendo un sistema"}
+**El concepto, sin misterio.** Una **neurona artificial** es una
+función que imita, de forma muy simplificada, una neurona biológica:
+recibe entradas $x_1, x_2$, las pondera con **pesos** $w_1, w_2$, les
+suma un **sesgo** $b$ y produce una salida
+
+$$s = w_1x_1 + w_2x_2 + b.$$
+
+Si $s>0$ la neurona dice «clase 1»; si $s<0$, «clase 0». La frontera
+entre ambas decisiones es la recta $w_1x_1+w_2x_2+b=0$: una **recta de
+decisión**. Una red neuronal no es más que muchas de estas neuronas
+conectadas.
+
+**De dónde sale el sistema.** Supongamos que queremos una neurona que
+distinga dos tipos de suelo usando dos mediciones (humedad $x_1$,
+materia orgánica $x_2$). Fijamos $b=-3$ y calibramos los pesos con dos
+muestras de referencia: la muestra $(2,1)$ debe dar $s=1$ (clase 1) y
+la $(1,2)$ debe dar $s=0$. Cada muestra es **una ecuación**:
 
 $$
 \begin{aligned}
-e_A + 2e_B &= 8\\
-2e_A + e_B &= 7
+2w_1 + w_2 &= 1 - (-3) = 4\\
+w_1 + 2w_2 &= 0 - (-3) = 3
 \end{aligned}
+\qquad\Longrightarrow\qquad w_1 = \tfrac{5}{3},\quad w_2 = \tfrac{2}{3}
 $$
 
-Resolver el sistema es **aprender los parámetros a partir de las
-observaciones**. Eso, en esencia, es *entrenar* un modelo lineal. Cuando
-haya muchas más observaciones que parámetros, el sistema ya no tendrá
-solución exacta y tocará *aproximarla*: ese será el tema de mínimos
-cuadrados (U7), la puerta al aprendizaje automático.
+**Qué significa la solución.** Los pesos $(\tfrac53,\tfrac23)$ *son* el
+modelo calibrado: la frontera de decisión queda $5x_1+2x_2=9$.
+
+**Cómo se usa.** Llega una muestra nueva, por ejemplo $(2{,}5,\ 1{,}5)$:
+la neurona calcula $s=\tfrac53(2{,}5)+\tfrac23(1{,}5)-3=2{,}17>0$ →
+«clase 1». Eso es **clasificar**: evaluar la suma ponderada y mirar el
+signo. Cuando haya miles de muestras, ya no habrá sistema exacto que
+resolver: se aproximará con mínimos cuadrados (U7) — el mismo corazón,
+más datos.
 :::
+
+La figura y el código siguientes materializan la idea: calibran la
+neurona resolviendo el sistema y dibujan su frontera de decisión.
+
+```{python}
+#| label: fig-neurona
+#| fig-cap: "Neurona calibrada con dos muestras. La recta 5x₁ + 2x₂ = 9 separa las decisiones: a un lado s > 0 (clase 1), al otro s < 0 (clase 0)."
+import numpy as np
+import matplotlib.pyplot as plt
+
+# De dónde sale el sistema: cada muestra = una ecuación  w·x = s - b
+A = np.array([[2, 1],      # muestra (2,1) debe dar s = 1
+              [1, 2]])     # muestra (1,2) debe dar s = 0
+w = np.linalg.solve(A, np.array([4.0, 3.0]))   # entrenar = resolver
+b = -3.0
+print("Pesos aprendidos: w1 =", w[0], ", w2 =", w[1], ", sesgo b =", b)
+
+# Cómo se usa: clasificar muestras nuevas evaluando s = w·x + b
+for xn in [(2.5, 1.5), (0.5, 1.0)]:
+    s = w @ np.array(xn) + b
+    print(f"Muestra {xn}: s = {s:.2f} ->", "clase 1" if s > 0 else "clase 0")
+
+xx = np.linspace(-0.5, 3.5, 200)
+plt.plot(xx, (9 - 5*xx)/2, label='frontera: 5x₁ + 2x₂ = 9')
+plt.plot(2, 1, 's', ms=9, label='calibración (2,1) → clase 1')
+plt.plot(1, 2, 'o', ms=9, label='calibración (1,2) → frontera')
+plt.plot(2.5, 1.5, '^', ms=9, label='nueva (2.5,1.5) → clase 1')
+plt.xlabel('x₁ (humedad)'); plt.ylabel('x₂ (materia orgánica)')
+plt.grid(alpha=0.3); plt.legend(fontsize=8); plt.show()
+```
 
 ## 1.1.3 Módulo Python
 
@@ -135,7 +182,7 @@ b = np.array([5, 1], dtype=float)
 x = np.linalg.solve(A, b)
 print("Solución del sistema:", x)
 
-# Verificación de la Ventana IA:  e_A + 2e_B = 8,  2e_A + e_B = 7
+# Otro sistema 2x2: energía de dos alimentos  e_A + 2e_B = 8,  2e_A + e_B = 7
 E = np.array([[1, 2],
               [2, 1]], dtype=float)
 e = np.linalg.solve(E, np.array([8, 7], dtype=float))

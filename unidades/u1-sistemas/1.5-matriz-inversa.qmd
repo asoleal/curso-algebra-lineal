@@ -101,6 +101,25 @@ except np.linalg.LinAlgError as e:
     print("Error esperado:", e)
 ```
 
+```{python}
+# Ventana IA: colinealidad en acción (regresión lineal, β = (XᵀX)⁻¹Xᵀy)
+# Dos variables que miden lo mismo: columna 3 = 2 × columna 2
+X = np.array([[1, 2, 4],
+              [1, 3, 6],
+              [1, 4, 8]], dtype=float)
+XtX = X.T @ X
+try:
+    np.linalg.inv(XtX)   # ¡XᵀX es singular: no hay modelo único!
+except np.linalg.LinAlgError as e:
+    print("Sin regularización:", e)
+
+# La medicina (ridge): sumar λI hace la matriz invertible y estable
+lam = 0.1
+XtX_ridge = XtX + lam * np.eye(3)
+print("Con ridge, ¿invertible?", np.allclose(XtX_ridge @ np.linalg.inv(XtX_ridge), np.eye(3)))
+print("det(XᵀX) = 0  vs  det(XᵀX + λI) =", round(np.linalg.det(XtX_ridge), 4))
+```
+
 ::: {.content-visible when-format="html"}
 [▶ Abrir este módulo en Google Colab](https://colab.research.google.com/github/asoleal/curso-algebra-lineal/blob/main/notebooks/u1-1.5-matriz-inversa.ipynb){.btn .btn-outline-primary}
 :::

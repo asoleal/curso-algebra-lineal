@@ -54,19 +54,38 @@ $$BA = \begin{pmatrix} 5 & 3 & 1\\ 9 & -3 & 3\\ -2 & 3 & -1 \end{pmatrix}$$
 Conclusión: $AB$ y $BA$ ni siquiera tienen el mismo tamaño. **El orden de
 los factores importa.**
 
-::: {.callout-important title="Ventana IA: una capa de red neuronal es un producto de matrices"}
-En IA, los datos llegan en **lotes** (*batches*): una matriz $X$ de
-$m$ muestras $\times$ $n$ *features*. Una **capa densa** de una red
-neuronal calcula
+::: {.callout-important title="Ventana IA: qué es una red neuronal, y por qué una capa es un producto de matrices"}
+**El concepto.** En la sección 1.1 conocimos la neurona artificial:
+una suma ponderada $s = w_1x_1 + w_2x_2 + b$ seguida de una decisión.
+En la práctica la salida pasa por una **función de activación** (por
+ejemplo la *ReLU*, $\max(0,s)$), que le da a la red su capacidad de
+doblar el espacio y aprender formas complejas. Una **red neuronal** es
+muchas de estas neuronas organizadas en **capas**: la salida de una
+capa es la entrada de la siguiente.
 
-$$S = X\,W + \mathbf{b}$$
+**De dónde sale la matriz.** Ponga $p$ neuronas en una capa: la
+neurona $j$ tiene sus propios pesos $(w_{1j}, w_{2j}, \ldots,
+w_{nj})$. Si apilamos esos pesos como **columnas** de una matriz $W$
+($n \times p$), las $p$ sumas ponderadas de una entrada
+$\mathbf{x}=(x_1,\ldots,x_n)$ se calculan **de una sola vez** con el
+producto $\mathbf{x}^T W$: la entrada $(1,j)$ es exactamente el
+producto punto de $\mathbf{x}$ con la columna $j$ — la suma ponderada
+de la neurona $j$.
 
-donde $W$ es la matriz de **pesos** ($n \times p$, $p$ = salidas de la
-capa) y luego aplica una función de activación. Es decir: *cada capa es
-un producto de matrices como el del Ejemplo 1.4.1*. Por eso las GPU, que
-multiplican matrices masivamente en paralelo, son el motor de la IA
-moderna: todo esto que estás aprendiendo a mano es lo que el hardware
-hace millones de veces por segundo.
+**El lote (*batch*).** Los datos no llegan de a uno sino en lotes: una
+matriz $X$ de $m$ muestras $\times$ $n$ variables. Toda la capa, para
+todo el lote, es
+
+$$S = X\,W + \mathbf{b}, \qquad \text{luego } \operatorname{ReLU}(S)$$
+
+**Qué significa y cómo se usa.** La entrada $(i,j)$ de $S$ es la
+salida de la neurona $j$ para la muestra $i$: *una capa entera, para
+todo un lote, es un producto de matrices como el del Ejemplo 1.4.1*.
+Por eso las GPU —que multiplican matrices masivamente en paralelo— son
+el motor de la IA moderna. En el cuaderno Colab de esta sección
+construimos esta misma capa con **PyTorch**, la biblioteca con la que
+se construyen las redes reales, y verificamos que coincide con el
+cálculo a mano.
 :::
 
 ## 1.4.3 Módulo Python
@@ -83,13 +102,16 @@ B = np.array([[2, 1],
 print("AB =\n", A @ B)
 print("Tamaños: AB", (A @ B).shape, " y BA", (B @ A).shape)
 
-# Mini-lote de una capa: 2 muestras x 3 features, pesos 3x2
+# Ventana IA: una capa densa con mini-lote (2 muestras x 3 variables, 2 neuronas)
 X = np.array([[1.0, 0.5, 2.0],
               [0.0, 1.0, 1.0]])
 W = np.array([[0.3, -0.2],
               [0.8,  0.4],
               [-0.5, 0.9]])
-print("Salida de la capa X@W =\n", X @ W)
+b = np.array([0.5, -0.5])          # un sesgo por neurona
+S = X @ W + b
+print("Salida pre-activación S = X@W + b =\n", S)
+print("Tras la ReLU:\n", np.maximum(0, S))   # la activación se queda con lo positivo
 ```
 
 ```{python}

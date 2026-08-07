@@ -34,6 +34,8 @@ book:
         - unidades/u1-sistemas/1.4-operaciones-matrices.qmd
         - unidades/u1-sistemas/1.5-matriz-inversa.qmd
         - unidades/u1-sistemas/1.6-factorizacion-lu.qmd
+        - unidades/u1-sistemas/1.7-matrices-elementales.qmd
+        - unidades/u1-sistemas/1.8-matrices-graficas.qmd
 
 format:
   html:

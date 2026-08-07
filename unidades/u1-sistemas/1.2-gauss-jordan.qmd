@@ -72,6 +72,47 @@ está en **forma escalonada reducida por filas** (RREF) si cumple:
 - Si cada variable tiene pivote, la solución es **única**.
 - En otro caso hay **infinitas soluciones**, descritas con parámetros.
 
+**Definición 1.2.5 (Forma escalonada por filas).** Una matriz está en
+**forma escalonada por filas** (REF) si cumple solo las condiciones 1 a
+3 de la Definición 1.2.4: filas nulas al final, pivotes a la derecha, y
+**no** se exige que el pivote sea $1$ ni que sea el único elemento no
+nulo de su columna. A diferencia de la forma reducida, la forma
+escalonada **no es única**.
+
+**Eliminación gaussiana (método de Gauss).** Llevar la matriz aumentada
+solo hasta su forma escalonada (sin reducir) y terminar con
+**sustitución hacia atrás**: despejar la última variable, luego la
+penúltima, y así sucesivamente. Es la variante que usan los programas
+de cómputo porque requiere **menos operaciones** que reducir por
+completo; en la sección 1.6 veremos que esta mitad del proceso es
+exactamente la factorización LU.
+
+**Ilustración (el mismo sistema, por eliminación gaussiana).**
+Retomemos el sistema del Ejemplo 1.2.1 y detengámonos en la forma
+escalonada:
+
+$$
+\left[\begin{array}{ccc|c}
+1 & 1 & 1 & 6\\
+2 & -1 & 1 & 3\\
+1 & 2 & -1 & 2
+\end{array}\right]
+\longrightarrow
+\left[\begin{array}{ccc|c}
+1 & 1 & 1 & 6\\
+0 & 1 & -2 & -4\\
+0 & 0 & -7 & -21
+\end{array}\right]
+\qquad\Longrightarrow\qquad
+\begin{aligned}
+-7z &= -21 &\Rightarrow\; & z = 3\\
+y - 2z &= -4 &\Rightarrow\; & y = -4 + 6 = 2\\
+x + y + z &= 6 &\Rightarrow\; & x = 6 - 2 - 3 = 1
+\end{aligned}
+$$
+
+Misma solución $(1,2,3)$, con menos pasos que la reducción completa.
+
 ## 1.2.2 Ejemplos
 
 ### Ejemplo 1.2.1 (solución única)
@@ -135,21 +176,77 @@ $$\boxed{x = 1, \qquad y = 2, \qquad z = 3}$$
 
 *Verificación:* $1+2+3 = 6$; $\;2(1)-2+3 = 3$; $\;1+2(2)-3 = 2$. $\checkmark$
 
-::: {.callout-important title="Ventana IA: un dataset es una matriz, entrenar es resolver"}
-En aprendizaje automático los datos se organizan en una matriz: cada
-**fila es una observación** y cada **columna es una variable** (una
-*feature*). Resolver el sistema $A\mathbf{x} = \mathbf{b}$ es encontrar
-los **parámetros** $\mathbf{x}$ de un modelo lineal que reproduce las
-observaciones $\mathbf{b}$.
+::: {.callout-important title="Ventana IA: ajustar un modelo es resolver un sistema (y Gauss–Jordan es el primer «algoritmo de entrenamiento»)"}
+**El concepto.** Un *modelo* en IA es una fórmula con **parámetros**
+desconocidos que queremos deducir de los datos. Por ejemplo, el modelo
+cuadrático
 
-Piensa en tres alimentos y tres nutrientes: la tabla *alimentos* $\times$
-*nutrientes* es una matriz $A$; las porciones de cada alimento que
-cumplen exactamente los requerimientos nutricionales son la solución
-$\mathbf{x}$. Cuando más adelante haya más datos que ecuaciones, ya no
-podremos *resolver* exactamente: habrá que *aproximar*, y ahí entran los
-mínimos cuadrados de la U7 — el corazón matemático del aprendizaje
-supervisado.
+$$\hat{y} = a + bx + cx^2$$
+
+tiene tres parámetros $(a,b,c)$. «Entrenar» es hallarlos.
+
+**De dónde sale el sistema.** Medimos el azúcar (°Brix) de un cultivo
+en tres días de cosecha: día $10$ → $12{,}0$, día $20$ → $14{,}5$, día
+$30$ → $16{,}0$. Cada dato, sustituido en el modelo, es **una
+ecuación lineal en los parámetros**:
+
+$$
+\begin{aligned}
+a + 10b + 100c &= 12{,}0\\
+a + 20b + 400c &= 14{,}5\\
+a + 30b + 900c &= 16{,}0
+\end{aligned}
+$$
+
+**Resolución.** Aplicando Gauss–Jordan (¡el método de esta sección!) a
+la matriz aumentada se obtiene
+
+$$a = 8{,}5, \qquad b = 0{,}4, \qquad c = -0{,}005
+\qquad\Longrightarrow\qquad \hat{y} = 8{,}5 + 0{,}4x - 0{,}005x^2$$
+
+**Qué significa la solución.** Los tres números *son* el modelo
+entrenado: dicen que el azúcar sube con los días pero cada vez más
+despacio (el $c<0$ curva la tendencia, como ocurre en la realidad).
+
+**Cómo se usa.** Predecir: para el día $25$,
+$\hat{y}=8{,}5+0{,}4(25)-0{,}005(625)\approx 15{,}4$ °Brix. En la
+práctica nadie resuelve a mano: bibliotecas como `scikit-learn` hacen
+exactamente esto, como se verifica en el código siguiente. Cuando haya
+más datos que parámetros el sistema será incompatible y tocará
+aproximar: mínimos cuadrados (U7).
 :::
+
+El código siguiente entrena el modelo de la Ventana IA dos veces —con
+Gauss–Jordan vía `numpy` y con la biblioteca profesional
+`scikit-learn`— y dibuja el resultado:
+
+```{python}
+#| label: fig-ajuste-brix
+#| fig-cap: "Modelo entrenado con tres datos (puntos). La curva ŷ = 8.5 + 0.4x − 0.005x² pasa exactamente por ellos y permite predecir otros días."
+import numpy as np
+import matplotlib.pyplot as plt
+
+dias = np.array([10, 20, 30], dtype=float)
+brix = np.array([12.0, 14.5, 16.0])
+
+# Entrenar = resolver el sistema  A·[a,b,c] = brix   (Gauss-Jordan por dentro)
+A = np.column_stack([np.ones(3), dias, dias**2])
+a, b, c = np.linalg.solve(A, brix)
+print(f"Modelo entrenado: ŷ = {a} + {b}·x + {c}·x²")
+print(f"Predicción día 25: {a + b*25 + c*25**2:.3f} °Brix")
+
+# La misma calibración con la biblioteca profesional scikit-learn
+from sklearn.linear_model import LinearRegression
+reg = LinearRegression().fit(A[:, 1:], brix)   # features: x y x²
+print("scikit-learn coincide:", np.allclose([reg.intercept_, *reg.coef_], [a, b, c]))
+
+xx = np.linspace(5, 35, 200)
+plt.plot(dias, brix, 'o', ms=9, label='datos de campo')
+plt.plot(xx, a + b*xx + c*xx**2, label='modelo entrenado')
+plt.plot(25, a + b*25 + c*25**2, '^', ms=10, label='predicción día 25')
+plt.xlabel('día de cosecha'); plt.ylabel('°Brix')
+plt.grid(alpha=0.3); plt.legend(); plt.show()
+```
 
 ## 1.2.3 Módulo Python
 

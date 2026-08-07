@@ -1,0 +1,531 @@
+# 1.7 Matrices elementales {.unnumbered}
+
+> **Qué aprenderá aquí.** Que cada operación elemental de fila puede
+> escribirse como una **multiplicación por una matriz** —la matriz
+> elemental— y que esta idea, que parece un simple cambio de notación,
+> es la que explica por qué funcionan el método de la inversa (1.5) y
+> la factorización LU (1.6). En el fondo: *transformar filas es
+> componer multiplicaciones*.
+
+## 1.7.1 Presentación formal
+
+En la sección 1.2 usamos tres operaciones elementales sobre las filas:
+intercambiar dos filas, multiplicar una fila por un número no nulo y
+sumar a una fila un múltiplo de otra. Ahora daremos un paso conceptual
+importante: **cada una de esas operaciones es, en realidad, un producto
+de matrices**.
+
+**Definición 1.7.1 (Matriz elemental).** Una matriz $E$ de tamaño
+$n\times n$ es **elemental** si se obtiene aplicando **una sola**
+operación elemental de fila a la matriz identidad $I_n$.
+
+Por ejemplo, para $n=3$, las matrices
+
+$$
+E_1=\begin{pmatrix}1&0&0\\0&1&0\\1&0&1\end{pmatrix}\quad(R_3\leftarrow R_3+R_1),
+\qquad
+E_2=\begin{pmatrix}1&0&0\\0&5&0\\0&0&1\end{pmatrix}\quad(R_2\leftarrow 5R_2),
+\qquad
+E_3=\begin{pmatrix}0&1&0\\1&0&0\\0&0&1\end{pmatrix}\quad(R_1\leftrightarrow R_2)
+$$
+
+son elementales: cada una es la identidad tras una única operación.
+
+**Teorema 1.7.1 (La operación es el producto).** Si $E$ se obtiene de
+$I$ aplicando cierta operación elemental de fila, y $A$ es cualquier
+matriz con $n$ filas, entonces el producto $EA$ es la matriz que
+resulta de aplicar **esa misma operación** a $A$.
+
+En símbolos: *operar sobre las filas de $A$* =
+*multiplicar $A$ a la izquierda por la $E$ correspondiente*.
+
+**Teorema 1.7.2 (Las elementales son invertibles).** Toda matriz
+elemental $E$ es invertible, y su inversa es la matriz elemental de la
+**operación que deshace** la original:
+
+- La inversa de «$R_j\leftarrow R_j + mR_i$» es
+  «$R_j\leftarrow R_j - mR_i$».
+- La inversa de «$R_j\leftarrow cR_j$» ($c\neq0$) es
+  «$R_j\leftarrow \tfrac{1}{c}R_j$».
+- La inversa de un intercambio «$R_i\leftrightarrow R_j$» es el mismo
+  intercambio.
+
+Como una fila cualquiera de operaciones se encadena multiplicando a la
+izquierda, se obtiene el resultado central:
+
+**Teorema 1.7.3 (Equivalencia por filas = producto de elementales).**
+Las matrices $A$ y $B$ son equivalentes por filas si y solo si existen
+matrices elementales $E_1,\ldots,E_k$ tales que
+
+$$B = E_k\cdots E_2E_1\,A$$
+
+**Teorema 1.7.4 (Caracterización de la invertibilidad).** Para una
+matriz cuadrada $A$ son equivalentes:
+
+1. $A$ es invertible.
+2. La forma escalonada reducida de $A$ es la identidad.
+3. $A$ es un **producto de matrices elementales**.
+
+*Idea de la demostración.* Si la reducción de $A$ termina en $I$, es
+que $E_k\cdots E_1 A = I$; entonces
+$A^{-1}=E_k\cdots E_1$ (producto de elementales) y
+$A = E_1^{-1}\cdots E_k^{-1}$, también producto de elementales por el
+Teorema 1.7.2. $\blacksquare$
+
+**Por qué esto justifica el método $[A\mid I]\to[I\mid A^{-1}]$.**
+Al aplicar las operaciones a la matriz doble $[\,A\mid I\,]$, la mitad
+derecha sufre los mismos productos: al final queda
+$[\,I\mid E_k\cdots E_1 I\,] = [\,I\mid A^{-1}\,]$.
+
+**Conexión con LU.** Si la eliminación no requiere intercambios, al
+final $U = E_k\cdots E_1 A$, de modo que
+$A = (E_1^{-1}\cdots E_k^{-1})\,U = LU$: la matriz $L$ de la sección
+1.6 **es** el producto de las inversas de las elementales usadas. Todo
+lo que hicimos en 1.6 era multiplicar por elementales sin decirlo.
+
+## 1.7.2 Ejemplos
+
+### Ejemplo 1.7.1 (una operación, una matriz)
+
+Sea $A=\begin{pmatrix}2&1&1\\4&1&3\\-2&-4&4\end{pmatrix}$ (la del
+Ejemplo 1.6.1). La operación $R_2\leftarrow R_2-2R_1$ aplicada a $I_3$
+produce $E_1=\begin{pmatrix}1&0&0\\-2&1&0\\0&0&1\end{pmatrix}$, y en
+efecto:
+
+$$
+E_1A=
+\begin{pmatrix}1&0&0\\-2&1&0\\0&0&1\end{pmatrix}
+\begin{pmatrix}2&1&1\\4&1&3\\-2&-4&4\end{pmatrix}
+=
+\begin{pmatrix}2&1&1\\0&-1&1\\-2&-4&4\end{pmatrix}
+$$
+
+que es exactamente $A$ con la operación aplicada. $\checkmark$
+
+### Ejemplo 1.7.2 (la inversa como producto de elementales)
+
+Para $A=\begin{pmatrix}2&1\\1&1\end{pmatrix}$ (el Ejemplo 1.5.1), la
+reducción a la identidad usa dos operaciones:
+
+$$
+A=\begin{pmatrix}2&1\\1&1\end{pmatrix}
+\xrightarrow{R_1\leftarrow R_1-R_2}
+\begin{pmatrix}1&0\\1&1\end{pmatrix}
+\xrightarrow{R_2\leftarrow R_2-R_1}
+\begin{pmatrix}1&0\\0&1\end{pmatrix}
+$$
+
+Las elementales correspondientes son
+$F_1=\begin{pmatrix}1&-1\\0&1\end{pmatrix}$ y
+$F_2=\begin{pmatrix}1&0\\-1&1\end{pmatrix}$, de modo que
+$F_2F_1A=I$ y por tanto
+
+$$A^{-1}=F_2F_1=
+\begin{pmatrix}1&0\\-1&1\end{pmatrix}
+\begin{pmatrix}1&-1\\0&1\end{pmatrix}
+=
+\begin{pmatrix}1&-1\\-1&2\end{pmatrix}$$
+
+que coincide con lo hallado en 1.5. $\checkmark$
+
+### Ejemplo 1.7.3 (de las elementales sale la $L$ de LU)
+
+La eliminación del Ejemplo 1.6.1 usó tres operaciones, con elementales
+
+$$
+E_1=\begin{pmatrix}1&0&0\\-2&1&0\\0&0&1\end{pmatrix},\quad
+E_2=\begin{pmatrix}1&0&0\\0&1&0\\1&0&1\end{pmatrix},\quad
+E_3=\begin{pmatrix}1&0&0\\0&1&0\\0&-3&1\end{pmatrix}
+$$
+
+Se verifica que $E_3E_2E_1A=U$ y, al despejar,
+
+$$L=E_1^{-1}E_2^{-1}E_3^{-1}=
+\begin{pmatrix}1&0&0\\2&1&0\\0&1&0\end{pmatrix}
+\begin{pmatrix}1&0&0\\0&1&0\\-1&0&1\end{pmatrix}
+\begin{pmatrix}1&0&0\\0&1&0\\0&3&1\end{pmatrix}
+=
+\begin{pmatrix}1&0&0\\2&1&0\\-1&3&1\end{pmatrix}$$
+
+¡Exactamente la $L$ del Ejemplo 1.6.1! Los multiplicadores que
+«guardábamos» en 1.6 eran, sin saberlo, las entradas de las inversas
+de las elementales. $\checkmark$
+
+::: {.callout-important title="Ventana IA: una red profunda es un producto de matrices (y entrenar es ajustar cada factor)"}
+**El concepto.** Una red neuronal profunda apila $L$ capas: la salida
+es, en esencia,
+
+$$\mathbf{y} = W_L\,\sigma(\,\cdots\, \sigma(W_2\,\sigma(W_1\mathbf{x}))\,)$$
+
+es decir, una **composición** de transformaciones — análoga al producto
+$E_k\cdots E_1A$ de esta sección: cada factor hace una pequeña
+transformación y el efecto total es la composición de todas.
+
+**Por qué importan las inversas.** Al entrenar, la red calcula cómo
+ajustar cada capa recorriendo la composición **en sentido contrario**
+(retropropagación): igual que aquí, donde deshacer $E_k\cdots E_1$
+exige aplicar las inversas *en orden inverso*,
+$(E_k\cdots E_1)^{-1}=E_1^{-1}\cdots E_k^{-1}$. Es la misma ley que
+vimos para $(AB)^{-1}=B^{-1}A^{-1}$ en 1.5.
+
+**Cómo se usa.** Existen incluso arquitecturas —los *flujos
+normalizantes*— que exigen capas **invertibles** con inversa fácil de
+calcular, porque necesitan viajar de datos a representación y de
+regreso (por ejemplo, para generar datos nuevos). Y una lección
+práctica que comparten esta sección y la IA: nadie forma el producto
+explícito de todas las matrices; se guardan los **factores** y se
+aplican uno a uno, que es mucho más barato. En álgebra lineal, pensar
+en factores —no en la matriz final— es casi siempre la jugada
+ganadora.
+:::
+
+## 1.7.3 Módulo Python
+
+Verifiquemos los tres ejemplos: la operación como producto, la inversa
+como producto de elementales y la conexión con LU.
+
+```{python}
+import numpy as np
+
+A = np.array([[2, 1, 1],
+              [4, 1, 3],
+              [-2, -4, 4]], dtype=float)
+
+# Ejemplo 1.7.1: la operación R2 <- R2 - 2R1 ES el producto por E1
+E1 = np.array([[1, 0, 0],
+               [-2, 1, 0],
+               [0, 0, 1]], dtype=float)
+print("E1 @ A =\n", E1 @ A)
+```
+
+```{python}
+# Ejemplo 1.7.3: toda la eliminación es E3 E2 E1, y L = E1^-1 E2^-1 E3^-1
+E2 = np.array([[1, 0, 0],
+               [0, 1, 0],
+               [1, 0, 1]], dtype=float)
+E3 = np.array([[1, 0, 0],
+               [0, 1, 0],
+               [0, -3, 1]], dtype=float)
+print("E3 @ E2 @ E1 @ A =\n", E3 @ E2 @ E1 @ A)     # debe ser U
+L = np.linalg.inv(E1) @ np.linalg.inv(E2) @ np.linalg.inv(E3)
+print("L = E1^-1 E2^-1 E3^-1 =\n", L)
+print("¿A = LU?", np.allclose(A, L @ (E3 @ E2 @ E1 @ A)))
+```
+
+```{python}
+# Ejemplo 1.7.2: inversa de [[2,1],[1,1]] como producto de elementales
+F1 = np.array([[1, -1],
+               [0, 1]], dtype=float)   # R1 <- R1 - R2
+F2 = np.array([[1, 0],
+               [-1, 1]], dtype=float)  # R2 <- R2 - R1
+print("F2 @ F1 =\n", F2 @ F1)
+print("Es A^-1?", np.allclose(F2 @ F1, np.linalg.inv(np.array([[2., 1.], [1., 1.]]))))
+```
+
+::: {.content-visible when-format="html"}
+[▶ Abrir este módulo en Google Colab](https://colab.research.google.com/github/asoleal/curso-algebra-lineal/blob/main/notebooks/u1-1.7-matrices-elementales.ipynb){.btn .btn-outline-primary}
+:::
+
+::: {.content-visible when-format="pdf"}
+**Cuaderno en línea.** Este módulo está disponible como cuaderno
+ejecutable en el repositorio del curso:
+[notebooks/u1-1.7-matrices-elementales.ipynb](https://github.com/asoleal/curso-algebra-lineal/blob/main/notebooks/u1-1.7-matrices-elementales.ipynb)
+(abrible en Google Colab).
+:::
+
+## 1.7.4 Laboratorio interactivo: construya la matriz elemental
+
+Se describe una operación elemental sobre matrices $3\times3$ y el
+laboratorio le muestra la identidad como punto de partida. Modifique
+las entradas necesarias para construir la matriz elemental $E$ de esa
+operación y pulse «Comprobar»: cada casilla se pinta de **verde**
+cuando es correcta. Con las **nueve** en verde, la matriz es la
+correcta. Después, compruébela mentalmente: si multiplica $E$ por
+cualquier $A$, debe obtener $A$ con la operación hecha.
+
+::: {.content-visible when-format="html"}
+```{=html}
+<div style="margin:1.2em 0; padding:1em 1.2em; border:1px solid #d4cfe4; border-radius:12px;">
+  <div id="em-op" style="font-weight:600; margin-bottom:.7em;"></div>
+  <div style="display:flex; flex-wrap:wrap; gap:1.5em; align-items:center;">
+    <div>
+      <div style="font-size:.9em; margin-bottom:.3em;">Su matriz elemental E (parte de I):</div>
+      <table style="border-collapse:collapse;">
+        <tr><td><input id="e00" type="number" step="any" style="width:3.6em; text-align:center; padding:.3em; border:1.5px solid #8a7fb8; border-radius:6px;"></td><td><input id="e01" type="number" step="any" style="width:3.6em; text-align:center; padding:.3em; border:1.5px solid #8a7fb8; border-radius:6px;"></td><td><input id="e02" type="number" step="any" style="width:3.6em; text-align:center; padding:.3em; border:1.5px solid #8a7fb8; border-radius:6px;"></td></tr>
+        <tr><td><input id="e10" type="number" step="any" style="width:3.6em; text-align:center; padding:.3em; border:1.5px solid #8a7fb8; border-radius:6px;"></td><td><input id="e11" type="number" step="any" style="width:3.6em; text-align:center; padding:.3em; border:1.5px solid #8a7fb8; border-radius:6px;"></td><td><input id="e12" type="number" step="any" style="width:3.6em; text-align:center; padding:.3em; border:1.5px solid #8a7fb8; border-radius:6px;"></td></tr>
+        <tr><td><input id="e20" type="number" step="any" style="width:3.6em; text-align:center; padding:.3em; border:1.5px solid #8a7fb8; border-radius:6px;"></td><td><input id="e21" type="number" step="any" style="width:3.6em; text-align:center; padding:.3em; border:1.5px solid #8a7fb8; border-radius:6px;"></td><td><input id="e22" type="number" step="any" style="width:3.6em; text-align:center; padding:.3em; border:1.5px solid #8a7fb8; border-radius:6px;"></td></tr>
+      </table>
+    </div>
+    <div>
+      <button id="em-check" style="padding:.45em 1.1em; border-radius:8px; border:1.5px solid #005c3f; background:#005c3f; color:#fff; cursor:pointer; font-weight:600;">Comprobar</button>
+      <button id="em-new" style="padding:.45em 1.1em; border-radius:8px; border:1.5px solid #5e3c99; background:#fff; color:#5e3c99; cursor:pointer; font-weight:600;">Nueva operación</button>
+      <button id="em-sol" style="padding:.45em 1.1em; border-radius:8px; border:1.5px solid #999; background:#fff; color:#555; cursor:pointer;">Ver solución</button>
+      <div id="em-msg" style="margin-top:.6em; font-weight:600; max-width:22em;"></div>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var ids=['e00','e01','e02','e10','e11','e12','e20','e21','e22'];
+  var actual=null;
+  function rnd(a,b){ return Math.floor(Math.random()*(b-a+1))+a; }
+  function nz(a,b){ var v=0; while(v===0){ v=rnd(a,b); } return v; }
+  function gen(){
+    var t=rnd(1,3), i=rnd(1,3), j=rnd(1,3);
+    while(j===i){ j=rnd(1,3); }
+    var E=[[1,0,0],[0,1,0],[0,0,1]], txt='';
+    if(t===1){ var m=nz(-3,3); E[j-1][i-1]=m; txt='R'+j+' ← R'+j+' + ('+m+')·R'+i; }
+    else if(t===2){ var c=[-1,2,3,-2][rnd(0,3)]; E[i-1][i-1]=c; txt='R'+i+' ← ('+c+')·R'+i; }
+    else { E[i-1][i-1]=0; E[j-1][j-1]=0; E[i-1][j-1]=1; E[j-1][i-1]=1; txt='R'+i+' ↔ R'+j; }
+    return {E:E, txt:txt};
+  }
+  function cargar(){
+    actual=gen();
+    document.getElementById('em-op').textContent='Construya E para:  '+actual.txt;
+    var I=[1,0,0,0,1,0,0,0,1];
+    ids.forEach(function(id,k){ var el=document.getElementById(id); el.value=I[k]; el.style.background='#fff'; el.style.borderColor='#8a7fb8'; });
+    document.getElementById('em-msg').textContent='';
+  }
+  function verificar(){
+    var ok=true, plana=[];
+    for(var r=0;r<3;r++) for(var c=0;c<3;c++) plana.push(actual.E[r][c]);
+    ids.forEach(function(id,k){
+      var el=document.getElementById(id), v=parseFloat(el.value);
+      if(!isNaN(v) && Math.abs(v-plana[k])<1e-9){ el.style.background='#e5f3e7'; el.style.borderColor='#2e7d32'; }
+      else { el.style.background='#fdecea'; el.style.borderColor='#c62828'; ok=false; }
+    });
+    document.getElementById('em-msg').textContent = ok ? '¡Correcto! Esa E aplicada a cualquier A le hace la operación: '+actual.txt+'.' : 'Hay entradas por corregir (en rojo). Recuerde: E es la IDENTIDAD después de la operación.';
+    document.getElementById('em-msg').style.color = ok ? '#1b5e20' : '#b71c1c';
+  }
+  function solucion(){
+    var plana=[]; for(var r=0;r<3;r++) for(var c=0;c<3;c++) plana.push(actual.E[r][c]);
+    ids.forEach(function(id,k){ var el=document.getElementById(id); el.value=plana[k]; el.style.background='#e5f3e7'; el.style.borderColor='#2e7d32'; });
+    document.getElementById('em-msg').textContent='Solución mostrada. Pruebe con "Nueva operación".';
+    document.getElementById('em-msg').style.color='#555';
+  }
+  document.getElementById('em-check').onclick=verificar;
+  document.getElementById('em-new').onclick=cargar;
+  document.getElementById('em-sol').onclick=solucion;
+  cargar();
+})();
+</script>
+```
+
+**Retos:** (a) para cada operación que construya, escriba también la
+elemental de la **operación inversa**; (b) si $E_1$ hace
+$R_2\leftarrow R_2+3R_1$ y $E_2$ hace $R_1\leftrightarrow R_3$, ¿qué
+hace el producto $E_2E_1$ aplicado a una matriz $A$? ¿Es lo mismo que
+$E_1E_2$?; (c) explique por qué una elemental de intercambio es su
+propia inversa.
+:::
+
+::: {.content-visible when-format="pdf"}
+**Versión estática del laboratorio.** La matriz elemental de
+$R_3\leftarrow R_3+R_1$ es $\begin{pmatrix}1&0&0\\0&1&0\\1&0&1\end{pmatrix}$;
+la de $R_2\leftarrow 5R_2$ es $\begin{pmatrix}1&0&0\\0&5&0\\0&0&1\end{pmatrix}$;
+la de $R_1\leftrightarrow R_2$ es $\begin{pmatrix}0&1&0\\1&0&0\\0&0&1\end{pmatrix}$.
+Regla: aplique la operación a la identidad. En la versión web, un
+laboratorio interactivo propone operaciones aleatorias y verifica la
+matriz construida entrada por entrada.
+:::
+
+## 1.7.5 Aplicaciones en los programas de la sede
+
+::: {.callout-note}
+## Aplicación en Mecatrónica — deshacer una secuencia de movimientos
+Un brazo robot ejecuta una secuencia de movimientos elementales:
+girar la base ($T_1$), extender el brazo ($T_2$), girar la muñeca
+($T_3$). La pose final de una pieza es $T_3T_2T_1\mathbf{v}$. Para
+**devolverla al punto de partida** hay que aplicar las transformaciones
+inversas *en orden contrario*: $T_1^{-1}T_2^{-1}T_3^{-1}$ — primero se
+des-gira la muñeca, luego se retrae el brazo, al final la base. Es la
+ley $(ABC)^{-1}=C^{-1}B^{-1}A^{-1}$ del Teorema 1.7.4 convertida en
+rutina de seguridad industrial.
+:::
+
+::: {.callout-note}
+## Aplicación en Agroindustria — trazabilidad de un proceso
+En una planta, el vector $\mathbf{v}$ registra el contenido de un
+tanque (agua, azúcar, preservante). Cada etapa del proceso es una
+operación elemental sobre ese vector: «agregar $0{,}5$ partes de agua
+por cada parte de azúcar» es $R_1\leftarrow R_1+0{,}5R_2$; «concentrar
+al doble la mezcla» es $R_i\leftarrow 2R_i$. Si el lote final sale con
+$E_3E_2E_1\mathbf{v}$, el laboratorio de calidad reconstruye la
+composición original aplicando $E_1^{-1}E_2^{-1}E_3^{-1}$ al vector
+medido. La trazabilidad es, literalmente, multiplicar por elementales
+inversas.
+:::
+
+## 1.7.6 Ejercicios adaptativos
+
+::: {.content-visible when-format="html"}
+Responda con números enteros o decimales. Dos aciertos seguidos suben
+el nivel; dos fallos seguidos muestran la solución guiada.
+
+```{=html}
+<div id="quiz-u1-1-7" style="border:1px solid #ccc; border-radius:10px; padding:1em 1.2em; margin:1em 0;">
+  <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:.5em;">
+    <b>Ejercicios adaptativos — 1.7 Matrices elementales</b>
+    <span>Nivel: <b id="q-nivel">1</b> / 3 &nbsp;·&nbsp; Racha: <b id="q-racha">0</b></span>
+  </div>
+  <div id="q-enun" style="margin:.9em 0 .4em;"></div>
+  <div id="q-inputs" style="display:flex; gap:.8em; align-items:center; flex-wrap:wrap; margin:.4em 0;"></div>
+  <button id="q-verificar" style="padding:.45em 1.2em; border-radius:8px; border:1.5px solid #005c3f; background:#005c3f; color:#fff; cursor:pointer; font-weight:600;">Verificar</button>
+  <button id="q-nueva" style="display:none; padding:.45em 1.2em; border-radius:8px; border:1.5px solid #005c3f; background:#fff; color:#005c3f; cursor:pointer; font-weight:600;">Nueva variante</button>
+  <div id="q-feedback" style="margin-top:.7em;"></div>
+</div>
+<script>
+(function(){
+  var CLAVE='quiz-u1-1.7-v1';
+  var estado={nivel:1,racha:0};
+  try{ var g=localStorage.getItem(CLAVE); if(g){ estado=JSON.parse(g); } }catch(e){}
+  function guardar(){ try{ localStorage.setItem(CLAVE,JSON.stringify(estado)); }catch(e){} }
+  var actual=null, fallos=0;
+  function rnd(a,b){ return Math.floor(Math.random()*(b-a+1))+a; }
+  function nz(a,b){ var v=0; while(v===0){ v=rnd(a,b); } return v; }
+
+  function genN1(){
+    var i=rnd(1,3), j=rnd(1,3); while(j===i){ j=rnd(1,3); }
+    var m=nz(-4,4);
+    return { desc:'E es la identidad DESPUÉS de la operación.',
+      html:'Op: R'+j+' ← R'+j+' + ('+m+')·R'+i+'. &nbsp;Entrada ('+j+','+i+') de E:',
+      vars:['e'], resp:[m], tol:0.001,
+      h1:'La fila '+j+' de la identidad era (0,...,0); al sumarle '+m+' veces la fila '+i+', aparece '+m+' en la posición ('+j+','+i+').',
+      h2:'La entrada ('+j+','+i+') es '+m+'. Todo lo demás queda como en I.' };
+  }
+  function genN2(){
+    var i=rnd(1,3), j=rnd(1,3); while(j===i){ j=rnd(1,3); }
+    var m=nz(-4,4);
+    return { desc:'La inversa de una elemental es la operación que la deshace.',
+      html:'E corresponde a R'+j+' ← R'+j+' + ('+m+')·R'+i+'. &nbsp;Entrada ('+j+','+i+') de E⁻¹:',
+      vars:['e'], resp:[-m], tol:0.001,
+      h1:'Para deshacer «sumar '+m+' veces la fila '+i+'» hay que RESTARLA.',
+      h2:'E⁻¹ corresponde a R'+j+' ← R'+j+' − ('+m+')·R'+i+', así que la entrada es '+(-m)+'.' };
+  }
+  function genN3(){
+    var a=nz(-3,3), b=nz(-3,3), c=nz(-3,3), d=nz(-3,3), m=nz(-3,3);
+    return { desc:'EA es A con la operación aplicada (Teorema 1.7.1).',
+      html:'A = [['+a+', '+b+'],['+c+', '+d+']], E hace R2 ← R2 + ('+m+')·R1. &nbsp;Entradas (2,1) y (2,2) de EA:',
+      vars:['x','y'], resp:[c+m*a, d+m*b], tol:0.001,
+      h1:'La fila 2 de EA es: fila 2 de A más '+m+' veces la fila 1 de A.',
+      h2:'(2,1) = '+c+' + ('+m+')·('+a+') = '+(c+m*a)+'; &nbsp;(2,2) = '+d+' + ('+m+')·('+b+') = '+(d+m*b)+'.' };
+  }
+  var gens={1:genN1,2:genN2,3:genN3};
+
+  function pintar(){
+    document.getElementById('q-nivel').textContent=estado.nivel;
+    document.getElementById('q-racha').textContent=estado.racha;
+  }
+  function nueva(){
+    actual=gens[estado.nivel](); fallos=0;
+    document.getElementById('q-enun').innerHTML='<i>'+actual.desc+'</i><br>'+actual.html;
+    var c=document.getElementById('q-inputs'); c.innerHTML='';
+    actual.vars.forEach(function(v,i){
+      var s=document.createElement('span'); s.innerHTML=v+' = ';
+      var inp=document.createElement('input'); inp.id='q-ans-'+i; inp.type='number'; inp.step='any';
+      inp.style.cssText='width:6.5em; padding:.35em; border:1.5px solid #8a7fb8; border-radius:6px;';
+      c.appendChild(s); c.appendChild(inp);
+    });
+    document.getElementById('q-feedback').innerHTML='';
+    document.getElementById('q-nueva').style.display='none';
+    document.getElementById('q-verificar').style.display='inline-block';
+    pintar();
+  }
+  document.getElementById('q-verificar').onclick=function(){
+    var ok=true;
+    for(var i=0;i<actual.resp.length;i++){
+      var v=parseFloat(document.getElementById('q-ans-'+i).value);
+      if(isNaN(v)||Math.abs(v-actual.resp[i])>actual.tol){ ok=false; }
+    }
+    var fb=document.getElementById('q-feedback');
+    if(ok){
+      estado.racha++;
+      if(estado.racha>=2 && estado.nivel<3){ estado.nivel++; estado.racha=0;
+        fb.innerHTML='<span style="color:#1b5e20; font-weight:600;">¡Correcto dos veces seguidas! Sube al nivel '+estado.nivel+'.</span>';
+      } else {
+        fb.innerHTML='<span style="color:#1b5e20; font-weight:600;">¡Correcto! '+ (estado.nivel<3?'Un acierto más y sube de nivel.':'Nivel máximo: siga practicando.') +'</span>';
+      }
+      guardar(); setTimeout(nueva,1600);
+    } else {
+      fallos++; estado.racha=0; guardar();
+      if(fallos===1){ fb.innerHTML='<span style="color:#b26a00; font-weight:600;">Aún no.</span> <b>Ayuda:</b> '+actual.h1; }
+      else { fb.innerHTML='<span style="color:#b71c1c; font-weight:600;">Solución guiada:</span> '+actual.h2;
+        document.getElementById('q-nueva').style.display='inline-block';
+        document.getElementById('q-verificar').style.display='none';
+      }
+    }
+    pintar();
+  };
+  document.getElementById('q-nueva').onclick=nueva;
+  nueva();
+})();
+</script>
+```
+
+**Banco escrito.** 1) Escriba las tres matrices elementales
+$3\times3$ de: $R_2\leftarrow R_2-4R_3$, $R_1\leftarrow -2R_1$,
+$R_2\leftrightarrow R_3$, y sus inversas. 2) Exprese
+$A=\begin{pmatrix}1&2\\3&4\end{pmatrix}$ como producto de elementales
+(pista: redúzcala a $I$ y «deshaga»). 3) Si
+$E=\begin{pmatrix}1&0&0\\0&1&0\\5&0&1\end{pmatrix}$, ¿qué operación
+hace $E$ y cuál es $E^{-1}$? 4) ¿Es elemental la matriz
+$\begin{pmatrix}1&2&0\\0&1&0\\0&0&1\end{pmatrix}$? ¿Y
+$\begin{pmatrix}2&0&0\\0&2&0\\0&0&1\end{pmatrix}$? 5) Muestre con un
+ejemplo $2\times2$ que en general $E_1E_2\neq E_2E_1$ para elementales.
+:::
+
+::: {.content-visible when-format="pdf"}
+**Ejercicios de la sección.** 1) Escriba las tres matrices elementales
+$3\times3$ de: $R_2\leftarrow R_2-4R_3$, $R_1\leftarrow -2R_1$,
+$R_2\leftrightarrow R_3$, y sus inversas. 2) Exprese
+$A=\begin{pmatrix}1&2\\3&4\end{pmatrix}$ como producto de elementales.
+3) Si $E=\begin{pmatrix}1&0&0\\0&1&0\\5&0&1\end{pmatrix}$, ¿qué
+operación hace y cuál es $E^{-1}$? 4) ¿Es elemental
+$\begin{pmatrix}1&2&0\\0&1&0\\0&0&1\end{pmatrix}$? ¿Y
+$\begin{pmatrix}2&0&0\\0&2&0\\0&0&1\end{pmatrix}$? 5) Muestre que en
+general $E_1E_2\neq E_2E_1$.
+
+**Soluciones:** 1)
+$\begin{pmatrix}1&0&0\\0&1&-4\\0&0&1\end{pmatrix}$ (inversa con $+4$),
+$\begin{pmatrix}-2&0&0\\0&1&0\\0&0&1\end{pmatrix}$ (inversa con
+$-\tfrac12$), $\begin{pmatrix}1&0&0\\0&0&1\\0&1&0\end{pmatrix}$
+(su propia inversa). 2) $R_2\leftarrow R_2-3R_1$ y luego
+$R_1\leftarrow R_1+R_2$ reducen a $I$; deshaciendo:
+$A=E_{R_2\leftarrow R_2+3R_1}\,E_{R_1\leftarrow R_1-R_2}\,I$ con las
+elementales correspondientes. 3) Hace $R_3\leftarrow R_3+5R_1$;
+$E^{-1}=\begin{pmatrix}1&0&0\\0&1&0\\-5&0&1\end{pmatrix}$. 4) La
+primera sí (una sola operación); la segunda no (requiere dos
+escalamientos). 5) Ejemplo: $E_1=\begin{pmatrix}1&1\\0&1\end{pmatrix}$,
+$E_2=\begin{pmatrix}0&1\\1&0\end{pmatrix}$; los productos difieren. La
+versión web incluye ejercicios adaptativos con tres niveles y ayudas
+graduales.
+:::
+
+## 1.7.7 Resumen y glosario
+
+::: {.callout-tip}
+## Idea clave
+Cada operación elemental de fila es una **matriz** $E$ (la identidad
+tras la operación), y aplicar la operación a $A$ es calcular $EA$.
+Toda reducción es un producto $E_k\cdots E_1A$; cada $E$ es invertible
+y su inversa es la operación que la deshace. De aquí salen dos joyas:
+$A$ es invertible si y solo si es **producto de elementales**, y la $L$
+de la factorización LU es el producto de las inversas de las
+elementales de la eliminación.
+:::
+
+| Término | Significado |
+|---|---|
+| Matriz elemental | Matriz que resulta de aplicar UNA operación elemental a $I$ |
+| Teorema 1.7.1 | Aplicar una operación a $A$ = calcular $EA$ |
+| Inversa de una elemental | La elemental de la operación que la deshace |
+| Teorema 1.7.4 | $A$ invertible ⇔ RREF($A$) $=I$ ⇔ $A$ es producto de elementales |
+| Orden inverso (IA) | Deshacer una cadena: $(E_k\cdots E_1)^{-1}=E_1^{-1}\cdots E_k^{-1}$; así «desprende» capas la retropropagación |
+| Factores, no producto (IA) | Guardar los factores y aplicarlos uno a uno: más barato que formar la matriz total |
+
+**Hilo conductor hacia 1.8.** Hasta ahora las matrices describieron
+*sistemas* y *transformaciones*. Pero una matriz también puede
+describir una **red**: quién se conecta con quién. Y ahí ocurre algo
+maravilloso: las potencias de esa matriz *cuentan caminos*. Es la
+última pieza de la unidad — y la que conecta directo con las redes
+sociales y la IA moderna.
