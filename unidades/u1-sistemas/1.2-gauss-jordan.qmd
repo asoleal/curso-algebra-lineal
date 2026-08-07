@@ -250,8 +250,7 @@ la que acaba de cambiar en cada operación.
 ::: {.content-visible when-format="pdf"}
 En la versión web, este módulo permite recorrer la reducción del Ejemplo
 1.2.1 paso a paso (fila resaltada en cada operación). Versión interactiva:
-
-`asoleal.github.io/curso-algebra-lineal/unidades/u1-sistemas/1.2-gauss-jordan.html`
+[sección 1.2.4 en el sitio del curso](https://asoleal.github.io/curso-algebra-lineal/unidades/u1-sistemas/1.2-gauss-jordan.html).
 
 La secuencia completa de la reducción es la desarrollada en el Ejemplo
 1.2.1: matriz inicial $\rightarrow$ ceros bajo el primer pivote
@@ -496,7 +495,7 @@ niveles y pistas escalonadas. Ítems de muestra:
    **Solución:** $4k - 6 = 0 \Rightarrow k = \tfrac{3}{2}$.
 
 Serie interactiva completa:
-`asoleal.github.io/curso-algebra-lineal/unidades/u1-sistemas/1.2-gauss-jordan.html`
+[sección 1.2.6 en el sitio del curso](https://asoleal.github.io/curso-algebra-lineal/unidades/u1-sistemas/1.2-gauss-jordan.html).
 :::
 
 ## 1.2.7 Resumen y glosario
