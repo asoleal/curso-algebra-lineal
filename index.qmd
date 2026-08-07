@@ -1,6 +1,6 @@
 # Álgebra Lineal con Aplicaciones e Inteligencia Artificial {.unnumbered}
 
-**Universidad Nacional de Colombia** · Prof. John Jairo Leal Gómez
+**Universidad Nacional de Colombia Sede Palmira** · Prof. John Jairo Leal Gómez
 
 Curso de álgebra lineal para los programas de la sede —agroindustria,
 agronomía, zootecnia, medicina veterinaria, ciencias ambientales y
