@@ -2,48 +2,123 @@
 
 ## 1.1.1 Presentación formal
 
-**Definición 1.1.1 (Ecuación lineal).** Una **ecuación lineal** en las
-variables $x_1, x_2, \ldots, x_n$ es una ecuación de la forma
+Antes de escribir ecuaciones con muchas incógnitas, empecemos por un
+terreno conocido: **la recta en el plano**. De ella salen, casi sin
+notarlo, todas las ideas de esta unidad.
 
-$$a_1 x_1 + a_2 x_2 + \cdots + a_n x_n = b,$$
+### La recta y su pendiente
 
-donde $a_1, \ldots, a_n$ y $b$ son números reales. Lo importante: cada
-variable aparece **a la primera potencia** y no hay productos entre
-variables.
+**Definición 1.1.1 (Ecuación de la recta).** Una recta (no vertical) en
+el plano es el conjunto de puntos $(x, y)$ que satisfacen
 
-**Definición 1.1.2 (Sistema de ecuaciones lineales).** Un **sistema de
-$m$ ecuaciones con $n$ incógnitas** es un conjunto de ecuaciones lineales
-que deben cumplirse *al mismo tiempo*:
+$$y = mx + b,$$
+
+donde $b$ es el **intercepto con el eje $y$** —la recta pasa por el
+punto $(0, b)$— y $m$ es la **pendiente**, que mide su inclinación:
+
+$$m = \frac{\text{cambio en } y}{\text{cambio en } x} = \frac{\Delta y}{\Delta x} = \frac{y_2 - y_1}{x_2 - x_1}.$$
+
+En palabras: la pendiente dice **cuánto sube (o baja) $y$ por cada
+unidad que avanza $x$**.
+
+El signo de la pendiente describe el comportamiento de la recta:
+
+- Si $m > 0$, la recta **crece** de izquierda a derecha.
+- Si $m < 0$, la recta **decrece**.
+- Si $m = 0$, la recta es **horizontal** ($y = b$).
+- Una recta **vertical** ($x = c$) tiene pendiente indefinida y no puede
+  escribirse en la forma $y = mx + b$.
+
+```{python}
+#| label: fig-recta-pendiente
+#| fig-cap: "Izquierda: la recta y = 5x - 6 pasa por (1, -1) y (2, 4): por cada 1 que avanza x, la y sube 5. Derecha: el signo de la pendiente define el comportamiento."
+#| echo: false
+import numpy as np
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(1, 2, figsize=(10, 3.6))
+xs = np.linspace(-0.5, 3.2, 100)
+
+ax[0].plot(xs, 5*xs - 6, 'b', lw=2, label='$y = 5x - 6$')
+ax[0].plot([1, 2], [-1, 4], 'ro', ms=7, zorder=5)
+ax[0].annotate('$(1, -1)$', (1, -1), textcoords='offset points', xytext=(8, -16), fontsize=10)
+ax[0].annotate('$(2, 4)$', (2, 4), textcoords='offset points', xytext=(8, 2), fontsize=10)
+ax[0].plot([1, 2], [-1, -1], 'k--', lw=1.2)
+ax[0].plot([2, 2], [-1, 4], 'k--', lw=1.2)
+ax[0].annotate('$\\Delta x = 1$', (1.5, -1), textcoords='offset points', xytext=(-16, 8), fontsize=10)
+ax[0].annotate('$\\Delta y = 5$', (2, 1.5), textcoords='offset points', xytext=(8, -6), fontsize=10)
+ax[0].set_title('$m = \\frac{\\Delta y}{\\Delta x} = \\frac{5}{1} = 5$', fontsize=11)
+ax[0].grid(alpha=0.3); ax[0].axhline(0, color='k', lw=0.5); ax[0].axvline(0, color='k', lw=0.5)
+ax[0].legend(fontsize=10, loc='upper left')
+
+ax[1].plot(xs, 1.2*xs + 0.3, 'g', lw=2, label='$m > 0$: crece')
+ax[1].plot(xs, 0*xs + 1.3, 'gray', lw=2, label='$m = 0$: horizontal')
+ax[1].plot(xs, -1.2*xs + 2.3, 'r', lw=2, label='$m < 0$: decrece')
+ax[1].set_title('Según el signo de la pendiente', fontsize=11)
+ax[1].grid(alpha=0.3); ax[1].axhline(0, color='k', lw=0.5); ax[1].axvline(0, color='k', lw=0.5)
+ax[1].legend(fontsize=9); ax[1].set_ylim(-1.5, 3.5)
+
+plt.tight_layout()
+plt.show()
+```
+
+**Ilustración (la recta que pasa por dos puntos).** Hallemos la ecuación
+de la recta que pasa por los puntos $(1, -1)$ y $(2, 4)$. Primero
+calculamos la pendiente:
+
+$$m = \frac{y_2 - y_1}{x_2 - x_1} = \frac{4 - (-1)}{2 - 1} = \frac{5}{1} = 5.$$
+
+Con la forma $y = mx + b$, sustituimos uno de los puntos, digamos
+$(2, 4)$, para hallar $b$:
+
+$$4 = 5(2) + b \quad\Longrightarrow\quad b = 4 - 10 = -6.$$
+
+La recta es $y = 5x - 6$. **Verificación:** para $(1, -1)$ se tiene
+$5(1) - 6 = -1$ ($\checkmark$) y para $(2, 4)$ se tiene $5(2) - 6 = 4$
+($\checkmark$): ambos puntos satisfacen la ecuación.
+
+### De la recta a la ecuación lineal
+
+La ecuación $y = 5x - 6$ puede reescribirse pasando las incógnitas a un
+mismo lado: $-5x + y = -6$. Así nace la idea de **ecuación lineal**.
+
+**Definición 1.1.2 (Ecuación lineal en dos incógnitas).** Una **ecuación
+lineal en las incógnitas $x$ e $y$** es una ecuación que puede
+escribirse en la forma
+
+$$ax + by = c,$$
+
+donde $a$, $b$ y $c$ son números reales, con $a$ y $b$ no
+simultáneamente nulos. Sus **soluciones** son todos los pares $(x, y)$
+que la satisfacen: geométricamente, **los puntos de una recta**.
+
+Fíjate en algo clave: una sola ecuación con dos incógnitas tiene
+**infinitas soluciones** —todos los puntos de su recta—. Para
+$x + y = 5$ sirven $(3, 2)$, $(0, 5)$, $(-1, 6)$ y tantos más como
+puntos tenga la recta. Si queremos una **única** pareja $(x, y)$ como
+respuesta, necesitamos más información: otra condición que la pareja
+también deba cumplir.
+
+### Dos ecuaciones a la vez: el sistema
+
+**Definición 1.1.3 (Sistema de dos ecuaciones lineales).** Un **sistema
+de dos ecuaciones lineales con dos incógnitas** es un conjunto de la
+forma
 
 $$
-\begin{aligned}
-a_{11}x_1 + a_{12}x_2 + \cdots + a_{1n}x_n &= b_1\\
-a_{21}x_1 + a_{22}x_2 + \cdots + a_{2n}x_n &= b_2\\
-&\;\;\vdots\\
-a_{m1}x_1 + a_{m2}x_2 + \cdots + a_{mn}x_n &= b_m
-\end{aligned}
+\begin{cases}
+ax + by = c\\
+dx + ey = f
+\end{cases}
 $$
 
-Una **solución** del sistema es una lista de valores
-$(x_1, \ldots, x_n)$ que satisface **todas** las ecuaciones
-simultáneamente. El **conjunto solución** es la colección de todas las
-soluciones.
+Una **solución** del sistema es un par $(x, y)$ que satisface **las dos
+ecuaciones simultáneamente**: geométricamente, un punto donde **se
+cortan las dos rectas**.
 
-**Definición 1.1.3 (Sistemas equivalentes).** Dos sistemas son
-**equivalentes** si tienen exactamente el mismo conjunto solución.
-
-**Forma matricial.** Todo el sistema se resume en la ecuación
-
-$$A\mathbf{x} = \mathbf{b},$$
-
-donde $A$ es la **matriz de coeficientes** ($m \times n$), $\mathbf{x}$
-es el **vector de incógnitas** y $\mathbf{b}$ el **vector de términos
-independientes**.
-
-**Interpretación geométrica ($2 \times 2$).** Con dos incógnitas, cada
-ecuación es la ecuación de una **recta** en el plano. Resolver el sistema
-es buscar los puntos que están en *ambas* rectas, y solo hay tres
-posibilidades:
+Resolver un sistema $2 \times 2$ es, entonces, **hallar la intersección
+de dos rectas**. Y como dos rectas en el plano solo pueden relacionarse
+de tres maneras, hay exactamente tres posibilidades:
 
 1. Las rectas **se cortan en un punto** → solución **única**.
 2. Las rectas son **paralelas distintas** → **no hay solución**.
@@ -76,6 +151,78 @@ plt.show()
 
 Este resultado es general: **todo** sistema de ecuaciones lineales tiene
 una única solución, ninguna, o infinitas. No hay otra posibilidad.
+
+### Más incógnitas: la forma general
+
+Lo que aprendimos con dos incógnitas se extiende a tantas como haga
+falta. Si en lugar de $x$ e $y$ hay $n$ incógnitas $x_1, x_2, \ldots,
+x_n$, el papel de la recta lo juega la **ecuación lineal general**.
+
+**Definición 1.1.4 (Ecuación lineal en $n$ incógnitas).** Una
+**ecuación lineal** en las incógnitas $x_1, x_2, \ldots, x_n$ es una
+ecuación que puede escribirse en la forma
+
+$$a_1 x_1 + a_2 x_2 + \cdots + a_n x_n = b,$$
+
+donde $a_1, \ldots, a_n$ (los **coeficientes**) y $b$ (el **término
+independiente**) son números reales. Lo importante: cada incógnita
+aparece **a la primera potencia** y no hay productos entre ellas. Así,
+$2x_1 + 3x_2 = 7$ es lineal, pero $2x_1^2 + 3x_2 = 7$ y $x_1 x_2 = 5$
+**no** lo son.
+
+Como escribir puntos suspensivos se vuelve incómodo, la misma ecuación
+se escribe de forma compacta con el **símbolo de sumatoria** $\sum$
+(la letra griega sigma mayúscula), que significa «suma todos estos
+términos»:
+
+$$\sum_{j=1}^{n} a_j x_j = b$$
+
+Se lee: «suma de $a_j x_j$, con $j$ desde $1$ hasta $n$». El índice $j$
+toma los valores $1, 2, \ldots, n$ y se suman todos los términos
+resultantes: $a_1x_1 + a_2x_2 + \cdots + a_nx_n$. Es **exactamente la
+misma ecuación**, dicha en una sola línea.
+
+**Definición 1.1.5 (Sistema de ecuaciones lineales).** Un **sistema de
+$m$ ecuaciones lineales con $n$ incógnitas** es un conjunto de
+ecuaciones lineales que deben cumplirse *al mismo tiempo*:
+
+$$
+\begin{aligned}
+a_{11}x_1 + a_{12}x_2 + \cdots + a_{1n}x_n &= b_1\\
+a_{21}x_1 + a_{22}x_2 + \cdots + a_{2n}x_n &= b_2\\
+&\;\;\vdots\\
+a_{m1}x_1 + a_{m2}x_2 + \cdots + a_{mn}x_n &= b_m
+\end{aligned}
+$$
+
+Con la notación de sumatoria, el sistema completo se resume en una sola
+línea:
+
+$$\sum_{j=1}^{n} a_{ij} x_j = b_i, \qquad i = 1, 2, \ldots, m.$$
+
+Aquí el coeficiente $a_{ij}$ tiene **doble índice**: el primero ($i$)
+dice en qué ecuación está y el segundo ($j$) dice a qué incógnita
+acompaña. Cada valor de $i$ produce una ecuación del sistema.
+
+Una **solución** del sistema es una lista de valores
+$(x_1, \ldots, x_n)$ que satisface **todas** las ecuaciones
+simultáneamente. El **conjunto solución** es la colección de todas las
+soluciones.
+
+**Definición 1.1.6 (Sistemas equivalentes).** Dos sistemas son
+**equivalentes** si tienen exactamente el mismo conjunto solución. La
+estrategia de la próxima sección será transformar un sistema en otros
+equivalentes, cada vez más sencillos, hasta poder leer la solución
+directamente.
+
+**Forma matricial.** Todo el sistema se resume en la ecuación
+
+$$A\mathbf{x} = \mathbf{b},$$
+
+donde $A$ es la **matriz de coeficientes** ($m \times n$), $\mathbf{x}$
+es el **vector de incógnitas** y $\mathbf{b}$ el **vector de términos
+independientes**. (Las operaciones con matrices se estudian a fondo en
+la sección 1.4.)
 
 ## 1.1.2 Ejemplos
 
@@ -486,19 +633,27 @@ Serie interactiva:
 ## 1.1.7 Resumen y glosario
 
 ::: {.callout-tip title="Resumen"}
+- La recta $y = mx + b$: la pendiente $m = \Delta y / \Delta x$ dice
+  cuánto sube o baja $y$ por cada unidad que avanza $x$.
+- Cada ecuación lineal en dos incógnitas ($ax + by = c$) es una recta;
+  resolver un sistema $2\times2$ es hallar el punto de corte de dos
+  rectas.
 - Una ecuación lineal tiene variables a la primera potencia, sin
-  productos entre ellas.
+  productos entre ellas, y se escribe de forma compacta como
+  $\sum_{j=1}^{n} a_j x_j = b$.
 - Un sistema se resume como $A\mathbf{x} = \mathbf{b}$.
-- Geométricamente ($2\times2$): cada ecuación es una recta; hay **tres
-  casos**: solución única (se cortan), ninguna (paralelas) o infinitas
-  (coincidentes). Esto vale para cualquier tamaño de sistema.
+- Geométricamente ($2\times2$) hay **tres casos**: solución única (se
+  cortan), ninguna (paralelas) o infinitas (coincidentes). Esto vale
+  para cualquier tamaño de sistema.
 - *Ventana IA:* las observaciones forman un sistema; entrenar un modelo
   lineal es encontrar sus parámetros.
 :::
 
 | Término | Significado |
 |---|---|
-| Ecuación lineal | $a_1x_1 + \cdots + a_nx_n = b$ |
+| Pendiente | $m = \Delta y / \Delta x$: inclinación de la recta |
+| Ecuación lineal | $a_1x_1 + \cdots + a_nx_n = b$, o $\sum_{j=1}^{n} a_jx_j = b$ |
+| Sumatoria $\sum$ | «Suma de términos» con un índice que recorre un rango |
 | Solución | Valores que cumplen todas las ecuaciones a la vez |
 | Sistemas equivalentes | Sistemas con el mismo conjunto solución |
 | Matriz de coeficientes | Arreglo $A$ de los coeficientes del sistema |
