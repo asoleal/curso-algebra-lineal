@@ -55,3 +55,12 @@ format:
     papersize: a4
     toc-depth: 2
     fig-pos: "H"
+    geometry:
+      - margin=2.2cm
+    include-in-header:
+      text: |
+        \raggedbottom
+        \setlength{\intextsep}{10pt plus 2pt minus 2pt}
+        \setlength{\abovecaptionskip}{6pt}
+        \setlength{\belowcaptionskip}{4pt}
+        \setkeys{Gin}{width=0.72\linewidth}

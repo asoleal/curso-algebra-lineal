@@ -5,3 +5,6 @@ _book_pdf/
 __pycache__/
 *.pyc
 .DS_Store
+
+/.quarto/
+**/*.quarto_ipynb

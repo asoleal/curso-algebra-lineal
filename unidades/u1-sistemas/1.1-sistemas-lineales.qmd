@@ -63,7 +63,7 @@ plt.show()
 ```
 
 **Ilustración (la recta que pasa por dos puntos).** Hallemos la ecuación
-de la recta que pasa por los puntos $(1, -1)$ y $(2, 4)$. Primero
+de la recta que pasa por los puntos $(1, -1)$ y $(2, 4)$ Ver @fig-recta-pendiente. Primero
 calculamos la pendiente:
 
 $$m = \frac{\Delta y}{\Delta x} = \frac{y_2 - y_1}{x_2 - x_1} = \frac{4 - (-1)}{2 - 1} = \frac{5}{1} = 5.$$
@@ -71,9 +71,9 @@ $$m = \frac{\Delta y}{\Delta x} = \frac{y_2 - y_1}{x_2 - x_1} = \frac{4 - (-1)}{
 El valor de la pendiente $m = 5$ significa que por cada unidad
 $\Delta x = 1$, la recta subirá $\Delta y = 5$ unidades en el eje $y$.
 Y no solo entre esos dos puntos: la misma regla se cumple en todas
-partes — de $(2, 4)$ a $(3, 9)$, de $(3, 9)$ a $(4, 14)$—. Esa subida
+partes — de $(2, 4)$ a $(3, 9)$, de $(3, 9)$ a $(4, 14)$ —. Esa subida
 constante, una y otra vez, es justamente lo que hace que la gráfica
-sea una recta, como se aprecia en la figura:
+sea una recta, como se aprecia en la  @fig-escalera-pendiente:
 
 ```{python}
 #| label: fig-escalera-pendiente
@@ -119,7 +119,7 @@ $5(1) - 6 = -1$ ($\checkmark$) y para $(2, 4)$ se tiene $5(2) - 6 = 4$
 La ecuación $y = 5x - 6$ puede reescribirse pasando las incógnitas a un
 mismo lado: $-5x + y = -6$. Así nace la idea de **ecuación lineal**.
 
-**Definición 1.1.2 (Ecuación lineal en dos incógnitas).** Una **ecuación
+**Definición 1.1.2 (Ecuación lineal con dos incógnitas).** Una **ecuación
 lineal en las incógnitas $x$ e $y$** es una ecuación que puede
 escribirse en la forma
 
@@ -139,7 +139,7 @@ también deba cumplir.
 ### Dos ecuaciones a la vez: el sistema
 
 **Definición 1.1.3 (Sistema de dos ecuaciones lineales).** Un **sistema
-de dos ecuaciones lineales con dos incógnitas** es un conjunto de la
+con dos ecuaciones lineales con dos incógnitas** es un conjunto de la
 forma
 
 $$
@@ -155,7 +155,7 @@ cortan las dos rectas**.
 
 Resolver un sistema $2 \times 2$ es, entonces, **hallar la intersección
 de dos rectas**. Y como dos rectas en el plano solo pueden relacionarse
-de tres maneras, hay exactamente tres posibilidades:
+de tres maneras, hay exactamente tres posibilidades ver @fig-tres-casos:
 
 1. Las rectas **se cortan en un punto** → solución **única**.
 2. Las rectas son **paralelas distintas** → **no hay solución**.
@@ -177,11 +177,13 @@ ax[0].plot(3, 2, 'ro'); ax[0].set_title('Solución única: (3, 2)')
 ax[1].plot(x, 3 - x); ax[1].plot(x, 1 - x)
 ax[1].set_title('Paralelas: sin solución')
 
-ax[2].plot(x, 2 - 0.5 * x); ax[2].plot(x, 2 - 0.5 * x, '--', lw=3, alpha=0.5)
+ax[2].plot(x, 2 - 0.5 * x); ax[2].plot(x, 2 - 0.5 * x, '--', 
+lw=3, alpha=0.5)
 ax[2].set_title('Coincidentes: infinitas')
 
 for a in ax:
-    a.grid(alpha=0.3); a.axhline(0, color='k', lw=0.5); a.axvline(0, color='k', lw=0.5)
+    a.grid(alpha=0.3); a.axhline(0, color='k', lw=0.5); 
+    a.axvline(0, color='k', lw=0.5)
 plt.tight_layout()
 plt.show()
 ```
@@ -565,7 +567,7 @@ $$2I + 4I = 12 \quad\Longrightarrow\quad 6I = 12
 \quad\Longrightarrow\quad I = 2\ \text{A}.$$
 
 **Dos mallas, un sistema.** Si el circuito tiene dos mallas que
-comparten una resistencia $R_3$ (ver la figura), cada malla tiene su
+comparten una resistencia $R_3$ (ver la figura @fig-circuito-2mallas), cada malla tiene su
 propia corriente ($I_1$ e $I_2$) y por la resistencia compartida pasa
 la **diferencia** $I_1 - I_2$. Con $V_1 = 4$ V, $V_2 = 3$ V,
 $R_1 = 1\ \Omega$, $R_2 = 2\ \Omega$ y $R_3 = 1\ \Omega$:
@@ -803,7 +805,166 @@ Serie interactiva:
 [sección 1.1.6 en el sitio del curso](https://asoleal.github.io/curso-algebra-lineal/unidades/u1-sistemas/1.1-sistemas-lineales.html).
 :::
 
-## 1.1.7 Resumen y glosario
+## 1.1.7 Tres incógnitas: de rectas a planos
+
+Hasta aquí cada ecuación con dos incógnitas era una recta, y resolver
+el sistema $2\times2$ era hallar el punto de corte. ¿Qué cambia con
+**tres incógnitas**? La idea es la misma, solo que el dibujo gana una
+dimensión.
+
+**Una ecuación es un plano.** Las soluciones $(x, y, z)$ de
+$ax + by + cz = d$ ya no forman una recta en el plano, sino un
+**plano** en el espacio.
+
+**Dos ecuaciones, una recta.** Dos planos (no paralelos) se cortan a
+lo largo de una recta: con dos ecuaciones y tres incógnitas todavía
+sobra libertad, como cuando en $2\times2$ una sola ecuación dejaba
+toda una recta de soluciones.
+
+**Tres ecuaciones, un punto.** El tercer plano corta esa recta en un
+solo punto: la solución única del sistema $3\times3$
+(@fig-tres-planos). Igual que en $2\times2$, hay tres casos: un punto
+(se cortan), ninguno (algún plano es paralelo) o infinitos (los planos
+coinciden en una recta o en todo un plano).
+
+```{python}
+#| label: fig-tres-planos
+#| fig-cap: "Tres ecuaciones con tres incógnitas: cada ecuación es un plano; dos planos se cortan en una recta (líneas negras) y el tercer plano la corta en el punto solución (1, 2, 3)."
+#| echo: false
+import numpy as np
+import matplotlib.pyplot as plt
+
+fig = plt.figure(figsize=(6.4, 4.6))
+ax = fig.add_subplot(111, projection='3d')
+
+g = np.linspace(-1, 5, 12)
+X, Y = np.meshgrid(g, g)
+ax.plot_surface(X, Y, 6 - X - Y, alpha=0.30, color='#1565c0', edgecolor='none')
+ax.plot_surface(X, Y, 2 - X + Y, alpha=0.30, color='#e65100', edgecolor='none')
+ax.plot_surface(X, Y, X + Y, alpha=0.30, color='#2e7d32', edgecolor='none')
+
+t = np.linspace(-1, 5, 50)
+ax.plot(t, 2*np.ones_like(t), 4 - t, color='k', lw=1.6)
+ax.plot(t, 3 - t, 3*np.ones_like(t), color='k', lw=1.6)
+ax.plot(np.ones_like(t), t, 1 + t, color='k', lw=1.6)
+
+ax.scatter([1], [2], [3], color='#b03a2e', s=90, depthshade=False)
+ax.text(1.1, 2.2, 3.7, '$(1,\\,2,\\,3)$', color='#b03a2e', fontsize=11, ha='center')
+
+ax.set_xlabel('$x$'); ax.set_ylabel('$y$'); ax.set_zlabel('$z$')
+ax.set_xlim(-1, 5); ax.set_ylim(-1, 5); ax.set_zlim(-1, 7)
+ax.view_init(elev=16, azim=-60)
+plt.tight_layout(); plt.show()
+```
+
+La figura muestra el sistema $x + y + z = 6$, $\;x - y + z = 2$,
+$\;x + y - z = 0$, cuya solución es el punto $(1, 2, 3)$: sustituye y
+comprueba que cumple las tres ecuaciones a la vez.
+
+**¿De dónde sale un sistema $3\times3$?** Agreguemos una malla más al
+circuito de la @fig-circuito-2mallas. Con una fuente de $8$ V y cinco
+resistencias de $1\ \Omega$ (@fig-tres-mallas), cada malla aporta una
+ecuación (ley de Ohm + Kirchhoff), y en las resistencias compartidas
+circula la diferencia de corrientes:
+
+$$
+\begin{aligned}
+\text{Malla 1: }\; I_1 + (I_1 - I_2) &= 8\\
+\text{Malla 2: }\; (I_2 - I_1) + I_2 + (I_2 - I_3) &= 0\\
+\text{Malla 3: }\; (I_3 - I_2) + I_3 &= 0
+\end{aligned}
+$$
+
+Reordenando términos:
+
+$$
+\begin{aligned}
+2I_1 - I_2 &= 8\\
+-I_1 + 3I_2 - I_3 &= 0\\
+-I_2 + 2I_3 &= 0
+\end{aligned}
+$$
+
+```{python}
+#| label: fig-tres-mallas
+#| fig-cap: "Circuito de tres mallas: tres mallas, tres ecuaciones. Por la resistencia compartida R₄ circula I₁ − I₂ y por R₅, I₂ − I₃."
+#| echo: false
+import numpy as np
+import matplotlib.pyplot as plt
+
+def resistor(ax, p1, p2, n=6, w=0.16):
+    p1, p2 = np.array(p1, float), np.array(p2, float)
+    d = p2 - p1; L = np.hypot(*d); v = np.array([-d[1], d[0]])/L
+    a, b = p1 + 0.25*d, p1 + 0.75*d
+    pts = [p1, a]
+    for k in range(1, n):
+        pts.append(a + (k/n)*(b-a) + (w if k % 2 else -w)*v)
+    pts += [b, p2]
+    xs, ys = zip(*pts); ax.plot(xs, ys, 'k', lw=1.5)
+
+def fuente(ax, p1, p2):
+    p1, p2 = np.array(p1, float), np.array(p2, float)
+    d = p2 - p1; L = np.hypot(*d); v = np.array([-d[1], d[0]])/L
+    c1, c2 = p1 + 0.40*d, p1 + 0.60*d
+    ax.plot(*zip(p1, c1), 'k', lw=1.5); ax.plot(*zip(c2, p2), 'k', lw=1.5)
+    ax.plot(*zip(c1 - 0.16*v, c1 + 0.16*v), 'k', lw=1.1)
+    ax.plot(*zip(c2 - 0.28*v, c2 + 0.28*v), 'k', lw=3.4)
+
+def flecha_malla(ax, c, label, r=0.55, color='#b03a2e'):
+    th = np.linspace(np.pi/2 + 0.5, np.pi/2 - 4.2, 80)
+    xs = c[0] + r*np.cos(th); ys = c[1] + r*np.sin(th)
+    ax.plot(xs, ys, color=color, lw=1.3)
+    ax.annotate('', xy=(xs[-1], ys[-1]), xytext=(xs[-6], ys[-6]),
+                arrowprops=dict(arrowstyle='-|>', color=color, lw=1.3))
+    ax.text(c[0], c[1], label, color=color, fontsize=12, ha='center', va='center')
+
+fig, ax = plt.subplots(figsize=(9.0, 3.2))
+ax.plot([0, 9], [0, 0], 'k', lw=1.5)
+fuente(ax, (0, 0), (0, 3))
+resistor(ax, (3, 0), (3, 3)); resistor(ax, (6, 0), (6, 3))
+resistor(ax, (9, 0), (9, 3))
+resistor(ax, (0, 3), (3, 3)); resistor(ax, (3, 3), (6, 3)); resistor(ax, (6, 3), (9, 3))
+ax.text(-0.4, 1.5, '$V=8$ V', ha='center', va='center', rotation=90, fontsize=10)
+ax.text(1.5, 3.38, '$R_1=1\\ \\Omega$', ha='center', fontsize=10)
+ax.text(4.5, 3.38, '$R_2=1\\ \\Omega$', ha='center', fontsize=10)
+ax.text(7.5, 3.38, '$R_3=1\\ \\Omega$', ha='center', fontsize=10)
+ax.text(3.35, 1.5, '$R_4=1\\ \\Omega$', ha='left', va='center', fontsize=10)
+ax.text(6.35, 1.5, '$R_5=1\\ \\Omega$', ha='left', va='center', fontsize=10)
+flecha_malla(ax, (1.5, 1.5), '$I_1$'); flecha_malla(ax, (4.5, 1.5), '$I_2$'); flecha_malla(ax, (7.5, 1.5), '$I_3$')
+ax.set_xlim(-0.9, 9.4); ax.set_ylim(-0.55, 3.85); ax.axis('off')
+plt.tight_layout(); plt.show()
+```
+
+Resolverlo por sustitución se puede, pero ya se vuelve largo. Python
+lo resuelve de inmediato:
+
+```{python}
+import numpy as np
+A = np.array([[2, -1, 0],
+              [-1, 3, -1],
+              [0, -1, 2]])
+b = np.array([8, 0, 0])
+I = np.linalg.solve(A, b)
+print("I1 =", I[0], "A,  I2 =", I[1], "A,  I3 =", I[2], "A")
+print("Comprobación A·I =", A @ I)
+```
+
+Las corrientes son $I_1 = 5$ A, $I_2 = 2$ A, $I_3 = 1$ A. Sustituyendo
+en la malla 1: $2(5) - 2 = 8$, como debe ser. Este mismo sistema
+volverá en la sección 1.2: allí aprenderemos **Gauss–Jordan**, el
+método que hace paso a paso y a mano lo que aquí le pedimos a Python.
+
+::: {.callout-important title="Ventana IA · tres pesos, un punto"}
+Cuando el modelo lineal tiene **tres entradas** (por ejemplo humedad,
+materia orgánica y temperatura), tiene tres pesos $w_1, w_2, w_3$ por
+aprender. Cada observación aporta una ecuación lineal en esos pesos:
+geométricamente, un plano en el espacio de parámetros. Con tres
+observaciones independientes, los tres planos se cortan en un punto:
+los pesos quedan fijos. ¿Y si hay más observaciones que pesos? El
+sistema se vuelve *sobredeterminado*; ese caso lo retomaremos en la
+sección 1.3.
+:::
+## 1.1.8 Resumen y glosario
 
 ::: {.callout-tip title="Resumen"}
 - La recta $y = mx + b$: la pendiente $m = \Delta y / \Delta x$ dice
@@ -839,7 +1000,7 @@ Serie interactiva:
 
 ---
 
-## 1.1.8 Ejercicios propuestos
+## 1.1.9 Ejercicios propuestos
 
 Para resolver con lápiz y papel, y con Python cuando se indica. El grupo **A** afianza conceptos y demostraciones sencillas; el **B** lleva la sección a las carreras de la sede y a otros temas (temperaturas, balances, flujos, grafos); el **C** es de programación. Para práctica interactiva con retroalimentación inmediata, vuelva a los *Ejercicios adaptativos* de esta sección.
 

@@ -349,7 +349,7 @@ resaltadas.
 ## 1.6.5 Aplicaciones en los programas de la sede
 
 ::: {.callout-note}
-## Aplicación en Ciencias Ambientales — una estación que monitorea todos los días
+## Aplicación en Ciencias Ambientales — una estación que monitorea todos los días {.nonum}
 Una estación de monitoreo estima las emisiones $x_1,x_2,x_3$ de tres
 fuentes (una vía, un cultivo y una planta de compostaje) a partir de
 tres sensores cuya **matriz de calibración** es la $A$ del Ejemplo
@@ -364,7 +364,7 @@ monitoreo continuo: calibrar (factorizar) una vez, usar todos los días.
 :::
 
 ::: {.callout-note}
-## Aplicación en Mecatrónica — control en tiempo real
+## Aplicación en Mecatrónica — control en tiempo real {.nonum}
 En el lazo de control de un robot, cada ciclo (por ejemplo, cada 5 ms)
 hay que resolver un sistema con la matriz dinámica del brazo y un
 vector de referencias que cambia en cada ciclo. La estrategia estándar:
@@ -495,7 +495,7 @@ guiada.
 ## 1.6.7 Resumen y glosario
 
 ::: {.callout-tip}
-## Idea clave
+## Idea clave {.nonum}
 Escalonar $A$ **anotando multiplicadores** produce dos matrices: $L$
 (triangular inferior con unos en la diagonal) y $U$ (triangular
 superior) con $A=LU$. Resolver $A\mathbf{x}=\mathbf{b}$ se convierte en
@@ -542,7 +542,7 @@ El grupo **A** afianza conceptos y demostraciones sencillas; el **B** aplica la 
 
 ---
 
-## Hilo conductor hacia 1.7
+## Hilo conductor hacia 1.7 {.nonum}
 
 En esta sección «guardamos multiplicadores» mientras eliminábamos.
 Pero, ¿qué *es* realmente una operación de filas? En la próxima

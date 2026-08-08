@@ -378,7 +378,7 @@ matriz construida entrada por entrada.
 ## 1.7.5 Aplicaciones en los programas de la sede
 
 ::: {.callout-note}
-## Aplicación en Mecatrónica — deshacer una secuencia de movimientos
+## Aplicación en Mecatrónica — deshacer una secuencia de movimientos {.nonum}
 Un brazo robot ejecuta una secuencia de movimientos elementales:
 girar la base ($T_1$), extender el brazo ($T_2$), girar la muñeca
 ($T_3$). La pose final de una pieza es $T_3T_2T_1\mathbf{v}$. Para
@@ -390,7 +390,7 @@ rutina de seguridad industrial.
 :::
 
 ::: {.callout-note}
-## Aplicación en Agroindustria — trazabilidad de un proceso
+## Aplicación en Agroindustria — trazabilidad de un proceso {.nonum}
 En una planta, el vector $\mathbf{v}$ registra el contenido de un
 tanque (agua, azúcar, preservante). Cada etapa del proceso es una
 operación elemental sobre ese vector: «agregar $0{,}5$ partes de agua
@@ -550,7 +550,7 @@ graduales.
 ## 1.7.7 Resumen y glosario
 
 ::: {.callout-tip}
-## Idea clave
+## Idea clave {.nonum}
 Cada operación elemental de fila es una **matriz** $E$ (la identidad
 tras la operación), y aplicar la operación a $A$ es calcular $EA$.
 Toda reducción es un producto $E_k\cdots E_1A$; cada $E$ es invertible

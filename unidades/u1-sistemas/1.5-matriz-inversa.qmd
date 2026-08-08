@@ -212,19 +212,19 @@ Elija una matriz $A$ del menú (todas tienen determinante $\pm 1$, así que su i
 ### 1.5.5 Aplicaciones en los programas de la sede
 
 ::: {.callout-note}
-## Aplicación en Agroindustria — recuperar la receta original
+## Aplicación en Agroindustria — recuperar la receta original {.nonum}
 Una planta mezcla dos concentrados $\alpha$ y $\beta$ según la matriz de aporte $M=\begin{pmatrix}0.8&0.5\\0.2&0.5\end{pmatrix}$: si se usan $x$ kg de $\alpha$ e $y$ kg de $\beta$, el lote contiene $0.8x+0.5y$ kg de proteína y $0.2x+0.5y$ kg de fibra. El laboratorio analiza un lote y mide **46 kg de proteína y 24 kg de fibra**. ¿Qué cantidades se usaron? Con $\det M=0.4-0.1=0.3$:
 $$M^{-1}=\frac{1}{0.3}\begin{pmatrix}0.5&-0.5\\-0.2&0.8\end{pmatrix},\qquad \begin{pmatrix}x\\y\end{pmatrix}=M^{-1}\begin{pmatrix}46\\24\end{pmatrix}=\frac{1}{0.3}\begin{pmatrix}23-12\\-9.2+19.2\end{pmatrix}=\frac{1}{0.3}\begin{pmatrix}11\\10\end{pmatrix}=\begin{pmatrix}36.67\\33.33\end{pmatrix}\text{ kg}.$$
 La inversa «deshace» la mezcla: es la herramienta de trazabilidad del proceso.
 :::
 
 ::: {.callout-note}
-## Aplicación en Mecatrónica — deshacer una transformación
+## Aplicación en Mecatrónica — deshacer una transformación {.nonum}
 Un brazo robot aplica a cada vector de posición la transformación lineal $T(\mathbf{v})=R\mathbf{v}$ con $R=\begin{pmatrix}0&-1\\1&0\end{pmatrix}$ (rotación de $90°$). Para devolver una pieza a su pose original aplica la transformación inversa $T^{-1}(\mathbf{v})=R^{-1}\mathbf{v}$ con $R^{-1}=\begin{pmatrix}0&1\\-1&0\end{pmatrix}$ (rotación de $-90°$). Verifique que $RR^{-1}=I$: la composición de ambas deja todo en su lugar. En robótica y en gráficos por computador, **encadenar transformaciones y sus inversas** es pan de cada día.
 :::
 
 ::: {.callout-important}
-## Ventana IA — por qué casi nunca se calcula la inversa (y qué se hace en su lugar)
+## Ventana IA — por qué casi nunca se calcula la inversa (y qué se hace en su lugar) {.nonum}
 En los libros se resuelve $A\mathbf{x}=\mathbf{b}$ como $\mathbf{x}=A^{-1}\mathbf{b}$ porque es didáctico. En la práctica de machine learning **nadie calcula $A^{-1}$ explícitamente**: es más costoso y menos estable numéricamente que resolver el sistema directamente (como hizo `np.linalg.solve` en 1.2). La inversa aparece sobre todo en la **teoría**: en regresión lineal, la solución de mínimos cuadrados es $\hat{\boldsymbol\beta}=(A^TA)^{-1}A^T\mathbf{b}$, y que $(A^TA)^{-1}$ exista depende de que las **variables predictoras no sean combinación lineal unas de otras**. Cuando casi lo son (colinealidad: «edad del lote» y «días de almacenamiento» miden lo mismo), la matriz es casi singular y los coeficientes se vuelven absurdamente grandes y sensibles — el modelo memoriza ruido. La medicina moderna: **regularización** (ridge añade $\lambda I$ a $A^TA$ para hacerla invertible y estable; lasso fuerza coeficientes a cero). Todo el edificio descansa sobre el concepto que acaba de aprender: invertibilidad = independencia = información no redundante.
 :::
 
@@ -346,7 +346,7 @@ Responda con números decimales o enteros. Dos aciertos seguidos suben el nivel;
 ### 1.5.7 Resumen y glosario
 
 ::: {.callout-tip}
-## Idea clave
+## Idea clave {.nonum}
 La inversa $A^{-1}$ es la matriz que **deshace** lo que $A$ hace: $AA^{-1}=A^{-1}A=I$. Existe si y solo si $\det A\neq 0$, es única y convierte $A\mathbf{x}=\mathbf{b}$ en $\mathbf{x}=A^{-1}\mathbf{b}$. En la práctica computacional se prefiere resolver el sistema directamente; en la teoría del aprendizaje automático, la invertibilidad de $A^TA$ es sinónimo de variables no redundantes.
 :::
 
@@ -365,7 +365,7 @@ La inversa $A^{-1}$ es la matriz que **deshace** lo que $A$ hace: $AA^{-1}=A^{-1
 
 ---
 
-## 1.5.8 Ejercicios propuestos
+## 1.5.4 Ejercicios propuestos
 
 El grupo **A** afianza conceptos y demostraciones sencillas; el **B** aplica la inversa a las carreras de la sede; el **C** es de programación. Para práctica interactiva, vuelva a los *Ejercicios adaptativos*.
 

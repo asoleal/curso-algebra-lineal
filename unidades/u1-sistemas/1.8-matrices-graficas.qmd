@@ -345,7 +345,7 @@ aristas y recalcula $M$ y $M^2$ en vivo.
 ## 1.8.5 Aplicaciones en los programas de la sede
 
 ::: {.callout-note}
-## Aplicación en Medicina Veterinaria — rastreo epidemiológico
+## Aplicación en Medicina Veterinaria — rastreo epidemiológico {.nonum}
 En un hato, cuatro corrales intercambian animales según una red de
 contactos (aristas). Si aparece un patógeno en el corral $v_1$, los
 contactos **directos** están en la fila 1 de $M$; los contactos **de
@@ -357,7 +357,7 @@ trazabilidad sanitaria moderna.
 :::
 
 ::: {.callout-note}
-## Aplicación en Agroindustria — ¿queda conectada la red si cae una ruta?
+## Aplicación en Agroindustria — ¿queda conectada la red si cae una ruta? {.nonum}
 Con la matriz del Ejemplo 1.8.1, la suma $M+M^2+M^3$ tiene ceros en
 varias entradas: hay pares sin comunicación (del cliente no sale nada
 — es sumidero). Si una vía entre dos bodegas se cierra por
@@ -517,7 +517,7 @@ tres niveles y ayudas graduales.
 ## 1.8.7 Resumen y glosario
 
 ::: {.callout-tip}
-## Idea clave
+## Idea clave {.nonum}
 Una gráfica se codifica en su **matriz de adyacencia** $M$
 ($m_{ij}=1$ si hay arista $v_i\to v_j$). El producto matricial cobra
 entonces un sentido combinatorio: $(M^k)_{ij}$ **cuenta los caminos de
@@ -566,7 +566,7 @@ El grupo **A** afianza conceptos y demostraciones sencillas; el **B** lleva las 
 
 ---
 
-## Cierre de la Unidad 1
+## Cierre de la Unidad 1 {.nonum}
 
 Ha recorrido el camino completo: qué es un sistema lineal (1.1), cómo
 resolverlo con Gauss–Jordan o con eliminación gaussiana (1.2), qué
