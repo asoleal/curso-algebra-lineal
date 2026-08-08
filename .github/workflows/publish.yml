@@ -25,7 +25,7 @@ jobs:
           python-version: "3.12"
 
       - name: Dependencias Python
-        run: pip install jupyter nbclient numpy sympy matplotlib scipy scikit-learn
+        run: pip install jupyter nbclient numpy sympy matplotlib scipy scikit-learn plotly
 
       - name: Instalar Quarto
         uses: quarto-dev/quarto-actions/setup@v2
