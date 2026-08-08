@@ -807,29 +807,73 @@ Serie interactiva:
 
 ## 1.1.7 Tres incógnitas: de rectas a planos
 
-Hasta aquí cada ecuación con dos incógnitas era una recta, y resolver
-el sistema $2\times2$ era hallar el punto de corte. ¿Qué cambia con
-**tres incógnitas**? La idea es la misma, solo que el dibujo gana una
-dimensión.
+En la sección 1.1.1 escribimos el sistema general de $m$ ecuaciones
+con $n$ incógnitas: cada fila es $\sum_{j=1}^{n} a_{ij}x_j = b_i$, y
+todo el sistema se resume como $A\mathbf{x} = \mathbf{b}$. El caso
+$2\times2$ lo conocemos bien: cada ecuación es una recta y resolver es
+hallar el punto de corte. Ahora miremos el caso particular $m = n = 3$:
 
-**Una ecuación es un plano.** Las soluciones $(x, y, z)$ de
-$ax + by + cz = d$ ya no forman una recta en el plano, sino un
-**plano** en el espacio.
+$$
+\begin{aligned}
+a_{11}x_1 + a_{12}x_2 + a_{13}x_3 &= b_1\\
+a_{21}x_1 + a_{22}x_2 + a_{23}x_3 &= b_2\\
+a_{31}x_1 + a_{32}x_2 + a_{33}x_3 &= b_3
+\end{aligned}
+$$
+
+**Una ecuación es un plano.** Las soluciones $(x_1, x_2, x_3)$ de cada
+fila ya no forman una recta en el plano, sino un **plano** en el
+espacio. La idea es la misma de siempre, solo que el dibujo gana una
+dimensión.
 
 **Dos ecuaciones, una recta.** Dos planos (no paralelos) se cortan a
 lo largo de una recta: con dos ecuaciones y tres incógnitas todavía
-sobra libertad, como cuando en $2\times2$ una sola ecuación dejaba
-toda una recta de soluciones.
+sobra libertad, igual que en $2\times2$ una sola ecuación dejaba toda
+una recta de soluciones.
 
 **Tres ecuaciones, un punto.** El tercer plano corta esa recta en un
 solo punto: la solución única del sistema $3\times3$
-(@fig-tres-planos). Igual que en $2\times2$, hay tres casos: un punto
-(se cortan), ninguno (algún plano es paralelo) o infinitos (los planos
-coinciden en una recta o en todo un plano).
+(@fig-tres-planos).
 
+::: {#fig-tres-planos}
+
+::: {.content-visible when-format="html"}
 ```{python}
-#| label: fig-tres-planos
-#| fig-cap: "Tres ecuaciones con tres incógnitas: cada ecuación es un plano; dos planos se cortan en una recta (líneas negras) y el tercer plano la corta en el punto solución (1, 2, 3)."
+#| echo: false
+import numpy as np
+import plotly.graph_objects as go
+
+AZ, NA, VE, RO = '#1565c0', '#e65100', '#2e7d32', '#b03a2e'
+g = np.linspace(-1, 5, 12)
+X, Y = np.meshgrid(g, g)
+
+def sup(Z, color):
+    return go.Surface(x=X, y=Y, z=Z, colorscale=[[0, color], [1, color]],
+                      opacity=0.55, showscale=False)
+
+t = np.linspace(-1, 5, 50)
+linea = dict(mode='lines', line=dict(color='black', width=4), showlegend=False)
+l1 = go.Scatter3d(x=t, y=2*np.ones_like(t), z=4 - t, **linea)
+l2 = go.Scatter3d(x=t, y=3 - t, z=3*np.ones_like(t), **linea)
+l3 = go.Scatter3d(x=np.ones_like(t), y=t, z=1 + t, **linea)
+pto = go.Scatter3d(x=[1], y=[2], z=[3], mode='markers+text',
+                   marker=dict(size=6, color=RO), text=['(1, 2, 3)'],
+                   textposition='top center', showlegend=False)
+
+fig = go.Figure(data=[sup(6 - X - Y, AZ), sup(2 - X + Y, NA), sup(X + Y, VE),
+                      l1, l2, l3, pto])
+fig.update_layout(
+    scene=dict(xaxis_title='x<sub>1</sub>', yaxis_title='x<sub>2</sub>',
+               zaxis_title='x<sub>3</sub>',
+               xaxis=dict(range=[-1, 5]), yaxis=dict(range=[-1, 5]),
+               zaxis=dict(range=[-1, 7])),
+    showlegend=False, margin=dict(l=0, r=0, t=10, b=0), height=480)
+fig
+```
+:::
+
+::: {.content-visible when-format="pdf"}
+```{python}
 #| echo: false
 import numpy as np
 import matplotlib.pyplot as plt
@@ -851,15 +895,108 @@ ax.plot(np.ones_like(t), t, 1 + t, color='k', lw=1.6)
 ax.scatter([1], [2], [3], color='#b03a2e', s=90, depthshade=False)
 ax.text(1.1, 2.2, 3.7, '$(1,\\,2,\\,3)$', color='#b03a2e', fontsize=11, ha='center')
 
-ax.set_xlabel('$x$'); ax.set_ylabel('$y$'); ax.set_zlabel('$z$')
+ax.set_xlabel('$x_1$'); ax.set_ylabel('$x_2$'); ax.set_zlabel('$x_3$')
 ax.set_xlim(-1, 5); ax.set_ylim(-1, 5); ax.set_zlim(-1, 7)
 ax.view_init(elev=16, azim=-60)
 plt.tight_layout(); plt.show()
 ```
+:::
 
-La figura muestra el sistema $x + y + z = 6$, $\;x - y + z = 2$,
-$\;x + y - z = 0$, cuya solución es el punto $(1, 2, 3)$: sustituye y
-comprueba que cumple las tres ecuaciones a la vez.
+Tres ecuaciones con tres incógnitas: cada ecuación es un plano; dos
+planos se cortan en una recta (líneas negras) y el tercer plano la
+corta en el punto solución (1, 2, 3). En la versión web puedes rotar
+la figura.
+:::
+
+La figura muestra el sistema $x_1 + x_2 + x_3 = 6$,
+$\;x_1 - x_2 + x_3 = 2$, $\;x_1 + x_2 - x_3 = 0$, cuya solución es el
+punto $(1, 2, 3)$: sustituye y comprueba que cumple las tres
+ecuaciones a la vez.
+**Todos los casos en $3\times3$.** En $2\times2$ había tres casos:
+las rectas se cortan (única), son paralelas (ninguna) o coinciden
+(infinitas). En $3\times3$ los tres grandes casos son los mismos, pero
+hay más maneras de que ocurran (@fig-casos-3x3):
+
+- **Solución única.** Los tres planos se cortan en un punto, como en
+  la @fig-tres-planos.
+- **Ninguna solución.** Basta con que dos planos sean paralelos
+  distintos (a). Pero hay un caso nuevo, que no existe en $2\times2$:
+  los planos se cortan *por parejas* — cada par define una recta —
+  pero las tres rectas son paralelas entre sí y nunca hay un punto
+  común a los tres planos (b); visto de frente, los planos forman un
+  prisma.
+- **Infinitas soluciones.** Los tres planos comparten una misma recta
+  (c): todos los puntos de esa recta son solución. O los tres planos
+  coinciden por completo (d): todo el plano es solución.
+
+```{python}
+#| label: fig-casos-3x3
+#| fig-cap: "Los casos de un sistema 3×3. Además de la solución única (@fig-tres-planos): (a) dos planos paralelos, sin solución; (b) cortes por parejas sin punto común, sin solución; (c) una recta común, infinitas soluciones; (d) tres planos coincidentes, infinitas soluciones."
+#| echo: false
+import numpy as np
+import matplotlib.pyplot as plt
+
+AZ, NA, VE, RO = '#1565c0', '#e65100', '#2e7d32', '#b03a2e'
+u = np.linspace(-1, 5, 10)
+U, V = np.meshgrid(u, u)
+
+def plano(ax, X, Y, Z, color):
+    ax.plot_surface(X, Y, Z, alpha=0.35, color=color, edgecolor='none')
+
+def ejes(ax, titulo):
+    ax.set_xlim(-1, 5); ax.set_ylim(-1, 5); ax.set_zlim(-1, 6)
+    ax.set_title(titulo, fontsize=10)
+    ax.set_xticks([]); ax.set_yticks([]); ax.set_zticks([])
+    ax.view_init(elev=16, azim=-60)
+
+fig = plt.figure(figsize=(9.2, 7.2))
+
+# (a) dos planos paralelos: x1+x2+x3=6, x1+x2+x3=2, x1=x3
+ax = fig.add_subplot(2, 2, 1, projection='3d')
+plano(ax, U, V, 6 - U - V, AZ); plano(ax, U, V, 2 - U - V, NA)
+plano(ax, U, V, U, VE)
+ejes(ax, '(a) Sin solución: dos planos paralelos')
+
+# (b) prisma: corte transversal, cada par de planos se corta
+ax = fig.add_subplot(2, 2, 2)
+x = np.linspace(-0.5, 3.5, 10)
+ax.plot(x, x, color=AZ, lw=2)
+ax.plot(x, 2 - x, color=NA, lw=2)
+ax.plot(x, 0.6 + 0*x, color=VE, lw=2)
+for px, py, s in [(0.6, 0.6, '$\\pi_1\\cap\\pi_3$'),
+                  (1.4, 0.6, '$\\pi_2\\cap\\pi_3$'),
+                  (1, 1, '$\\pi_1\\cap\\pi_2$')]:
+    ax.plot(px, py, 'o', color=RO, ms=6)
+    ax.annotate(s, (px, py), textcoords='offset points',
+                xytext=(8, -14), fontsize=9, color=RO)
+ax.text(3.45, 3.35, '$\\pi_1$', color=AZ, fontsize=11, ha='right')
+ax.text(3.45, -1.25, '$\\pi_2$', color=NA, fontsize=11, ha='right')
+ax.text(3.45, 0.75, '$\\pi_3$', color=VE, fontsize=11, ha='right')
+ax.set_xlim(-0.5, 3.5); ax.set_ylim(-1.6, 3.6); ax.axis('off')
+ax.set_title('(b) Sin solución: cortes por parejas\n(vista a lo largo del prisma)', fontsize=10)
+
+# (c) recta comun: x1+x2+x3=6, x1-x2+x3=2, x1+x3=4
+ax = fig.add_subplot(2, 2, 3, projection='3d')
+plano(ax, U, V, 6 - U - V, AZ); plano(ax, U, V, 2 - U + V, NA)
+plano(ax, U, V, 4 - U, VE)
+tt = np.linspace(-1, 5, 20)
+ax.plot(tt, 2*np.ones(20), 4 - tt, color=RO, lw=2.6)
+ejes(ax, '(c) Infinitas: los tres comparten una recta')
+
+# (d) los tres planos coinciden
+ax = fig.add_subplot(2, 2, 4, projection='3d')
+plano(ax, U, V, 6 - U - V, AZ)
+ax.text(2, 2, 6.8, 'todo el plano\nes solución', color=RO, fontsize=10, ha='center')
+ejes(ax, '(d) Infinitas: los tres planos coinciden')
+
+plt.tight_layout(); plt.show()
+```
+
+¿Cómo saber en cuál caso cae un sistema dado, sin dibujarlo? La
+respuesta tiene un nombre preciso — el **rango** de la matriz — y la
+descubriremos con las manos en la sección 1.2: al aplicar
+Gauss–Jordan, cada caso deja una huella inconfundible en la matriz
+escalonada.
 
 **¿De dónde sale un sistema $3\times3$?** Agreguemos una malla más al
 circuito de la @fig-circuito-2mallas. Con una fuente de $8$ V y cinco
@@ -935,8 +1072,51 @@ ax.set_xlim(-0.9, 9.4); ax.set_ylim(-0.55, 3.85); ax.axis('off')
 plt.tight_layout(); plt.show()
 ```
 
-Resolverlo por sustitución se puede, pero ya se vuelve largo. Python
-lo resuelve de inmediato:
+**Resolver a mano: tres caminos del mismo juego.** Antes de pedirle a
+la máquina, resolvamos con lápiz. Hay tres caminos clásicos, y los
+tres son el mismo juego de *quitar incógnitas hasta quedar con una*:
+
+- **Sustitución:** despeja una incógnita de una ecuación y métela en
+  las demás.
+- **Igualación:** despeja la *misma* incógnita en dos ecuaciones e
+  iguala las expresiones.
+- **Eliminación:** suma o resta las ecuaciones (multiplicadas por
+  constantes) para que una incógnita desaparezca. Este es el camino
+  que mejor escala: en la sección 1.2 se convertirá en Gauss–Jordan.
+
+*Calentamiento en $2\times2$.* Retomemos el sistema del circuito de
+dos mallas, $2I_1 - I_2 = 4$, $\;-I_1 + 3I_2 = 3$, que quedó pendiente:
+
+- Por **sustitución**: de la primera ecuación, $I_2 = 2I_1 - 4$; al
+  meterla en la segunda: $-I_1 + 3(2I_1 - 4) = 3$, es decir
+  $5I_1 - 12 = 3$, así que $I_1 = 3$ y $I_2 = 2$.
+- Por **igualación**: despejando $I_2$ en ambas, $I_2 = 2I_1 - 4$ e
+  $I_2 = \tfrac{I_1 + 3}{3}$; igualando: $6I_1 - 12 = I_1 + 3$, otra
+  vez $I_1 = 3$.
+- Por **eliminación**: $3\times(\text{primera}) + (\text{segunda})$:
+  $6I_1 - 3I_2 - I_1 + 3I_2 = 12 + 3$, o sea $5I_1 = 15$.
+
+Los tres caminos llegan al mismo punto, $(3, 2)$, como debe ser.
+
+*Ahora el $3\times3$.* Con sustitución en cadena, de afuera hacia
+adentro: de la malla 1, $I_2 = 2I_1 - 8$; de la malla 3,
+$I_3 = \tfrac{I_2}{2} = I_1 - 4$. Metiendo ambas en la malla 2:
+
+$$
+-I_1 + 3(2I_1 - 8) - (I_1 - 4) = 0
+\;\Longrightarrow\;
+4I_1 - 20 = 0
+\;\Longrightarrow\;
+I_1 = 5,
+$$
+
+y de vuelta: $I_2 = 2(5) - 8 = 2$, $\;I_3 = 5 - 4 = 1$. Nótese el
+truco que facilitó todo: el sistema venía *escalonado* (la malla 3
+solo tiene dos incógnitas), y eso permitió ir de afuera hacia adentro.
+Cuando el sistema no viene así de ordenado, hay que *llevarlo* a esa
+forma primero — y exactamente eso hace Gauss–Jordan.
+
+Comprobemos con la máquina:
 
 ```{python}
 import numpy as np
@@ -954,15 +1134,20 @@ en la malla 1: $2(5) - 2 = 8$, como debe ser. Este mismo sistema
 volverá en la sección 1.2: allí aprenderemos **Gauss–Jordan**, el
 método que hace paso a paso y a mano lo que aquí le pedimos a Python.
 
-::: {.callout-important title="Ventana IA · tres pesos, un punto"}
+::: {.callout-important title="Ventana IA · tres pesos, un punto (y los otros casos)"}
 Cuando el modelo lineal tiene **tres entradas** (por ejemplo humedad,
 materia orgánica y temperatura), tiene tres pesos $w_1, w_2, w_3$ por
-aprender. Cada observación aporta una ecuación lineal en esos pesos:
-geométricamente, un plano en el espacio de parámetros. Con tres
-observaciones independientes, los tres planos se cortan en un punto:
-los pesos quedan fijos. ¿Y si hay más observaciones que pesos? El
-sistema se vuelve *sobredeterminado*; ese caso lo retomaremos en la
-sección 1.3.
+aprender, y cada observación aporta una ecuación en esos pesos: un
+plano en el espacio de parámetros. Con tres observaciones
+independientes, los tres planos se cortan en un punto y los pesos
+quedan fijos. Pero los otros casos del panel también aparecen en la
+práctica: si dos observaciones son contradictorias (mismo suelo,
+pronósticos distintos), no hay solución exacta; si una observación es
+copia de otra, hay infinitas soluciones — el modelo queda
+*indeterminado*. En IA el caso cotidiano es además
+**sobredeterminado**: muchas más observaciones que pesos, sin solución
+exacta, y por eso se busca la de *menor error*. De eso hablaremos en
+la sección 1.3.
 :::
 ## 1.1.8 Resumen y glosario
 
@@ -1010,19 +1195,24 @@ Para resolver con lápiz y papel, y con Python cuando se indica. El grupo **A** 
 2. Halle la ecuación de la recta que pasa por $(1,2)$ y $(4,8)$, y verifíquela con ambos puntos. (Resp.: $y=2x$.)
 3. Demuestre que si $(x_0,y_0)$ es solución de $a_1x+b_1y=c_1$ y también de $a_2x+b_2y=c_2$, entonces lo es de $(a_1+ka_2)x+(b_1+kb_2)y=c_1+kc_2$ para cualquier constante $k$. (Sugerencia: sustituya.) Explique con sus palabras por qué esto dice que «combinar ecuaciones no inventa ni pierde soluciones».
 4. Dos rectas tienen la misma pendiente pero distinto intercepto. Muestre algebraicamente que el sistema correspondiente no tiene solución. (Sugerencia: réstelas.)
+5. (Casos en $3\times3$) Sin resolver, decida en cuál caso cae cada sistema y justifique geométricamente: (a) $x_1+x_2+x_3=6$, $\;x_1+x_2+x_3=2$, $\;x_1-x_3=0$; (b) $x_1+x_2=2$, $\;x_1-x_3=1$, $\;x_2+x_3=2$; (c) $x_1+x_2+x_3=6$, $\;x_1-x_2+x_3=2$, $\;x_1+x_3=4$. (Resp.: (a) sin solución, dos planos paralelos; (b) sin solución, se cortan por parejas sin punto común; (c) infinitas soluciones, los tres planos comparten una recta.)
+6. Verifique que $(4-t,\;2,\;t)$ es solución del sistema (c) del ejercicio 5 para todo valor de $t$, e interprete: ¿qué objeto geométrico describe esa familia de puntos? (Resp.: al sustituir, las tres ecuaciones se cumplen idénticamente; la familia es la recta de corte común a los tres planos.)
 
 **B. Aplicaciones**
 
-5. Verifique que $(2,-1)$ es solución del sistema $3x+y=5$, $x-2y=4$.
-6. (Mecatrónica, ley de Ohm) Dos resistencias en serie, $R_1=2\,\Omega$ y $R_2=4\,\Omega$, se conectan a una fuente de 12 V. Halle la corriente del circuito y la caída de voltaje en cada resistencia. (Resp.: $I=2$ A; caídas de 4 V y 8 V.)
-7. (Mecatrónica, mallas) En el circuito de dos mallas de esta sección, cambie la fuente $V_1$ a 10 V y apague $V_2$: el sistema queda $2I_1-I_2=10$, $-I_1+3I_2=0$. Resuélvalo y diga cuánta corriente pasa por la resistencia compartida. (Resp.: $I_1=6$, $I_2=2$; por la compartida, 4 A.)
-8. (Distribución de temperaturas) Una barra tiene temperatura lineal: en $x=0$ cm está a 20 °C y en $x=10$ cm a 60 °C. Halle $T(x)$, la temperatura en $x=4$ cm y el punto donde $T=50$ °C. (Resp.: $T(x)=4x+20$; 36 °C; $x=7.5$ cm.)
-9. (Agronomía) En una parcela se siembran maíz y fríjol cubriendo 10 ha en total. El maíz rinde 2 t/ha y el fríjol 3 t/ha, y la cosecha total fue de 24 t. ¿Cuántas hectáreas se sembraron de cada cultivo? (Resp.: 6 ha de maíz, 4 ha de fríjol.)
-10. (Zootecnia) Un ternero gana 0.8 kg por día y hoy pesa 32 kg. Escriba su peso como función lineal del tiempo y calcule en cuántos días llegará a 80 kg. (Resp.: $p(t)=0.8t+32$; 60 días.)
-11. (Notación $\Sigma$) Escriba $2x_1-x_2+4x_3=7$ en la forma $\sum_{j=1}^{n} a_jx_j=b$, indicando quiénes son los $a_j$; luego desarrolle la suma $\sum_{j=1}^{4} j\,x_j$.
+7. Verifique que $(2,-1)$ es solución del sistema $3x+y=5$, $x-2y=4$.
+8. (Mecatrónica, ley de Ohm) Dos resistencias en serie, $R_1=2\,\Omega$ y $R_2=4\,\Omega$, se conectan a una fuente de 12 V. Halle la corriente del circuito y la caída de voltaje en cada resistencia. (Resp.: $I=2$ A; caídas de 4 V y 8 V.)
+9. (Mecatrónica, mallas) En el circuito de dos mallas de esta sección, cambie la fuente $V_1$ a 10 V y apague $V_2$: el sistema queda $2I_1-I_2=10$, $-I_1+3I_2=0$. Resuélvalo y diga cuánta corriente pasa por la resistencia compartida. (Resp.: $I_1=6$, $I_2=2$; por la compartida, 4 A.)
+10. (Distribución de temperaturas) Una barra tiene temperatura lineal: en $x=0$ cm está a 20 °C y en $x=10$ cm a 60 °C. Halle $T(x)$, la temperatura en $x=4$ cm y el punto donde $T=50$ °C. (Resp.: $T(x)=4x+20$; 36 °C; $x=7.5$ cm.)
+11. (Agronomía) En una parcela se siembran maíz y fríjol cubriendo 10 ha en total. El maíz rinde 2 t/ha y el fríjol 3 t/ha, y la cosecha total fue de 24 t. ¿Cuántas hectáreas se sembraron de cada cultivo? (Resp.: 6 ha de maíz, 4 ha de fríjol.)
+12. (Zootecnia) Un ternero gana 0.8 kg por día y hoy pesa 32 kg. Escriba su peso como función lineal del tiempo y calcule en cuántos días llegará a 80 kg. (Resp.: $p(t)=0.8t+32$; 60 días.)
+13. (Notación $\Sigma$) Escriba $2x_1-x_2+4x_3=7$ en la forma $\sum_{j=1}^{n} a_jx_j=b$, indicando quiénes son los $a_j$; luego desarrolle la suma $\sum_{j=1}^{4} j\,x_j$.
+14. (Mecatrónica, tres mallas) En el circuito de tres mallas de esta sección, duplique la fuente a $V=16$ V: el sistema queda $2I_1-I_2=16$, $\;-I_1+3I_2-I_3=0$, $\;-I_2+2I_3=0$. Resuélvalo y compare con el circuito original de 8 V: ¿qué le pasó a las tres corrientes? (Resp.: $I_1=10$ A, $I_2=4$ A, $I_3=2$ A; se duplicaron, porque el sistema es lineal.)
+15. (Agroindustria, mezcla de tres ingredientes) Una ración mezcla maíz, soya y salvado, 6 qq en total. Si $x, y, z$ son los qq de cada ingrediente, el aporte de proteína sigue $4x+2y+z=15$ y el de fibra $x+2y+3z=11$. ¿Cuántos qq van de cada uno? (Resp.: 2 qq de maíz, 3 qq de soya, 1 qq de salvado.)
 
 **C. Programación**
 
-12. Resuelva con `numpy.linalg.solve` los sistemas de los ejercicios 7 y 9, y verifique las respuestas.
-13. Grafique con matplotlib las dos rectas del ejercicio 5 y marque con un punto la solución $(2,-1)$.
-14. (Ventana IA) Una neurona tiene pesos $w_1=0.5$, $w_2=-1$ y sesgo $b=1$. Grafique su frontera de decisión $0.5x_1-x_2+1=0$, sombree la región donde la neurona se activa ($s>0$) y decida si el punto $(1,1)$ la activa.
+16. Resuelva con `numpy.linalg.solve` los sistemas de los ejercicios 9 y 11, y verifique las respuestas.
+17. Grafique con matplotlib las dos rectas del ejercicio 7 y marque con un punto la solución $(2,-1)$.
+18. (Ventana IA) Una neurona tiene pesos $w_1=0.5$, $w_2=-1$ y sesgo $b=1$. Grafique su frontera de decisión $0.5x_1-x_2+1=0$, sombree la región donde la neurona se activa ($s>0$) y decida si el punto $(1,1)$ la activa.
+19. (Casos con SymPy) Para cada sistema del ejercicio 5, use `sympy.linsolve` y compare el resultado con su clasificación geométrica: ¿qué devuelve SymPy cuando no hay solución? ¿Y cuando hay infinitas? Después resuelva con `numpy.linalg.solve` los sistemas de los ejercicios 14 y 15, e intente `numpy` con el sistema (a) del ejercicio 5: ¿qué error aparece y por qué tiene sentido?
