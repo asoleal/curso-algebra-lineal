@@ -1,6 +1,6 @@
 # 1.2 Eliminación de Gauss–Jordan {.unnumbered}
 
-## 1.2.1 Presentación formal
+## 1.2.1 Introducción
 
 Todo sistema de ecuaciones lineales se puede representar con una sola
 matriz. Sobre esa matriz se trabaja el método de esta sección.
@@ -397,8 +397,187 @@ M.rref()[0]  # forma escalonada reducida de la matriz aumentada
 *Cuaderno ejecutable en línea:*
 `colab.research.google.com/github/asoleal/curso-algebra-lineal`
 :::
+## 1.2.4 Sistemas rectangulares: más ecuaciones que incógnitas (y al revés)
 
-## 1.2.4 Módulo interactivo
+Hasta aquí hemos escalonado sistemas cuadrados, pero en la práctica $m$ y $n$
+rara vez coinciden: sobran mediciones o sobran variables. La buena noticia es
+que **el método no cambia**: se escalona la matriz aumentada y se comparan
+rangos. Lo que sí cambia es el menú de posibilidades, y la forma del sistema ya
+da pistas.
+
+Recordemos un hecho clave: como el rango no puede superar el número de filas ni
+el de columnas,
+
+$$\operatorname{rango}(A) \le \min(m, n).$$
+
+Esa desigualdad tan sencilla gobierna todo lo que sigue.
+
+### Más filas que columnas: sistemas sobredeterminados
+
+Con $m > n$ hay "más exigencias que grados de libertad", así que el caso típico
+es que **no haya solución**: basta que dos ecuaciones se contradigan. Pero ojo,
+que sea típico no quiere decir que sea el único caso. Los tres están vivos, y
+se distinguen escalonando. Miremos tres sistemas $3 \times 2$ que comparten las
+dos primeras ecuaciones:
+
+$$\text{(i)}\;\begin{cases} x + y = 3 \\ x - y = 1 \\ 2x + y = 5 \end{cases}
+\qquad
+\text{(ii)}\;\begin{cases} x + y = 3 \\ x - y = 1 \\ 2x + y = 6 \end{cases}
+\qquad
+\text{(iii)}\;\begin{cases} x + y = 3 \\ 2x + 2y = 6 \\ -x - y = -3 \end{cases}$$
+
+Escalonemos la matriz aumentada de (i) y (ii) a la vez, porque solo difieren en
+el término independiente:
+
+$$\left[\begin{array}{cc|c} 1 & 1 & 3 \\ 1 & -1 & 1 \\ 2 & 1 & b_3 \end{array}\right]
+\xrightarrow{F_2 - F_1,\; F_3 - 2F_1}
+\left[\begin{array}{cc|c} 1 & 1 & 3 \\ 0 & -2 & -2 \\ 0 & -1 & b_3 - 6 \end{array}\right]
+\xrightarrow{F_3 - \tfrac{1}{2}F_2}
+\left[\begin{array}{cc|c} 1 & 1 & 3 \\ 0 & -2 & -2 \\ 0 & 0 & b_3 - 5 \end{array}\right]$$
+
+- **(i) $b_3 = 5$:** la última fila queda $0\;\;0\;|\;0$: la tercera ecuación
+  era redundante. Quedan dos ecuaciones con dos incógnitas,
+  $\operatorname{rango}(A) = \operatorname{rango}([A|b]) = 2 = n$: **solución
+  única**, $(x, y) = (2, 1)$.
+- **(ii) $b_3 = 6$:** la última fila queda $0\;\;0\;|\;1$, es decir $0 = 1$.
+  Aquí $\operatorname{rango}(A) = 2 < 3 = \operatorname{rango}([A|b])$:
+  **sin solución**.
+- **(iii):** las filas 2 y 3 son múltiplos de la 1 y desaparecen al escalonar:
+  $\operatorname{rango}(A) = \operatorname{rango}([A|b]) = 1 < 2 = n$. Sobra
+  una variable libre: **infinitas soluciones**, $(3 - t,\; t)$.
+
+Geométricamente, cada ecuación es una recta en el plano: tres rectas casi
+nunca pasan por un mismo punto. La figura @fig-sistemas-rectangulares muestra
+los casos (ii) y (i).
+
+::: {#fig-sistemas-rectangulares}
+
+```{python}
+#| echo: false
+import numpy as np
+import matplotlib.pyplot as plt
+
+AZ, NA, VE, RO = '#1565c0', '#e65100', '#2e7d32', '#b03a2e'
+xg = np.linspace(0, 4, 100)
+r1 = 3 - xg          # x + y = 3
+r2 = xg - 1          # x - y = 1
+
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(7.2, 3.3), sharey=True)
+
+# (a) sin solucion: 2x + y = 6
+ax1.plot(xg, r1, color=AZ, lw=1.8, label='$x+y=3$')
+ax1.plot(xg, r2, color=NA, lw=1.8, label='$x-y=1$')
+ax1.plot(xg, 6 - 2*xg, color=VE, lw=1.8, label='$2x+y=6$')
+for px, py in [(2, 1), (3, 0), (7/3, 4/3)]:
+    ax1.plot(px, py, 'o', color='k', ms=5)
+ax1.set_title('(a) Sin solución: cortes dos a dos,\npero ningún punto común', fontsize=10)
+
+# (b) solucion unica: 2x + y = 5
+ax2.plot(xg, r1, color=AZ, lw=1.8, label='$x+y=3$')
+ax2.plot(xg, r2, color=NA, lw=1.8, label='$x-y=1$')
+ax2.plot(xg, 5 - 2*xg, color=VE, lw=1.8, label='$2x+y=5$')
+ax2.plot(2, 1, 'o', color=RO, ms=8)
+ax2.annotate('$(2,1)$', (2, 1), textcoords='offset points',
+             xytext=(8, 8), color=RO, fontsize=11)
+ax2.set_title('(b) Solución única: las tres rectas\nconcurren en (2, 1)', fontsize=10)
+
+for ax in (ax1, ax2):
+    ax.set_xlim(0, 4); ax.set_ylim(-1, 4)
+    ax.set_xlabel('$x$'); ax.grid(alpha=0.25)
+ax1.set_ylabel('$y$')
+ax1.legend(fontsize=8, loc='upper right')
+plt.tight_layout()
+plt.show()
+```
+
+Tres rectas en el plano (sistema $3 \times 2$): (a) se cortan dos a dos pero
+no hay punto común a las tres — sistema incompatible; (b) las tres concurren
+en $(2,1)$ — solución única.
+:::
+
+¿Y con $4 \times 2$? La lógica es idéntica. Si al sistema (i) le agregamos la
+ecuación $x + 2y = 4$ (que también satisface $(2,1)$), la solución sigue siendo
+única: las filas redundantes desaparecen al escalonar. Si en cambio agregamos
+$x + 2y = 5$, el sistema se vuelve incompatible. **Más filas no cambian las
+reglas; solo agregan candidatas a redundancia o a contradicción.**
+
+### Más columnas que filas: sistemas subdeterminados
+
+Con $m < n$ ocurre lo opuesto: hay grados de libertad de sobra. Y aquí la
+desigualdad del rango pega primero:
+
+$$\operatorname{rango}(A) \le m < n
+\quad\Longrightarrow\quad
+\text{si el sistema es compatible, hay al menos } n - m \text{ variables libres.}$$
+
+En otras palabras:
+
+::: {.callout-important}
+## Idea clave {.nonum}
+Un sistema con **más incógnitas que ecuaciones jamás puede tener solución
+única**. Solo le quedan dos destinos: no tener solución, o tener infinitas.
+:::
+
+Dos ejemplos $2 \times 3$:
+
+$$\text{(iv)}\;\begin{cases} x + y + z = 3 \\ x - y + z = 1 \end{cases}
+\qquad
+\text{(v)}\;\begin{cases} x + y + z = 3 \\ x + y + z = 4 \end{cases}$$
+
+En (iv), restando las ecuaciones queda $2y = 2$, es decir $y = 1$, y entonces
+$x + z = 2$: **infinitas soluciones** $(2 - t,\; 1,\; t)$ — geométricamente,
+dos planos que se cortan en una recta, como vimos en la sección 1.1.7. En (v)
+los planos son paralelos: $\operatorname{rango}(A) = 1 < 2 =
+\operatorname{rango}([A|b])$, **sin solución**.
+
+Y con $2 \times 4$ se ensancha la familia de soluciones:
+
+$$\begin{cases} x + y + z + w = 4 \\ x - y + z - w = 0 \end{cases}
+\quad\Longrightarrow\quad
+x + z = 2,\;\; y + w = 2
+\quad\Longrightarrow\quad
+(2 - s,\; 2 - t,\; s,\; t),$$
+
+una familia con **dos parámetros libres**, justo los $n - m = 2$ que anuncia la
+desigualdad.
+
+### El mapa completo
+
+| | $m > n$ (sobredeterminado) | $m = n$ (cuadrado) | $m < n$ (subdeterminado) |
+|---|:---:|:---:|:---:|
+| Solución única | $\checkmark$ posible | $\checkmark$ posible | **imposible** |
+| Infinitas soluciones | $\checkmark$ posible | $\checkmark$ posible | $\checkmark$ posible |
+| Sin solución | $\checkmark$ (el caso típico) | $\checkmark$ posible | $\checkmark$ posible |
+
+: Posibilidades de un sistema $m \times n$ según su forma. La forma sospecha;
+el rango decide. {#tbl-formas-sistemas}
+
+Verifiquemos los casos (i) y (ii) con `numpy`, comparando rangos como lo haría
+la máquina:
+
+```{python}
+import numpy as np
+
+A = np.array([[1, 1], [1, -1], [2, 1]])   # coeficientes, igual en (i) y (ii)
+for b3 in (5, 6):
+    b = np.array([3, 1, b3])
+    Ab = np.column_stack([A, b])
+    rA, rAb = np.linalg.matrix_rank(A), np.linalg.matrix_rank(Ab)
+    print(f"b3={b3}: rango(A)={rA}, rango([A|b])={rAb}", end="  ->  ")
+    if rA < rAb:
+        print("sin solucion")
+    elif rA == 2:
+        print("solucion unica:", np.linalg.lstsq(A, b, rcond=None)[0])
+    else:
+        print("infinitas soluciones")
+```
+
+La receta de siempre, ahora sin sustos: escalonar, comparar
+$\operatorname{rango}(A)$ con $\operatorname{rango}([A|b])$, y contar
+variables libres contra $n$. La forma del sistema solo nos dice qué esperar;
+la reducción por filas nos dice qué pasó.
+
+## 1.2.5 Módulo interactivo
 
 ::: {.content-visible when-format="html"}
 Recorre la reducción del Ejemplo 1.2.1 paso a paso. La fila resaltada es
@@ -483,7 +662,7 @@ fila $\rightarrow$ ceros sobre el tercer pivote, llegando a
 $x = 1,\; y = 2,\; z = 3$.
 :::
 
-## 1.2.5 Aplicaciones por carrera
+## 1.2.6 Aplicaciones por carrera
 
 ::: {.callout-note title="Aplicación · Agroindustria: mezcla de concentrados"}
 Una planta mezcla tres concentrados ($C_1, C_2, C_3$). Cada tonelada
@@ -622,7 +801,7 @@ ax.set_xlim(-0.9, 9.4); ax.set_ylim(-0.55, 3.85); ax.axis('off')
 plt.tight_layout(); plt.show()
 ```
 
-## 1.2.6 Ejercicios adaptativos
+## 1.2.7 Ejercicios adaptativos
 
 ::: {.content-visible when-format="html"}
 Serie interactiva con **tres niveles**. Si aciertas dos seguidas, subes de
@@ -814,7 +993,7 @@ Serie interactiva completa:
 [sección 1.2.6 en el sitio del curso](https://asoleal.github.io/curso-algebra-lineal/unidades/u1-sistemas/1.2-gauss-jordan.html).
 :::
 
-## 1.2.7 Resumen y glosario
+## 1.2.8 Resumen y glosario
 
 ::: {.callout-tip title="Resumen"}
 - Un sistema lineal se representa por su **matriz aumentada**.
@@ -842,7 +1021,7 @@ Serie interactiva completa:
 
 ---
 
-## 1.2.8 Ejercicios propuestos
+## 1.2.9 Ejercicios propuestos
 
 El grupo **A** afianza conceptos y demostraciones sencillas; el **B** aplica el método a las carreras de la sede y a temperaturas, balances y flujos; el **C** es de programación. Para práctica interactiva, vuelva a los *Ejercicios adaptativos*.
 

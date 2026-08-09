@@ -1,6 +1,6 @@
 # 1.4 Operaciones con matrices {.unnumbered}
 
-## 1.4.1 Presentación formal
+## 1.4.1 Introducción
 
 **Definición 1.4.1 (Matriz).** Una **matriz** $A$ de tamaño
 $m \times n$ es un arreglo rectangular de números con $m$ **filas** y
@@ -12,12 +12,36 @@ a_{11} & a_{12} & \cdots & a_{1n}\\
 a_{21} & a_{22} & \cdots & a_{2n}\\
 \vdots & \vdots & \ddots & \vdots\\
 a_{m1} & a_{m2} & \cdots & a_{mn}
-\end{bmatrix}
+\end{bmatrix}_{m \times n}
 $$
+
+Las matrices se denotan con **letras mayúsculas** ($A$, $B$, $X$, $\ldots$),
+y cuando no hace falta escribir todas las entradas se abrevia
+
+$$A = [a_{ij}]_{m \times n},$$
+
+que se lee: "la matriz cuya entrada genérica es $a_{ij}$, con $m$ filas y $n$
+columnas".
 
 Cada entrada lleva **doble índice**: $a_{ij}$ es el número que está en
 la **fila $i$** y la **columna $j$** (siempre se nombra primero la fila
-y luego la columna). Por ejemplo, en
+y luego la columna).
+
+Ojo con una distinción que parece sutil pero evita muchos errores: en $a_{ij}$
+hay dos cosas distintas conviviendo. El subíndice $ij$ es la **dirección**, la
+posición dentro del arreglo — como una dirección de casa: "fila 2, columna 3".
+Y el valor de $a_{23}$ es el **contenido**, el número que vive en esa posición
+— quién habita la casa. Por ejemplo, en
+
+$$
+A = \begin{bmatrix} 5 & -1 & 8 \\ 0 & 7 & -4 \end{bmatrix}
+$$
+
+la dirección $i = 2$, $j = 3$ apunta a una casilla, y el contenido de esa
+casilla es $a_{23} = -4$. Cambiar el contenido no mueve la casilla; cambiar el
+subíndice nos lleva a otra casilla.
+
+Por ejemplo, en
 
 $$
 A = \begin{bmatrix} 7 & -2 & 0\\ 3 & 5 & 1 \end{bmatrix}_{2 \times 3}
@@ -34,51 +58,309 @@ una observación y cada columna, una variable medida.
 **iguales** si tienen el mismo tamaño y las mismas entradas: $A = B$
 significa $a_{ij} = b_{ij}$ para todo $i, j$.
 
-### Suma y producto por escalar
 
-**Definición 1.4.3 (Suma de matrices).** Si $A$ y $B$ tienen el **mismo
-tamaño**, su suma se calcula **entrada a entrada**:
+## Matrices especiales
 
-$$(A + B)_{ij} = a_{ij} + b_{ij}.$$
+Antes de operar conviene conocer a los personajes. Varias matrices aparecen
+tan seguido que tienen nombre y símbolo propios; casi todas son **cuadradas**
+(mismo número de filas que de columnas, $n \times n$), y en todas la
+**diagonal principal** — las entradas $a_{11}, a_{22}, \ldots, a_{nn}$ — es la
+protagonista.
 
-**Ejemplo (producción de dos fincas).** Dos fincas reportan su
-producción de maíz y café, en toneladas, en dos cosechas:
+**Matriz cero (o nula).** Todas sus entradas son cero. Se denota $O$ y hace
+las veces del número 0:
 
-$$
-A = \begin{bmatrix} 8 & 3\\ 5 & 2 \end{bmatrix}
-\;\text{(finca 1)}, \qquad
-B = \begin{bmatrix} 6 & 4\\ 4 & 1 \end{bmatrix}
-\;\text{(finca 2)},
-$$
+$$O = \begin{bmatrix} 0 & 0 & 0 \\ 0 & 0 & 0 \\ 0 & 0 & 0 \end{bmatrix}$$
 
-donde cada fila es una cosecha y cada columna un cultivo. La producción
-combinada se suma entrada a entrada:
+**Matriz diagonal.** Todas las entradas fuera de la diagonal principal son
+cero (sobre la diagonal puede haber cualquier valor, incluso ceros). Se
+abrevia $\operatorname{diag}(d_1, d_2, \ldots, d_n)$:
 
-$$
-A + B = \begin{bmatrix} 8+6 & 3+4\\ 5+4 & 2+1 \end{bmatrix}
-= \begin{bmatrix} 14 & 7\\ 9 & 3 \end{bmatrix}.
-$$
+$$D = \begin{bmatrix} 4 & 0 & 0 \\ 0 & -1 & 0 \\ 0 & 0 & 7 \end{bmatrix}
+= \operatorname{diag}(4, -1, 7)$$
 
-¡Ojo! Dos matrices de **distinto tamaño no se pueden sumar**.
+**Matriz escalar.** Una diagonal donde todas las entradas diagonales son
+iguales: estira o encoge todo por el mismo factor.
 
-**Definición 1.4.4 (Producto por un escalar).** Multiplicar una matriz
-por un número $c$ multiplica **cada entrada**:
+$$S = \begin{bmatrix} 3 & 0 & 0 \\ 0 & 3 & 0 \\ 0 & 0 & 3 \end{bmatrix}$$
 
-$$(cA)_{ij} = c\,a_{ij}.$$
+**Matriz identidad.** La escalar con unos en la diagonal. Se denota $I_n$ (o
+$I$ si el tamaño es claro) y hará las veces del número 1, como veremos en la
+multiplicación:
 
-**Ejemplo (cambio de unidades).** Para expresar la producción de la
-finca 1 en **kilogramos** se multiplica toda la matriz por $1000$:
+$$I_3 = \begin{bmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \\ 0 & 0 & 1 \end{bmatrix}$$
 
-$$
-1000\,A = \begin{bmatrix} 8000 & 3000\\ 5000 & 2000 \end{bmatrix}
-\text{ kg}.
-$$
+**Matrices triangulares.** Todo lo que está a un lado de la diagonal es cero.
+**Superior** si solo sobrevive lo de arriba, **inferior** si solo lo de abajo:
 
-Con la suma y el escalar se define la **resta**: $A - B = A + (-1)B$.
+$$U = \begin{bmatrix} 2 & 5 & -1 \\ 0 & 3 & 4 \\ 0 & 0 & 6 \end{bmatrix}
+\qquad
+L = \begin{bmatrix} 2 & 0 & 0 \\ 8 & 3 & 0 \\ -1 & 4 & 6 \end{bmatrix}$$
 
-**Propiedades (mismo tamaño).** La suma es conmutativa
-($A + B = B + A$) y asociativa; existe la **matriz cero** (puros ceros)
-con $A + 0 = A$; y el escalar se distribuye: $c(A + B) = cA + cB$.
+Ya las conoces: al escalonar un sistema en la sección 1.2, el objetivo era
+llegar precisamente a una forma triangular superior, que se resuelve por
+sustitución hacia atrás.
+
+**Matriz simétrica.** Al reflejarla sobre la diagonal principal queda igual:
+$a_{ij} = a_{ji}$ para todo $i, j$:
+
+$$A = \begin{bmatrix} 1 & 2 & -3 \\ 2 & 0 & 5 \\ -3 & 5 & 4 \end{bmatrix}$$
+
+Aparecen por doquier en aplicaciones: las matrices de covarianza en
+estadística y las de pesos de ciertos modelos de aprendizaje son simétricas.
+
+Todas se construyen en `numpy` con una línea:
+
+```{python}
+import numpy as np
+
+O = np.zeros((3, 3))        # matriz cero 3x3
+D = np.diag([4, -1, 7])     # diagonal a partir de sus entradas
+I3 = np.eye(3)              # identidad 3x3
+A = np.array([[1, 2, -3], [2, 0, 5], [-3, 5, 4]])
+
+print("identidad:\n", I3)
+print("triangular superior de A:\n", np.triu(A))
+print("A es simetrica?", np.array_equal(A, A.T))
+```
+
+Fíjate en los atajos de una familia: la identidad es una escalar, la escalar
+es diagonal, la diagonal es triangular superior **e** inferior a la vez, y la
+cero es todo lo anterior. Cuanto más "especial" es una matriz, más fácil será
+operar con ella — lo iremos comprobando a lo largo de esta sección.
+
+**Definición 1.4.2 (Suma de matrices).** Si $\mathcal{M}_{m \times n}$ denota
+el conjunto de **todas** las matrices de tamaño $m \times n$, la suma es una
+operación
+
+$$+ : \mathcal{M}_{m \times n} \times \mathcal{M}_{m \times n} \;\to\; \mathcal{M}_{m \times n},\\
+ (A, B) \mapsto C = A + B.$$
+
+Significado: la suma toma una **pareja ordenada** de matrices
+del mismo tamaño (por eso $\mathcal{M}_{m \times n} \times \mathcal{M}_{m \times n}$)
+y devuelve **otra matriz de ese mismo tamaño**. Entran dos matrices $m \times n$,
+sale una matriz $m \times n$. Si los tamaños no coinciden, la operación
+simplemente **no está definida**: no hay dónde poner el resultado.
+
+La regla es entrada a entrada:
+
+$$C = [c_{ij}]_{m \times n}, \qquad c_{ij} = a_{ij} + b_{ij}.$$
+
+Es decir, cada casilla de $C$ se llena sumando los contenidos de la **misma
+dirección** en $A$ y en $B$: la casilla $(i, j)$ de $C$ recibe lo que había en
+la casilla $(i, j)$ de $A$ más lo que había en la casilla $(i, j)$ de $B$.
+
+**Ejemplo 1.4.1.**
+
+::: {.content-visible when-format="html"}
+Explora la suma interactivamente: genera ejemplos y pasa el cursor sobre cada
+entrada de $C$ para ver de qué pareja de entradas proviene.
+
+```{=html}
+<div id="sumamat" style="max-width:700px;margin:1em auto;padding:1em;border:1px solid rgba(0,0,0,.2);border-radius:10px;font-family:monospace;">
+  <div style="text-align:center;margin-bottom:.6em;">
+    <button id="sm-btn" style="padding:.35em 1.2em;border-radius:6px;border:1px solid #888;background:#f5f5f5;cursor:pointer;">Nuevo ejemplo</button>
+  </div>
+  <div id="sm-tablas" style="display:flex;justify-content:center;align-items:center;gap:.9em;flex-wrap:wrap;"></div>
+  <div id="sm-eq" style="text-align:center;margin-top:.7em;min-height:1.5em;font-size:1.05em;"></div>
+  <div style="text-align:center;font-size:.85em;font-family:sans-serif;margin-top:.3em;">Pasa el cursor sobre una entrada de C: cada casilla sale de la misma casilla en A y en B.</div>
+</div>
+<script>
+(function () {
+  var m = 2, n = 3, A = [], B = [], C = [];
+  function rnd() { return Math.floor(Math.random() * 11) - 5; }
+  function celda(v, id, color) {
+    var td = document.createElement('td');
+    td.textContent = v; td.id = id;
+    td.style.cssText = 'border:1px solid rgba(0,0,0,.35);padding:.35em .7em;text-align:center;' +
+      (color ? 'background:' + color + ';' : '');
+    return td;
+  }
+  function tabla(M, nombre) {
+    var caja = document.createElement('div');
+    caja.style.textAlign = 'center';
+    var t = document.createElement('table');
+    t.style.cssText = 'border-collapse:collapse;margin:0 auto;';
+    for (var i = 0; i < m; i++) {
+      var tr = document.createElement('tr');
+      for (var j = 0; j < n; j++) tr.appendChild(celda(M[i][j], nombre + '-' + i + '-' + j));
+      t.appendChild(tr);
+    }
+    var et = document.createElement('div');
+    et.textContent = nombre; et.style.marginTop = '.3em';
+    caja.appendChild(t); caja.appendChild(et);
+    return caja;
+  }
+  function signo(s) {
+    var d = document.createElement('div');
+    d.textContent = s; d.style.fontSize = '1.3em';
+    return d;
+  }
+  function pintar(i, j, on) {
+    var a = document.getElementById('A-' + i + '-' + j),
+        b = document.getElementById('B-' + i + '-' + j),
+        c = document.getElementById('C-' + i + '-' + j);
+    a.style.background = on ? '#ffe082' : '';
+    b.style.background = on ? '#ffe082' : '';
+    c.style.background = on ? '#1565c0' : '';
+    c.style.color = on ? '#fff' : '';
+    document.getElementById('sm-eq').textContent = on ?
+      'c' + (i+1) + (j+1) + ' = a' + (i+1) + (j+1) + ' + b' + (i+1) + (j+1) +
+      ' = ' + A[i][j] + ' + (' + B[i][j] + ') = ' + C[i][j] : '';
+  }
+  function dibujar() {
+    var cont = document.getElementById('sm-tablas');
+    cont.innerHTML = '';
+    A = []; B = []; C = [];
+    for (var i = 0; i < m; i++) {
+      A.push([]); B.push([]); C.push([]);
+      for (var j = 0; j < n; j++) {
+        A[i].push(rnd()); B[i].push(rnd());
+        C[i].push(A[i][j] + B[i][j]);
+      }
+    }
+    cont.appendChild(tabla(A, 'A')); cont.appendChild(signo('+'));
+    cont.appendChild(tabla(B, 'B')); cont.appendChild(signo('='));
+    var cC = tabla(C, 'C');
+    cont.appendChild(cC);
+    for (var i2 = 0; i2 < m; i2++) for (var j2 = 0; j2 < n; j2++) {
+      (function (i3, j3) {
+        var c = document.getElementById('C-' + i3 + '-' + j3);
+        c.onmouseover = function () { pintar(i3, j3, true); };
+        c.onmouseout = function () { pintar(i3, j3, false); };
+      })(i2, j2);
+    }
+    document.getElementById('sm-eq').textContent = '';
+  }
+  document.getElementById('sm-btn').onclick = dibujar;
+  dibujar();
+})();
+</script>
+```
+:::
+
+::: {.content-visible when-format="pdf"}
+Sean
+
+$$A = \begin{bmatrix} 2 & -1 & 4 \\ 0 & 3 & -5 \end{bmatrix},
+\qquad
+B = \begin{bmatrix} 1 & 6 & -2 \\ 7 & -3 & 0 \end{bmatrix}.$$
+
+Entonces
+
+$$A + B = \begin{bmatrix} 2+1 & -1+6 & 4-2 \\ 0+7 & 3-3 & -5+0 \end{bmatrix}
+= \begin{bmatrix} 3 & 5 & 2 \\ 7 & 0 & -5 \end{bmatrix}.$$
+
+En la versión web este ejemplo es interactivo (genera parejas de matrices y
+muestra el origen de cada entrada):
+[sección de operaciones en el sitio del curso](https://asoleal.github.io/curso-algebra-lineal/unidades/u1-sistemas/1.4-operaciones-con-matrices.html).
+:::
+
+**Definición 1.4.3 (Producto por escalar).** Ahora la operación mezcla dos
+mundos: un número y una matriz. Su forma es
+
+$$\cdot : \mathbb{R} \times \mathcal{M}_{m \times n} \;\to\; \mathcal{M}_{m \times n},\\
+ (k, A) \mapsto kA.$$
+
+Entra una pareja (escalar, matriz) y sale una matriz **del mismo tamaño** que
+la original — multiplicar por un número no cambia la forma, solo los
+contenidos:
+
+$$kA = [k\,a_{ij}]_{m \times n},$$
+
+es decir, **cada casilla se multiplica por $k$**.
+
+**Ejemplo 1.4.2.** Con $k = -2$ y $A = \begin{bmatrix} 3 & -1 \\ 0 & 5 \\ 2 & -4 \end{bmatrix}$:
+
+$$-2A = \begin{bmatrix} -6 & 2 \\ 0 & -10 \\ -4 & 8 \end{bmatrix}.$$
+
+
+**Propiedades de la suma y el producto por escalar (mismo tamaño).**
+Para $A, B, C \in \mathcal{M}_{m \times n}$ y $c, d \in \mathbb{R}$:
+
+*Suma:*
+
+- Conmutativa: $A + B = B + A$
+
+- Asociativa: $(A + B) + C = A + (B + C)$
+
+- Elemento neutro: existe la matriz cero $O$ con $A + O = A$
+
+- Elemento opuesto: para cada $A$ existe $-A$ con $A + (-A) = O$
+
+*Producto por escalar:*
+
+- Distributiva sobre la suma de matrices: $c(A + B) = cA + cB$
+
+- Distributiva sobre la suma de escalares: $(c + d)A = cA + dA$
+
+- Asociatividad mixta: $(cd)A = c(dA)$
+
+- Identidad escalar: $1A = A$
+
+
+**¿Es esto un cuerpo?** No, y vale la pena decir por qué. Los números reales
+con $+$ y $\times$ sí son un cuerpo: ambas operaciones son conmutativas, tienen
+neutro, y todo elemento no nulo tiene inverso multiplicativo. En las matrices
+el panorama es distinto:
+
+- En $\mathcal{M}_{m \times n}$ con $m \neq n$ ni siquiera se pueden
+  multiplicar dos matrices entre sí, así que no hay candidato a cuerpo.
+  Lo que tenemos con la suma y el escalar es un **espacio vectorial** — esta
+  lista de ocho propiedades es, exactamente, su definición (la retomaremos en
+  la unidad de espacios vectoriales).
+- En $\mathcal{M}_{n \times n}$ sí hay producto (lo definiremos enseguida),
+  pero fallan dos axiomas de cuerpo: el producto **no es conmutativo**
+  ($AB \neq BA$ en general) y hay matrices no nulas **sin inversa**
+  (tema de la sección 1.5). Lo que resulta es un **anillo con unidad**, no un
+  cuerpo.
+
+La moraleja: la suma de matrices se comporta tan bien como la suma de números;
+las sorpresas vendrán del producto.
+
+## Demostraciones.
+
+ El patrón es siempre el mismo: dos matrices son iguales si
+coinciden **entrada a entrada**, así que comparamos la casilla $(i, j)$ de
+ambos lados y aplicamos la propiedad correspondiente de los números reales,
+que ya conocemos.
+
+**Conmutativa.** La entrada $(i,j)$ de $A + B$ es $a_{ij} + b_{ij}$, y la de
+$B + A$ es $b_{ij} + a_{ij}$. Como la suma de números reales es conmutativa,
+$a_{ij} + b_{ij} = b_{ij} + a_{ij}$. Las entradas coinciden, luego
+$A + B = B + A$. $\blacksquare$
+
+**Asociativa.** La entrada $(i,j)$ de $(A + B) + C$ es
+$(a_{ij} + b_{ij}) + c_{ij}$; la de $A + (B + C)$ es
+$a_{ij} + (b_{ij} + c_{ij})$. Son iguales por la asociatividad de la suma en
+$\mathbb{R}$. $\blacksquare$
+
+**Elemento neutro.** La entrada $(i,j)$ de $A + O$ es $a_{ij} + 0 = a_{ij}$,
+que es la entrada $(i,j)$ de $A$. $\blacksquare$
+
+**Elemento opuesto.** Definimos $-A = [-a_{ij}]_{m \times n}$. La entrada
+$(i,j)$ de $A + (-A)$ es $a_{ij} + (-a_{ij}) = 0$: todas son cero, así que
+$A + (-A) = O$. $\blacksquare$
+
+**Distributiva sobre suma de matrices.** La entrada $(i,j)$ de $c(A + B)$ es
+$c(a_{ij} + b_{ij})$; la de $cA + cB$ es $ca_{ij} + cb_{ij}$. Coinciden por la
+distributividad de los números reales. $\blacksquare$
+
+**Distributiva sobre suma de escalares.** La entrada $(i,j)$ de $(c+d)A$ es
+$(c + d)a_{ij} = ca_{ij} + da_{ij}$, que es la entrada $(i,j)$ de
+$cA + dA$. $\blacksquare$
+
+**Asociatividad mixta.** La entrada $(i,j)$ de $(cd)A$ es $(cd)a_{ij}$; la de
+$c(dA)$ es $c(d\,a_{ij})$. Son iguales por la asociatividad del producto en
+$\mathbb{R}$. $\blacksquare$
+
+**Identidad escalar.** La entrada $(i,j)$ de $1A$ es $1 \cdot a_{ij} = a_{ij}$,
+así que $1A = A$. $\blacksquare$
+
+Nótese la economía del asunto: **ninguna** de estas propiedades es un hecho
+nuevo — todas son heredadas de $\mathbb{R}$, casilla por casilla. Cuando una
+propiedad matricial falle más adelante (y el producto nos dará varias), no será
+heredable: por eso sorprende.
 
 ### La transpuesta: filas que se vuelven columnas
 
@@ -117,12 +399,17 @@ $$
 \begin{bmatrix} 7 & 3\\ -2 & 5\\ 0 & 1 \end{bmatrix}.
 $$
 
-**Propiedades.** $(A^{T})^{T} = A$ (transponer dos veces devuelve la
-original); $(A + B)^{T} = A^{T} + B^{T}$; $(cA)^{T} = cA^{T}$. Cuando
-$A^{T} = A$ se dice que $A$ es **simétrica**: es idéntica a su reflejo,
-como $\begin{bmatrix} 1 & 5\\ 5 & 2 \end{bmatrix}$. (Falta la propiedad
-que involucra el producto, $(AB)^{T} = B^{T}A^{T}$; la retomamos en
-cuanto definamos el producto.)
+**Propiedades.** 
+
+1. $(A^{T})^{T} = A$ (transponer dos veces devuelve la
+original); 
+
+2. $(A + B)^{T} = A^{T} + B^{T}$; $(cA)^{T} = cA^{T}$. 
+
+3. Cuando $A^{T} = A$ se dice que $A$ es **simétrica**: es idéntica a su reflejo,
+como $\begin{bmatrix} 1 & 5\\ 5 & 2 \end{bmatrix}$.  
+
+4. $(AB)^{T} = B^{T}A^{T}$;
 
 ### El producto, en tres pasos
 
@@ -243,13 +530,67 @@ $$
 
 $AB \neq BA$: **el orden de los factores importa**.
 
-**Propiedades del producto.** Con tamaños adecuados: es asociativo,
-$(AB)C = A(BC)$; se distribuye sobre la suma, $A(B + C) = AB + AC$;
-existe la **matriz identidad** $I$ (unos en la diagonal, ceros fuera)
-con $AI = IA = A$; y la transpuesta del producto invierte el orden:
-$(AB)^{T} = B^{T}A^{T}$ (el módulo Python lo verifica con números).
-Cuando $A$ es cuadrada también tiene sentido elevarla: $A^{2} = AA$
+**Propiedades del producto.** Con tamaños adecuados: 
+
+1. Asociativa, $(AB)C = A(BC)$; 
+
+2. Distributiva $A(B + C) = AB + AC$;
+
+3. Existe la **matriz identidad** $I$ (unos en la diagonal, ceros fuera)
+con $AI = IA = A$;  
+
+4. La transpuesta del producto invierte el orden:
+$(AB)^{T} = B^{T}A^{T}$ (con el módulo Python lo podemos verificar con números).
+
+5. Cuando $A$ es cuadrada también tiene sentido elevarla: $A^{2} = AA$
 (lo usaremos en la sección 1.8 contando caminos en grafos).
+
+## Demostraciones. 
+
+Recordemos la definición del producto: si $A$ es
+$m \times p$ y $B$ es $p \times n$, la entrada $(i,j)$ de $AB$ es
+$(AB)_{ij} = \sum_{k=1}^{p} a_{ik}b_{kj}$. De nuevo, todo se reduce a
+comparar entradas y usar propiedades de los números reales — solo que ahora
+hay sumatorias de por medio.
+
+**Asociativa.** Sean $A$ de $m \times p$, $B$ de $p \times n$ y $C$ de
+$n \times q$ (así todos los productos existen). La entrada $(i,j)$ de
+$(AB)C$ es
+
+$$\sum_{l=1}^{n} (AB)_{il}\,c_{lj}
+= \sum_{l=1}^{n}\left(\sum_{k=1}^{p} a_{ik}b_{kl}\right) c_{lj}
+= \sum_{k=1}^{p} a_{ik}\left(\sum_{l=1}^{n} b_{kl}c_{lj}\right)
+= \sum_{k=1}^{p} a_{ik}\,(BC)_{kj},$$
+
+que es la entrada $(i,j)$ de $A(BC)$. En el paso intermedio solo usamos
+distributividad y conmutatividad de la suma en $\mathbb{R}$: da igual
+sumar primero por columnas de $B$ o primero por filas. $\blacksquare$
+
+**Distributiva.** La entrada $(i,j)$ de $A(B + C)$ es
+
+$$\sum_{k} a_{ik}(b_{kj} + c_{kj})
+= \sum_{k} a_{ik}b_{kj} + \sum_{k} a_{ik}c_{kj}
+= (AB)_{ij} + (AC)_{ij},$$
+
+la entrada $(i,j)$ de $AB + AC$, por distributividad en $\mathbb{R}$.
+$\blacksquare$
+
+**Identidad.** Escribamos $I = [\delta_{ij}]$, donde $\delta_{ij} = 1$ si
+$i = j$ y $0$ si no. La entrada $(i,j)$ de $AI$ es
+
+$$\sum_{k} a_{ik}\delta_{kj} = a_{ij},$$
+
+porque de toda la suma solo sobrevive el término con $k = j$. El mismo
+cálculo con $\delta_{ik}$ a la izquierda da $IA = A$. $\blacksquare$
+
+**Transpuesta del producto.** La entrada $(i,j)$ de $(AB)^{T}$ es la entrada
+$(j,i)$ de $AB$, es decir $\sum_{k} a_{jk}b_{ki}$. Por otro lado, la entrada
+$(i,j)$ de $B^{T}A^{T}$ es
+
+$$\sum_{k} (B^{T})_{ik}(A^{T})_{kj} = \sum_{k} b_{ki}a_{jk},$$
+
+la misma suma con los factores en otro orden — y el orden no importa en
+$\mathbb{R}$. $\blacksquare$
 
 ## 1.4.2 Ejemplos
 
