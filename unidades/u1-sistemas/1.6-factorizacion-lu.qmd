@@ -274,16 +274,16 @@ solución.
   var pasos = [
     {op:'Punto de partida: la matriz A. La iremos escalonando; cada multiplicador usado se anota en L.',
      bloques:[{t:'A (matriz de trabajo)',m:A0,c:[]},{t:'L (vacía)',m:L0,c:[]}]},
-    {op:'R2 ← R2 − 2·R1.  Multiplicador m₂₁ = 2 → se guarda en la posición (2,1) de L.',
+    {op:'R2 ← R2 − 2·R1.  Multiplicador $m_2$₁ = 2 → se guarda en la posición (2,1) de L.',
      bloques:[{t:'Trabajo',m:A1,c:[1]},{t:'L',m:L1,c:[1]}]},
-    {op:'R3 ← R3 + R1, es decir, R3 − (−1)·R1.  Multiplicador m₃₁ = −1 → posición (3,1) de L.',
+    {op:'R3 ← R3 + R1, es decir, R3 − (−1)·R1.  Multiplicador $m_3$₁ = −1 → posición (3,1) de L.',
      bloques:[{t:'Trabajo',m:A2,c:[2]},{t:'L',m:L2,c:[2]}]},
-    {op:'R3 ← R3 − 3·R2.  Multiplicador m₃₂ = 3 → posición (3,2) de L. La matriz de trabajo ya es U.',
+    {op:'R3 ← R3 − 3·R2.  Multiplicador $m_3$₂ = 3 → posición (3,2) de L. La matriz de trabajo ya es U.',
      bloques:[{t:'U (terminada)',m:U,c:[2]},{t:'L (terminada)',m:LF,c:[2]}]},
     {op:'Factorización lista: A = LU. Verifique la fila 2 de A: 2·(2,1,1) + 1·(0,−1,1) = (4,1,3). ✓',
      bloques:[{t:'L',m:LF,c:[]},{t:'U',m:U,c:[]}]},
-    {op:'Resolver Ly = b (hacia adelante): y₁ = 5;  y₂ = 9 − 2·5 = −1;  y₃ = −6 −(−1)·5 − 3·(−1) = 2.',
-     bloques:[{t:'L',m:LF,c:[]},{t:'b',m:vb,c:[]},{t:'y = L⁻¹b (por sustitución)',m:vy,c:[0,1,2]}]},
+    {op:'Resolver Ly = b (hacia adelante): $y_1$ = 5;  $y_2$ = 9 − 2·5 = −1;  $y_3$ = −6 −(−1)·5 − 3·(−1) = 2.',
+     bloques:[{t:'L',m:LF,c:[]},{t:'b',m:vb,c:[]},{t:'y = L$^{-1}$b (por sustitución)',m:vy,c:[0,1,2]}]},
     {op:'Resolver Ux = y (hacia atrás): 2z = 2 ⇒ z = 1;  −y + z = −1 ⇒ y = 2;  2x + y + z = 5 ⇒ x = 1.',
      bloques:[{t:'U',m:U,c:[]},{t:'y',m:vy,c:[]},{t:'x (solución)',m:vx,c:[0,1,2]}]},
     {op:'Solución: x = 1, y = 2, z = 1. Comprobación: A·x = (5, 9, −6) = b. ✓  Con las mismas L y U, cualquier otro vector b se resuelve solo con los pasos 5 y 6.',
@@ -408,7 +408,7 @@ guiada.
 
   function genN1(){
     var p=nz(1,4), m=nz(-3,3), s=nz(-4,4), t=nz(-4,4);
-    return { desc:'El multiplicador es «entrada a eliminar ÷ pivote»: m = a₂₁ / a₁₁.',
+    return { desc:'El multiplicador es «entrada a eliminar ÷ pivote»: m = $a_2$₁ / $a_1$₁.',
       html:'A = [['+p+', '+s+'],['+(p*m)+', '+t+']]. &nbsp;Multiplicador m de R2 ← R2 − m·R1:',
       vars:['m'], resp:[m], tol:0.001,
       h1:'Divida la entrada (2,1) entre el pivote (1,1): m = '+(p*m)+' / '+p+'.',
@@ -416,20 +416,20 @@ guiada.
   }
   function genN2(){
     var l=nz(-3,3), b1=nz(-5,5), b2=nz(-5,5);
-    return { desc:'Sustitución hacia adelante: primero y₁ (sale gratis), luego y₂.',
-      html:'L = [[1, 0],['+l+', 1]], b = ('+b1+', '+b2+'). &nbsp;Si Ly = b, entonces y₂ =',
-      vars:['y₂'], resp:[b2-l*b1], tol:0.001,
-      h1:'y₁ = b₁ = '+b1+'. La segunda fila dice: '+l+'·y₁ + y₂ = '+b2+'.',
-      h2:'y₂ = '+b2+' − ('+l+')·('+b1+') = '+(b2-l*b1)+'.' };
+    return { desc:'Sustitución hacia adelante: primero $y_1$ (sale gratis), luego $y_2$.',
+      html:'L = [[1, 0],['+l+', 1]], b = ('+b1+', '+b2+'). &nbsp;Si Ly = b, entonces $y_2$ =',
+      vars:['$y_2$'], resp:[b2-l*b1], tol:0.001,
+      h1:'$y_1$ = $b_1$ = '+b1+'. La segunda fila dice: '+l+'·$y_1$ + $y_2$ = '+b2+'.',
+      h2:'$y_2$ = '+b2+' − ('+l+')·('+b1+') = '+(b2-l*b1)+'.' };
   }
   function genN3(){
     var u1=nz(1,2), u2=nz(1,3), u3=nz(1,2), x2=nz(-3,3), x1=nz(-3,3);
     var y2=u3*x2, y1=u1*x1+u2*x2;
     return { desc:'Sustitución hacia atrás: primero la última variable, luego las anteriores.',
-      html:'U = [['+u1+', '+u2+'],[0, '+u3+']], y = ('+y1+', '+y2+'). &nbsp;Si Ux = y: &nbsp;x₂ y x₁ =',
-      vars:['x₂','x₁'], resp:[x2,x1], tol:0.001,
-      h1:'Última fila: '+u3+'·x₂ = '+y2+' ⇒ x₂. Luego: '+u1+'·x₁ + '+u2+'·x₂ = '+y1+'.',
-      h2:'x₂ = '+y2+'/'+u3+' = '+x2+'. &nbsp;x₁ = ('+y1+' − '+u2+'·'+x2+')/'+u1+' = '+x1+'.' };
+      html:'U = [['+u1+', '+u2+'],[0, '+u3+']], y = ('+y1+', '+y2+'). &nbsp;Si Ux = y: &nbsp;$x_2$ y $x_1$ =',
+      vars:['$x_2$','$x_1$'], resp:[x2,x1], tol:0.001,
+      h1:'Última fila: '+u3+'·$x_2$ = '+y2+' ⇒ $x_2$. Luego: '+u1+'·$x_1$ + '+u2+'·$x_2$ = '+y1+'.',
+      h2:'$x_2$ = '+y2+'/'+u3+' = '+x2+'. &nbsp;$x_1$ = ('+y1+' − '+u2+'·'+x2+')/'+u1+' = '+x1+'.' };
   }
   var gens={1:genN1,2:genN2,3:genN3};
 

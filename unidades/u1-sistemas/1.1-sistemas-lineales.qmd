@@ -371,7 +371,7 @@ el sistema y dibuja su frontera de decisión.
 
 ```{python}
 #| label: fig-neurona
-#| fig-cap: "Neurona calibrada con dos muestras. La recta 5x₁ + 2x₂ = 9 separa las decisiones: a un lado s > 0 (clase 1), al otro s < 0 (clase 0)."
+#| fig-cap: "Neurona calibrada con dos muestras. La recta 5$x_1$ + 2$x_2$ = 9 separa las decisiones: a un lado s > 0 (clase 1), al otro s < 0 (clase 0)."
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -388,11 +388,11 @@ for xn in [(2.5, 1.5), (0.5, 1.0)]:
     print(f"Muestra {xn}: s = {s:.2f} ->", "clase 1" if s > 0 else "clase 0")
 
 xx = np.linspace(-0.5, 3.5, 200)
-plt.plot(xx, (9 - 5*xx)/2, label='frontera: 5x₁ + 2x₂ = 9')
+plt.plot(xx, (9 - 5*xx)/2, label='frontera: 5$x_1$ + 2$x_2$ = 9')
 plt.plot(2, 1, 's', ms=9, label='calibración (2,1) → clase 1')
 plt.plot(1, 2, 'o', ms=9, label='calibración (1,2) → frontera')
 plt.plot(2.5, 1.5, '^', ms=9, label='nueva (2.5,1.5) → clase 1')
-plt.xlabel('x₁ (humedad)'); plt.ylabel('x₂ (materia orgánica)')
+plt.xlabel('$x_1$ (humedad)'); plt.ylabel('$x_2$ (materia orgánica)')
 plt.grid(alpha=0.3); plt.legend(fontsize=8); plt.show()
 ```
 
@@ -593,7 +593,7 @@ Gauss–Jordan.
 
 ```{python}
 #| label: fig-circuito-2mallas
-#| fig-cap: "Circuito de dos mallas. Cada malla aporta una ecuación (ley de Ohm + Kirchhoff); por la resistencia compartida R₃ circula la diferencia I₁ − I₂."
+#| fig-cap: "Circuito de dos mallas. Cada malla aporta una ecuación (ley de Ohm + Kirchhoff); por la resistencia compartida $R_3$ circula la diferencia $I_1$ − $I_2$."
 #| echo: false
 import numpy as np
 import matplotlib.pyplot as plt
@@ -1024,7 +1024,7 @@ $$
 
 ```{python}
 #| label: fig-tres-mallas
-#| fig-cap: "Circuito de tres mallas: tres mallas, tres ecuaciones. Por la resistencia compartida R₄ circula I₁ − I₂ y por R₅, I₂ − I₃."
+#| fig-cap: "Circuito de tres mallas: tres mallas, tres ecuaciones. Por la resistencia compartida $R_4$ circula $I_1$ − $I_2$ y por $R_5$, $I_2$ − $I_3$."
 #| echo: false
 import numpy as np
 import matplotlib.pyplot as plt

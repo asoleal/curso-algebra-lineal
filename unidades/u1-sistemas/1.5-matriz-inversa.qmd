@@ -102,22 +102,22 @@ except np.linalg.LinAlgError as e:
 ```
 
 ```{python}
-# Ventana IA: colinealidad en acción (regresión lineal, β = (XᵀX)⁻¹Xᵀy)
+# Ventana IA: colinealidad en acción (regresión lineal, $\beta$ = ($X^T$X)$^{-}$¹$X^T$y)
 # Dos variables que miden lo mismo: columna 3 = 2 × columna 2
 X = np.array([[1, 2, 4],
               [1, 3, 6],
               [1, 4, 8]], dtype=float)
 XtX = X.T @ X
 try:
-    np.linalg.inv(XtX)   # ¡XᵀX es singular: no hay modelo único!
+    np.linalg.inv(XtX)   # ¡$X^T$X es singular: no hay modelo único!
 except np.linalg.LinAlgError as e:
     print("Sin regularización:", e)
 
-# La medicina (ridge): sumar λI hace la matriz invertible y estable
+# La medicina (ridge): sumar $\lambda$I hace la matriz invertible y estable
 lam = 0.1
 XtX_ridge = XtX + lam * np.eye(3)
 print("Con ridge, ¿invertible?", np.allclose(XtX_ridge @ np.linalg.inv(XtX_ridge), np.eye(3)))
-print("det(XᵀX) = 0  vs  det(XᵀX + λI) =", round(np.linalg.det(XtX_ridge), 4))
+print("det($X^T$X) = 0  vs  det($X^T$X + $\lambda$I) =", round(np.linalg.det(XtX_ridge), 4))
 ```
 
 ::: {.content-visible when-format="html"}
@@ -189,11 +189,11 @@ Elija una matriz $A$ del menú (todas tienen determinante $\pm 1$, así que su i
     var q00=m.a*e+m.b*g, q01=m.a*f+m.b*h, q10=m.c*e+m.d*g, q11=m.c*f+m.d*h;
     pintar('p00',q00,1); pintar('p01',q01,0); pintar('p10',q10,0); pintar('p11',q11,1);
     var ok = Math.abs(q00-1)<1e-9 && Math.abs(q01)<1e-9 && Math.abs(q10)<1e-9 && Math.abs(q11-1)<1e-9;
-    document.getElementById('inv-msg').textContent = ok ? '¡Exacto! A·M = I, así que M = A⁻¹. Verifique también M·A = I.' : 'Ajuste las entradas hasta que A·M = I (las cuatro en verde).';
+    document.getElementById('inv-msg').textContent = ok ? '¡Exacto! A·M = I, así que M = A$^{-1}$. Verifique también M·A = I.' : 'Ajuste las entradas hasta que A·M = I (las cuatro en verde).';
     document.getElementById('inv-msg').style.color = ok ? '#1b5e20' : '#5a5470';
   }
   function setM(e,f,g,h){ document.getElementById('m00').value=e; document.getElementById('m01').value=f; document.getElementById('m10').value=g; document.getElementById('m11').value=h; calc(); }
-  document.getElementById('inv-pista').onclick=function(){ var m=A(); alert('Fórmula:  A⁻¹ = (1/det) · [[d, −b],[−c, a]]  =  (1/'+(m.a*m.d-m.b*m.c)+') · [['+m.d+', '+(-m.b)+'],['+(-m.c)+', '+m.a+']]'); };
+  document.getElementById('inv-pista').onclick=function(){ var m=A(); alert('Fórmula:  A$^{-1}$ = (1/det) · [[d, −b],[−c, a]]  =  (1/'+(m.a*m.d-m.b*m.c)+') · [['+m.d+', '+(-m.b)+'],['+(-m.c)+', '+m.a+']]'); };
   document.getElementById('inv-sol').onclick=function(){ var m=A(), det=m.a*m.d-m.b*m.c; setM(m.d/det, -m.b/det, -m.c/det, m.a/det); };
   ['m00','m01','m10','m11'].forEach(function(id){ document.getElementById(id).addEventListener('input',calc); });
   sel.addEventListener('change',function(){ setM(1,0,0,1); });
@@ -259,27 +259,27 @@ Responda con números decimales o enteros. Dos aciertos seguidos suben el nivel;
   function genN1(){
     var a=nz(-5,5), d=nz(-5,5);
     return { desc:'Para una matriz diagonal, la inversa invierte cada entrada de la diagonal.',
-      html:'A = [['+a+', 0],[0, '+d+']]. &nbsp;Entrada (1,1) de A⁻¹:',
+      html:'A = [['+a+', 0],[0, '+d+']]. &nbsp;Entrada (1,1) de A$^{-1}$:',
       vars:['x'], resp:[1/a], tol:0.01,
-      h1:'La diagonal se invierte entrada a entrada: (A⁻¹)₁₁ = 1/'+a+'.',
-      h2:'(A⁻¹)₁₁ = 1/('+a+') = '+fmt(1/a)+'. Comprobación: '+a+' · '+fmt(1/a)+' = 1.' };
+      h1:'La diagonal se invierte entrada a entrada: (A$^{-1}$)₁₁ = 1/'+a+'.',
+      h2:'(A$^{-1}$)₁₁ = 1/('+a+') = '+fmt(1/a)+'. Comprobación: '+a+' · '+fmt(1/a)+' = 1.' };
   }
   function genN2(){
     var pool=[[2,1,1,1],[3,1,5,2],[4,3,1,1],[2,3,3,5],[1,2,2,3],[3,2,4,3]];
     var p=pool[rnd(0,pool.length-1)], a=p[0],b=p[1],c=p[2],d=p[3];
     var det=a*d-b*c;
     return { desc:'Aplique la fórmula 2×2 (aquí det = '+det+').',
-      html:'A = [['+a+', '+b+'],['+c+', '+d+']]. &nbsp;Entradas (1,1) y (1,2) de A⁻¹:',
+      html:'A = [['+a+', '+b+'],['+c+', '+d+']]. &nbsp;Entradas (1,1) y (1,2) de A$^{-1}$:',
       vars:['x','y'], resp:[d/det,-b/det], tol:0.01,
-      h1:'(A⁻¹)₁₁ = d/det = '+d+'/'+det+'; &nbsp;(A⁻¹)₁₂ = −b/det.',
-      h2:'(A⁻¹)₁₁ = '+fmt(d/det)+', &nbsp;(A⁻¹)₁₂ = '+fmt(-b/det)+'. A⁻¹ completa = [['+fmt(d/det)+', '+fmt(-b/det)+'],['+fmt(-c/det)+', '+fmt(a/det)+']].' };
+      h1:'(A$^{-1}$)₁₁ = d/det = '+d+'/'+det+'; &nbsp;(A$^{-1}$)₁₂ = −b/det.',
+      h2:'(A$^{-1}$)₁₁ = '+fmt(d/det)+', &nbsp;(A$^{-1}$)₁₂ = '+fmt(-b/det)+'. A$^{-1}$ completa = [['+fmt(d/det)+', '+fmt(-b/det)+'],['+fmt(-c/det)+', '+fmt(a/det)+']].' };
   }
   function genN3(){
     var b=nz(2,6), k=nz(2,6);
     return { desc:'Piense qué condición hace singular a la matriz (det = 0).',
       html:'A = [[1, '+b+'],['+k+', t]]. &nbsp;¿Para qué valor de t la matriz NO tiene inversa?',
       vars:['t'], resp:[b*k], tol:0.001,
-      h1:'Sin inversa ⇔ det = 0. Aquí det = t − '+b+'·'+k+'.',
+      h1:'Sin inversa $\Leftrightarrow$ det = 0. Aquí det = t − '+b+'·'+k+'.',
       h2:'t = '+b+'·'+k+' = '+(b*k)+'. Con ese valor, la fila 2 es '+k+' veces la fila 1: las filas dependen una de la otra.' };
   }
   var gens={1:genN1,2:genN2,3:genN3};

@@ -753,7 +753,7 @@ duplica el voltaje de la fuente, ¿qué pasa con las tres corrientes?*
 
 ```{python}
 #| label: fig-circuito-3mallas
-#| fig-cap: "Circuito de tres mallas: tres mallas, tres ecuaciones. Las resistencias compartidas R₄ y R₅ llevan las diferencias I₁ − I₂ e I₂ − I₃."
+#| fig-cap: "Circuito de tres mallas: tres mallas, tres ecuaciones. Las resistencias compartidas $R_4$ y $R_5$ llevan las diferencias $I_1$ − $I_2$ e $I_2$ − $I_3$."
 #| echo: false
 import numpy as np
 import matplotlib.pyplot as plt

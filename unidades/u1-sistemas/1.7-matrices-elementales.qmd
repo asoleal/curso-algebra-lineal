@@ -443,10 +443,10 @@ el nivel; dos fallos seguidos muestran la solución guiada.
     var i=rnd(1,3), j=rnd(1,3); while(j===i){ j=rnd(1,3); }
     var m=nz(-4,4);
     return { desc:'La inversa de una elemental es la operación que la deshace.',
-      html:'E corresponde a R'+j+' ← R'+j+' + ('+m+')·R'+i+'. &nbsp;Entrada ('+j+','+i+') de E⁻¹:',
+      html:'E corresponde a R'+j+' ← R'+j+' + ('+m+')·R'+i+'. &nbsp;Entrada ('+j+','+i+') de E$^{-1}$:',
       vars:['e'], resp:[-m], tol:0.001,
       h1:'Para deshacer «sumar '+m+' veces la fila '+i+'» hay que RESTARLA.',
-      h2:'E⁻¹ corresponde a R'+j+' ← R'+j+' − ('+m+')·R'+i+', así que la entrada es '+(-m)+'.' };
+      h2:'E$^{-1}$ corresponde a R'+j+' ← R'+j+' − ('+m+')·R'+i+', así que la entrada es '+(-m)+'.' };
   }
   function genN3(){
     var a=nz(-3,3), b=nz(-3,3), c=nz(-3,3), d=nz(-3,3), m=nz(-3,3);
@@ -565,7 +565,7 @@ elementales de la eliminación.
 | Matriz elemental | Matriz que resulta de aplicar UNA operación elemental a $I$ |
 | Teorema 1.7.1 | Aplicar una operación a $A$ = calcular $EA$ |
 | Inversa de una elemental | La elemental de la operación que la deshace |
-| Teorema 1.7.4 | $A$ invertible ⇔ RREF($A$) $=I$ ⇔ $A$ es producto de elementales |
+| Teorema 1.7.4 | $A$ invertible $\Leftrightarrow$ RREF($A$) $=I$ $\Leftrightarrow$ $A$ es producto de elementales |
 | Orden inverso (IA) | Deshacer una cadena: $(E_k\cdots E_1)^{-1}=E_1^{-1}\cdots E_k^{-1}$; así «desprende» capas la retropropagación |
 | Factores, no producto (IA) | Guardar los factores y aplicarlos uno a uno: más barato que formar la matriz total |
 
