@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>intuicion-geometrica</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="2.1-intuicion-geometrica_files/libs/clipboard/clipboard.min.js"></script>
+<script src="2.1-intuicion-geometrica_files/libs/quarto-html/quarto.js" type="module"></script>
+<script src="2.1-intuicion-geometrica_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="2.1-intuicion-geometrica_files/libs/quarto-html/popper.min.js"></script>
+<script src="2.1-intuicion-geometrica_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="2.1-intuicion-geometrica_files/libs/quarto-html/anchor.min.js"></script>
+<link href="2.1-intuicion-geometrica_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="2.1-intuicion-geometrica_files/libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="2.1-intuicion-geometrica_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="2.1-intuicion-geometrica_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="2.1-intuicion-geometrica_files/libs/bootstrap/bootstrap-40899fc7ad7619d3329608169d656bda.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="fullcontent quarto-light">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">2.1 Determinantes: El factor de escala del espacio</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="estructura-teórica-matemática" class="level2">
+<h2 class="anchored" data-anchor-id="estructura-teórica-matemática">2.1.1 Estructura teórica matemática</h2>
+<blockquote class="blockquote">
+<p><strong>Qué aprenderá aquí.</strong> Que el determinante no es solo una fórmula para saber si una matriz tiene inversa, sino una medida geométrica: <strong>cuánto estira o encoge una matriz el espacio</strong>. Veremos su definición formal inductiva y su interpretación como área y volumen.</p>
+</blockquote>
+<div id="def-operacion-determinante" class="theorem definition">
+<p><span class="theorem-title"><strong>Definition 1 (Operación determinante)</strong></span> Sea <span class="math inline">\(\mathcal{M}_{n \times n}\)</span> el conjunto de todas las matrices cuadradas de tamaño <span class="math inline">\(n \times n\)</span> con entradas reales. El determinante es una función que asigna a cada matriz <span class="math inline">\(A \in \mathcal{M}_{n \times n}\)</span> un número real único, denotado por <span class="math inline">\(\det(A)\)</span> o <span class="math inline">\(|A|\)</span>:</p>
+<p><span class="math display">\[|\cdot| : \mathcal{M}_{n \times n} \to \mathbb{R}\]</span> <span class="math display">\[A \mapsto \det(A)\]</span></p>
+<p>Esta operación se construye de manera inductiva: primero se define para matrices de <span class="math inline">\(2 \times 2\)</span> y, a partir de ahí, para matrices de mayor tamaño.</p>
+</div>
+<div id="def-determinante-2x2" class="theorem definition">
+<p><span class="theorem-title"><strong>Definition 2 (Determinante de <span class="math inline">\(2 \times 2\)</span>)</strong></span> Para una matriz <span class="math inline">\(A = \begin{pmatrix} a &amp; b \\ c &amp; d \end{pmatrix}\)</span>, su determinante se define como:</p>
+<p><span class="math display">\[ \det(A) = |A| = ad - bc \]</span></p>
+</div>
+<div id="exm-matriz-2x2" class="theorem example">
+<p><span class="theorem-title"><strong>Example 1 (Matriz de <span class="math inline">\(2 \times 2\)</span>)</strong></span> Considere la matriz</p>
+<p><span class="math display">\[ A = \begin{pmatrix} 3 &amp; 5 \\ -1 &amp; 2 \end{pmatrix} \]</span></p>
+<p>Aquí, sus entradas son <span class="math inline">\(a_{11} = 3\)</span>, <span class="math inline">\(a_{12} = 5\)</span>, <span class="math inline">\(a_{21} = -1\)</span> y <span class="math inline">\(a_{22} = 2\)</span></p>
+<p>Así que el <span class="math inline">\(|A| = a_{11}a_{22}-a_{21}a_{12}=3\cdot 2 - (-1)\cdot 5 = 11\)</span>.</p>
+</div>
+<div id="def-menores-cofactores" class="theorem definition">
+<p><span class="theorem-title"><strong>Definition 3 (Menores y Cofactores)</strong></span> Sea <span class="math inline">\(A\)</span> una matriz de <span class="math inline">\(n \times n\)</span>. El <strong>menor</strong> <span class="math inline">\(M_{ij}\)</span> es la matriz de <span class="math inline">\((n-1) \times (n-1)\)</span> que resulta de eliminar la fila <span class="math inline">\(i\)</span> y la columna <span class="math inline">\(j\)</span> de <span class="math inline">\(A\)</span>. El <strong>cofactor</strong> <span class="math inline">\(C_{ij}\)</span> se define como:</p>
+<p><span class="math display">\[ C_{ij} = (-1)^{i+j} \det(M_{ij}) \]</span></p>
+<p>El signo <span class="math inline">\((-1)^{i+j}\)</span> crea un tablero de ajedrez de signos positivos y negativos.</p>
+</div>
+<p>Aquí tienes el ejemplo de un cofactor para una matriz de <span class="math inline">\(3 \times 3\)</span>, manteniendo exactamente el mismo formato y estilo:</p>
+<div id="exm-cofactor-3x3" class="theorem example">
+<p><span class="theorem-title"><strong>Example 2 (Cálculo de un cofactor en una matriz de <span class="math inline">\(3 \times 3\)</span>)</strong></span> Considere la matriz</p>
+<p><span class="math display">\[ A = \begin{pmatrix} 2 &amp; 3 &amp; 1 \\ 4 &amp; 1 &amp; -2 \\ 0 &amp; 5 &amp; 3 \end{pmatrix} \]</span></p>
+<p>Para calcular el cofactor <span class="math inline">\(C_{12}\)</span>, primero eliminamos la fila <span class="math inline">\(1\)</span> y la columna <span class="math inline">\(2\)</span> para obtener el menor <span class="math inline">\(M_{12}\)</span>:</p>
+<p><span class="math display">\[ M_{12} = \begin{pmatrix} 4 &amp; -2 \\ 0 &amp; 3 \end{pmatrix} \]</span></p>
+<p>Luego, calculamos el determinante de este menor y lo multiplicamos por el signo <span class="math inline">\((-1)^{1+2}\)</span>:</p>
+<p><span class="math display">\[ \det(M_{12}) = (4)(3) - (-2)(0) = 12 \]</span></p>
+<p>Así que el cofactor es <span class="math inline">\(C_{12} = (-1)^{1+2} \det(M_{12}) = -1 \cdot 12 = -12\)</span>.</p>
+</div>
+<div id="exm-cofactor-3x3" class="theorem example">
+<p><span class="theorem-title"><strong>Example 3 (Cálculo de un cofactor en una matriz de <span class="math inline">\(3 \times 3\)</span>)</strong></span> Considere la matriz</p>
+<p><span class="math display">\[ A = \begin{pmatrix} \xcancel{2} &amp; \xcancel{3} &amp; \xcancel{1} \\ 4 &amp; \xcancel{1} &amp; -2 \\ 0 &amp; \xcancel{5} &amp; 3 \end{pmatrix} \]</span></p>
+<p>Para calcular el cofactor <span class="math inline">\(C_{12}\)</span>, eliminamos (tachamos) la fila <span class="math inline">\(1\)</span> y la columna <span class="math inline">\(2\)</span>, obteniendo el menor <span class="math inline">\(M_{12}\)</span>:</p>
+<p><span class="math display">\[ M_{12} = \begin{pmatrix} 4 &amp; -2 \\ 0 &amp; 3 \end{pmatrix} \]</span></p>
+<p>Luego, calculamos el determinante de este menor y lo multiplicamos por el signo <span class="math inline">\((-1)^{1+2}\)</span>:</p>
+<p><span class="math display">\[ \det(M_{12}) = (4)(3) - (-2)(0) = 12 \]</span></p>
+<p>Así que el cofactor es <span class="math inline">\(C_{12} = (-1)^{1+2} \det(M_{12}) = -1 \cdot 12 = -12\)</span>.</p>
+</div>
+<div id="def-determinante-nxn" class="theorem definition">
+<p><span class="theorem-title"><strong>Definition 4 (Determinante <span class="math inline">\(n \times n\)</span>)</strong></span> El determinante de una matriz <span class="math inline">\(A\)</span> de <span class="math inline">\(n \times n\)</span> se calcula mediante la expansión por cofactores a lo largo de cualquier fila <span class="math inline">\(i\)</span> o columna <span class="math inline">\(j\)</span>:</p>
+<p><span class="math display">\[ \det(A) = \sum_{k=1}^n a_{ik} C_{ik} = a_{i1}C_{i1} + a_{i2}C_{i2} + \dots + a_{in}C_{in} \]</span></p>
+</div>
+<div id="thm-det-triangulares" class="theorem">
+<p><span class="theorem-title"><strong>Theorem 1 (Determinante de matrices triangulares)</strong></span> Si <span class="math inline">\(A\)</span> es una matriz triangular superior, inferior o diagonal, su determinante es el producto de las entradas de su diagonal principal:</p>
+<p><span class="math display">\[ \det(A) = a_{11} \cdot a_{22} \dots a_{nn} \]</span></p>
+</div>
+</section>
+<section id="sección-de-análisis-y-ventana-ia" class="level2">
+<h2 class="anchored" data-anchor-id="sección-de-análisis-y-ventana-ia">2.1.2 Sección de análisis y Ventana IA</h2>
+<p>Geométricamente, las columnas de una matriz <span class="math inline">\(2 \times 2\)</span> definen dos vectores. El valor absoluto del determinante es el <strong>área del paralelogramo</strong> que forman. En <span class="math inline">\(3 \times 3\)</span>, es el <strong>volumen del paralelepípedo</strong>.</p>
+<p>Si el determinante es <span class="math inline">\(0\)</span>, el área (o volumen) es cero: ¡la matriz aplastó el espacio sobre una línea o un punto! Por eso no tiene inversa: no se puede “des-aplastar” una dimensión perdida.</p>
+<div class="callout callout-style-default callout-important callout-titled" title="Ventana IA: El Jacobiano y el colapso de la información">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Ventana IA: El Jacobiano y el colapso de la información
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>En las redes neuronales profundas, cada capa aplica una transformación lineal <span class="math inline">\(W\mathbf{x}\)</span>. Si en alguna capa la matriz de pesos <span class="math inline">\(W\)</span> tiene un determinante cercano a cero, la transformación está “aplastando” el espacio de características (features).</p>
+<p>En IA generativa y modelos de flujo (Normalizing Flows), se usa el <strong>determinante Jacobiano</strong> para medir cómo cambia el volumen de probabilidad al transformar los datos. Calcular el determinante de matrices gigantes es costoso, por lo que las arquitecturas modernas diseñan matrices donde el determinante es trivial de calcular (matrices triangulares o de bajo rango).</p>
+<p><strong>Regla de oro en IA:</strong> <span class="math inline">\(|\det(W)| &lt; 1\)</span> comprime información; <span class="math inline">\(|\det(W)| &gt; 1\)</span> la expande. Un <span class="math inline">\(\det \approx 0\)</span> provoca el temido problema de “gradientes desvanecientes” (vanishing gradients).</p>
+</div>
+</div>
+</section>
+<section id="ejercicios-de-mecanización" class="level2">
+<h2 class="anchored" data-anchor-id="ejercicios-de-mecanización">2.1.3 Ejercicios de mecanización</h2>
+<div id="exm-cofactores-3x3" class="theorem example">
+<p><span class="theorem-title"><strong>Example 4 (Cálculo por cofactores en <span class="math inline">\(3 \times 3\)</span>)</strong></span> Calcule el determinante de <span class="math inline">\(A = \begin{pmatrix} 2 &amp; 3 &amp; 1 \\ 4 &amp; 1 &amp; -2 \\ 0 &amp; 5 &amp; 3 \end{pmatrix}\)</span> expandiendo por la primera fila.</p>
+<p><em>Solución:</em> Usamos la fórmula <span class="math inline">\(\det(A) = a_{11}C_{11} + a_{12}C_{12} + a_{13}C_{13}\)</span>.</p>
+<p><span class="math display">\[ \det(A) = 2 \begin{vmatrix} 1 &amp; -2 \\ 5 &amp; 3 \end{vmatrix} - 3 \begin{vmatrix} 4 &amp; -2 \\ 0 &amp; 3 \end{vmatrix} + 1 \begin{vmatrix} 4 &amp; 1 \\ 0 &amp; 5 \end{vmatrix} \]</span> <span class="math display">\[ \det(A) = 2(3 - (-10)) - 3(12 - 0) + 1(20 - 0) = 2(13) - 3(12) + 20 = 26 - 36 + 20 = 10 \]</span></p>
+</div>
+<div id="104fa6de" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-stdout">
+<pre><code>Verificación en Python: 9.999999999999998</code></pre>
+</div>
+</div>
+</section>
+<section id="ejercicios-demostrativos" class="level2">
+<h2 class="anchored" data-anchor-id="ejercicios-demostrativos">2.1.4 Ejercicios demostrativos</h2>
+<div id="thm-propiedades-fundamentales" class="theorem">
+<p><span class="theorem-title"><strong>Theorem 2 (Propiedades fundamentales)</strong></span> Para cualesquiera matrices <span class="math inline">\(A, B\)</span> de <span class="math inline">\(n \times n\)</span>: 1. <span class="math inline">\(\det(AB) = \det(A)\det(B)\)</span> 2. <span class="math inline">\(\det(A^T) = \det(A)\)</span> 3. Si <span class="math inline">\(A\)</span> tiene una fila (o columna) de ceros, o dos filas idénticas, <span class="math inline">\(\det(A) = 0\)</span>.</p>
+</div>
+<div class="proof">
+<p><span class="proof-title"><em>Proof</em>. </span><em>Demostración del inciso 3 (Filas idénticas):</em> Supongamos que la matriz <span class="math inline">\(A\)</span> tiene las filas <span class="math inline">\(i\)</span> y <span class="math inline">\(j\)</span> idénticas. Si intercambiamos la fila <span class="math inline">\(i\)</span> con la fila <span class="math inline">\(j\)</span>, la matriz no cambia (es la misma <span class="math inline">\(A\)</span>). Por la propiedad de intercambio (que invierte el signo del determinante), tenemos:</p>
+<p><span class="math display">\[ \det(A) = -\det(A) \]</span></p>
+<p>Sumando <span class="math inline">\(\det(A)\)</span> a ambos lados:</p>
+<p><span class="math display">\[ 2\det(A) = 0 \implies \det(A) = 0 \]</span> <span class="math inline">\(\blacksquare\)</span></p>
+</div>
+</section>
+<section id="aplicaciones-por-carrera" class="level2">
+<h2 class="anchored" data-anchor-id="aplicaciones-por-carrera">2.1.5 Aplicaciones por carrera</h2>
+<div class="callout callout-style-default callout-note callout-titled" title="Aplicación · Agronomía: Área real de un lote irregular">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Aplicación · Agronomía: Área real de un lote irregular
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Un ingeniero agrónomo mapea un lote de terreno usando un dron. Las coordenadas de las esquinas de una sección triangular, medidas desde un origen, están dadas por los vectores de posición <span class="math inline">\(\mathbf{u} = (150, 200)\)</span> m y <span class="math inline">\(\mathbf{v} = (300, 50)\)</span> m. El área del triángulo formado por el origen y estos puntos es la mitad del área del paralelogramo que definen.</p>
+<p>Calculamos el determinante de la matriz formada por estos vectores:</p>
+<p><span class="math display">\[ A = \begin{pmatrix} 150 &amp; 300 \\ 200 &amp; 50 \end{pmatrix} \implies \det(A) = (150)(50) - (300)(200) = 7500 - 60000 = -52500 \]</span></p>
+<p>El área del paralelogramo es <span class="math inline">\(|\det(A)| = 52500\)</span> m<span class="math inline">\(^2\)</span>. El área del lote triangular es la mitad: <strong><span class="math inline">\(26250\)</span> m<span class="math inline">\(^2\)</span></strong> (aprox. 2.6 hectáreas). El signo negativo solo indica la orientación (horaria) del trazado.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Aplicación · Mecatrónica: Volumen del espacio de trabajo de un robot">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Aplicación · Mecatrónica: Volumen del espacio de trabajo de un robot
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Un brazo robótico en 3D puede alcanzar un punto final. La matriz de transformación de sus articulaciones tiene una submatriz de rotación <span class="math inline">\(R\)</span> de <span class="math inline">\(3 \times 3\)</span>. Si el volumen de trabajo permitido es una caja unitaria de <span class="math inline">\(1\)</span> m<span class="math inline">\(^3\)</span>, el volumen real alcanzable tras la transformación es exactamente <span class="math inline">\(|\det(R)|\)</span>. Como las matrices de rotación pura son ortogonales, <span class="math inline">\(\det(R) = 1\)</span>, lo que confirma que <strong>el robot rota el espacio pero no lo comprime ni lo expande</strong>.</p>
+</div>
+</div>
+</section>
+<section id="módulo-python-y-visualización" class="level2">
+<h2 class="anchored" data-anchor-id="módulo-python-y-visualización">2.1.6 Módulo Python y visualización</h2>
+<div id="f758b264" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Vectores que definen un paralelogramo</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>v1 <span class="op">=</span> np.array([<span class="dv">2</span>, <span class="dv">1</span>])</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>v2 <span class="op">=</span> np.array([<span class="dv">1</span>, <span class="dv">3</span>])</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Matriz A cuyas columnas son v1 y v2</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.column_stack([v1, v2])</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>det_A <span class="op">=</span> np.linalg.det(A)</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">6</span>))</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Dibujo del paralelogramo</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>origin <span class="op">=</span> np.array([<span class="dv">0</span>, <span class="dv">0</span>])</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>parallelogram <span class="op">=</span> plt.Polygon([origin, v1, v1<span class="op">+</span>v2, v2], color<span class="op">=</span><span class="st">'blue'</span>, alpha<span class="op">=</span><span class="fl">0.3</span>)</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>ax.add_patch(parallelogram)</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Flechas</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>ax.quiver(<span class="op">*</span>origin, <span class="op">*</span>v1, angles<span class="op">=</span><span class="st">'xy'</span>, scale_units<span class="op">=</span><span class="st">'xy'</span>, scale<span class="op">=</span><span class="dv">1</span>, color<span class="op">=</span><span class="st">'r'</span>, label<span class="op">=</span><span class="ss">f'v1 = </span><span class="sc">{</span><span class="bu">tuple</span>(v1)<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>ax.quiver(<span class="op">*</span>origin, <span class="op">*</span>v2, angles<span class="op">=</span><span class="st">'xy'</span>, scale_units<span class="op">=</span><span class="st">'xy'</span>, scale<span class="op">=</span><span class="dv">1</span>, color<span class="op">=</span><span class="st">'g'</span>, label<span class="op">=</span><span class="ss">f'v2 = </span><span class="sc">{</span><span class="bu">tuple</span>(v2)<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>ax.set_xlim(<span class="op">-</span><span class="fl">0.5</span>, <span class="dv">4</span>)</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>ax.set_ylim(<span class="op">-</span><span class="fl">0.5</span>, <span class="dv">5</span>)</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>ax.grid(alpha<span class="op">=</span><span class="fl">0.3</span>)</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="ss">f"Área del paralelogramo = |det(A)| = </span><span class="sc">{</span><span class="bu">abs</span>(det_A)<span class="sc">:.2f}</span><span class="ss">"</span>)</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="2.1-intuicion-geometrica_files/figure-html/cell-3-output-1.png" width="494" height="508" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

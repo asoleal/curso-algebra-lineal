@@ -1,0 +1,136 @@
+# 2.1 Intuición geométrica: el determinante como factor de escala {.unnumbered}
+
+## 2.1.1 ¿Qué le hace una matriz al espacio?
+
+En la Unidad 1 aprendimos a resolver sistemas de ecuaciones y a operar con matrices. Pero hay una pregunta que casi no hicimos: **¿qué le hace una matriz al espacio geométrico?** 
+
+Imagina que cada punto $(x, y)$ del plano es un vector. Si multiplicas todos los puntos del plano por una matriz $A = \begin{pmatrix} a & b \\ c & d \end{pmatrix}$, el plano se estira, se rota, se inclina o se aplasta. La matriz es una **transformación lineal**.
+
+Para medir cuánto "deforma" la matriz el espacio, necesitamos un número que resuma ese efecto. Ese número es el **determinante**. Antes de aprender a calcularlo con fórmulas, vamos a descubrirlo mirando.
+
+## 2.1.2 El caso $2 \times 2$: Áreas con signo
+
+Toma la matriz identidad $I = \begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix}$. Si multiplicas cualquier vector por $I$, el vector no cambia. El espacio se queda exactamente igual. Queremos que el determinante de la identidad sea $1$, porque el "factor de escala" del espacio es $1$ (no hay escala).
+
+Ahora, mira las columnas de una matriz $A = \begin{pmatrix} a & b \\ c & d \end{pmatrix}$ como dos vectores: $\mathbf{u} = (a, c)$ y $\mathbf{v} = (b, d)$. Estos dos vectores, saliendo desde el origen, forman un **paralelogramo**.
+
+**Definición 2.1.1 (Determinante de $2 \times 2$).** El determinante de la matriz $A$ se define como:
+$$ \det(A) = \begin{vmatrix} a & b \\ c & d \end{vmatrix} = ad - bc $$
+
+**Teorema 2.1.1 (Interpretación geométrica).** El valor absoluto del determinante de $A$ es exactamente el **área del paralelogramo** formado por sus columnas $\mathbf{u}$ y $\mathbf{v}$.
+$$ \text{Área} = |\det(A)| = |ad - bc| $$
+
+Veamos un ejemplo. Sea $A = \begin{pmatrix} 3 & 1 \\ 1 & 2 \end{pmatrix}$. Sus columnas son $\mathbf{u} = (3, 1)$ y $\mathbf{v} = (1, 2)$.
+$$ \det(A) = (3)(2) - (1)(1) = 6 - 1 = 5 $$
+El paralelogramo formado por estos vectores tiene un área de exactamente $5$ unidades cuadradas.
+
+```{python}
+#| label: fig-paralelogramo-2d
+#| fig-cap: "El determinante como área. Las columnas de la matriz forman un paralelogramo. Su área es $|ad - bc|$. Aquí, el área es $5$."
+#| echo: false
+import numpy as np
+import matplotlib.pyplot as plt
+
+A = np.array([[3, 1], 
+              [1, 2]])
+u, v = A[:, 0], A[:, 1]
+
+fig, ax = plt.subplots(figsize=(5, 5))
+poli = plt.Polygon([ [0,0], u, u+v, v ], alpha=0.3, color='#1f77b4', edgecolor='#1f77b4', lw=2)
+ax.add_patch(poli)
+ax.quiver(0, 0, u[0], u[1], angles='xy', scale_units='xy', scale=1, color='#d62728', lw=2, label=r'$\mathbf{u} = (3, 1)$')
+ax.quiver(0, 0, v[0], v[1], angles='xy', scale_units='xy', scale=1, color='#2ca02c', lw=2, label=r'$\mathbf{v} = (1, 2)$')
+ax.quiver(0, 0, u[0]+v[0], u[1]+v[1], angles='xy', scale_units='xy', scale=1, color='gray', lw=1.5, ls='--')
+ax.set_xlim(-1, 5); ax.set_ylim(-1, 5)
+ax.set_xticks(range(6)); ax.set_yticks(range(6))
+ax.grid(True, alpha=0.3)
+ax.set_title(f"Área = |det(A)| = |(3)(2) - (1)(1)| = 5", fontsize=12)
+ax.legend(loc='upper left')
+plt.tight_layout()
+plt.show()
+
+## 2.1.3 El signo: orientación y "efecto espejo"
+
+Fíjate que en la fórmula $\det(A) = ad - bc$ no pusimos valor absoluto: el determinante puede ser **negativo**. ¿Qué significa un "área negativa"? No es que exista el anti-área: el signo guarda información sobre la **orientación** del paralelogramo.
+
+Dibuja $\mathbf{u}$ y luego $\mathbf{v}$, y recorre el paralelogramo en el orden $\mathbf{0} \to \mathbf{u} \to \mathbf{u}+\mathbf{v} \to \mathbf{v} \to \mathbf{0}$. Ese recorrido puede ir en contra de las manecillas del reloj (orientación positiva, la misma del plano cartesiano) o a favor (orientación negativa).
+
+*   Si $\det(A) > 0$, las columnas están en orden anti-horario: la matriz **preserva** la orientación del espacio.
+*   Si $\det(A) < 0$, las columnas están en orden horario: la matriz **invierte** la orientación, como si el espacio pasara por un espejo.
+
+**Ejemplo de espejo.** La matriz de reflexión respecto al eje $x$ es $R = \begin{pmatrix} 1 & 0 \\ 0 & -1 \end{pmatrix}$:
+$$ \det(R) = (1)(-1) - (0)(0) = -1. $$
+El área no cambia (vale $1$), pero el signo negativo delata que el espacio fue volteado: tu mano derecha se vuelve izquierda. En cambio, una rotación $R(\theta) = \begin{pmatrix} \cos\theta & -\sin\theta \\ \sin\theta & \cos\theta \end{pmatrix}$ tiene $\det = \cos^2\theta + \sin^2\theta = 1$: gira el espacio sin voltearlo ni estirarlo (ya la conociste en la sección 1.4).
+
+Y el caso límite: si $\det(A) = 0$, el paralelogramo se aplasta a una línea (o un punto): no queda área ni orientación. Volveremos a este caso en la Ventana IA, porque es el más importante de todos.
+
+## 2.1.4 El caso $3 \times 3$: volúmenes en el espacio
+
+La idea escala sin esfuerzo a tres dimensiones. Si $A$ es de $3 \times 3$, sus tres columnas $\mathbf{u}, \mathbf{v}, \mathbf{w}$ son vectores de $\mathbb{R}^3$ que forman un **paralelepípedo** (una caja inclinada). El valor absoluto del determinante es el **volumen** de esa caja:
+$$ \text{Volumen} = |\det(A)|. $$
+La identidad da volumen $1$; una matriz que estira cada eje por $2$ da volumen $8 = 2^3$; y si las tres columnas caen en un mismo plano, la caja se aplasta como una hoja de papel y el volumen —el determinante— es $0$. En la versión web puedes rotar la caja; en el PDF se muestra la vista estática.
+
+```{python}
+#| label: fig-paralelepipedo-3d-html
+#| fig-cap: "En 3D, el determinante es el volumen de la caja formada por las tres columnas de la matriz. Aquí, $|det(A)| = 12$."
+#| echo: false
+#| content-visible: when-format="html"
+import numpy as np
+import plotly.graph_objects as go
+
+A = np.array([[2, 0, 0],
+              [1, 3, 0],
+              [0, 1, 2]])
+u, v, w = A[:, 0], A[:, 1], A[:, 2]
+O = np.zeros(3)
+verts = np.array([O, u, v, w, u+v, u+w, v+w, u+v+w])
+
+fig = go.Figure(data=[
+    go.Mesh3d(
+        x=verts[:,0], y=verts[:,1], z=verts[:,2],
+        i=[0,0,3,3,0,0,1,1,0,0,2,2],
+        j=[1,4,5,7,2,6,4,7,1,5,4,7],
+        k=[4,2,7,6,6,3,7,5,5,3,7,6],
+        opacity=0.35, color='#1565c0', flatshading=True
+    ),
+    go.Scatter3d(x=[0,u[0]], y=[0,u[1]], z=[0,u[2]], mode='lines', line=dict(color='red', width=6)),
+    go.Scatter3d(x=[0,v[0]], y=[0,v[1]], z=[0,v[2]], mode='lines', line=dict(color='green', width=6)),
+    go.Scatter3d(x=[0,w[0]], y=[0,w[1]], z=[0,w[2]], mode='lines', line=dict(color='orange', width=6))
+])
+fig.update_layout(scene=dict(xaxis_title='x', yaxis_title='y', zaxis_title='z', aspectmode='cube'),
+                  title=f"Volumen de la caja = |det(A)| = {abs(np.linalg.det(A)):.0f}",
+                  margin=dict(l=0, r=0, t=40, b=0))
+fig
+
+```{python}
+#| label: fig-paralelepipedo-3d-pdf
+#| fig-cap: "En 3D, el determinante es el volumen de la caja formada por las tres columnas de la matriz."
+#| echo: false
+#| content-visible: when-format="pdf"
+import numpy as np
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d.art3d import Poly3DCollection
+
+A = np.array([[2, 0, 0], [1, 3, 0], [0, 1, 2]])
+u, v, w = A[:, 0], A[:, 1], A[:, 2]
+verts = [[0,0,0], u, u+v, v, w, u+w, u+v+w, v+w]
+
+fig = plt.figure(figsize=(6, 5))
+ax = fig.add_subplot(111, projection='3d')
+ax.add_collection3d(Poly3DCollection(
+    [[verts[0], verts[1], verts[2], verts[3]],
+     [verts[4], verts[5], verts[6], verts[7]],
+     [verts[0], verts[1], verts[5], verts[4]],
+     [verts[2], verts[3], verts[7], verts[6]],
+     [verts[0], verts[3], verts[7], verts[4]],
+     [verts[1], verts[2], verts[6], verts[5]]],
+    alpha=0.4, facecolors='#1565c0', edgecolors='k'))
+ax.quiver(0,0,0, u[0],u[1],u[2], color='r', lw=2, arrow_length_ratio=0.1)
+ax.quiver(0,0,0, v[0],v[1],v[2], color='g', lw=2, arrow_length_ratio=0.1)
+ax.quiver(0,0,0, w[0],w[1],w[2], color='orange', lw=2, arrow_length_ratio=0.1)
+ax.set_xlim(0, 4); ax.set_ylim(0, 4); ax.set_zlim(0, 4)
+ax.set_title(f"Volumen = |det(A)| = {abs(np.linalg.det(A)):.0f}")
+plt.tight_layout()
+plt.show()
+```
+
