@@ -1,6 +1,6 @@
-# 1.4 Operaciones con matrices {.unnumbered}
+# Operaciones con matrices
 
-## 1.4.1 Introducción
+## Introducción
 
 **Definición 1.4.1 (Matriz).** Una **matriz** $A$ de tamaño
 $m \times n$ es un arreglo rectangular de números con $m$ **filas** y
@@ -592,7 +592,7 @@ $$\sum_{k} (B^{T})_{ik}(A^{T})_{kj} = \sum_{k} b_{ki}a_{jk},$$
 la misma suma con los factores en otro orden — y el orden no importa en
 $\mathbb{R}$. $\blacksquare$
 
-## 1.4.2 Ejemplos
+## Ejemplos
 
 ### Ejemplo 1.4.1 (calcular un producto y ver que $AB \neq BA$)
 
@@ -702,7 +702,7 @@ ax.set_xlim(-0.9, 7.6); ax.set_ylim(-1.8, 2.7); ax.axis('off')
 plt.tight_layout(); plt.show()
 ```
 
-## 1.4.3 Módulo Python
+## Módulo Python
 
 ```{python}
 import numpy as np
@@ -738,7 +738,7 @@ print("B^T A^T =\n", B.T @ A.T)
 [▶ Abrir este módulo en Google Colab](https://colab.research.google.com/github/asoleal/curso-algebra-lineal/blob/main/notebooks/u1-1.4-operaciones-matrices.ipynb){.btn .btn-outline-primary}
 :::
 
-## 1.4.4 Módulo interactivo
+## Módulo interactivo
 
 ::: {.content-visible when-format="html"}
 Cómo se construye el producto del Ejemplo 1.4.1: **haz clic en cualquier
@@ -811,7 +811,7 @@ la del Ejemplo 1.4.1. Versión interactiva:
 [sección 1.4.4 en el sitio del curso](https://asoleal.github.io/curso-algebra-lineal/unidades/u1-sistemas/1.4-operaciones-matrices.html).
 :::
 
-## 1.4.5 Aplicaciones por carrera
+## Aplicaciones por carrera
 
 ::: {.callout-note title="Aplicación · Zootecnia: nutrientes totales por lote"}
 Dos lotes de animales consumen tres ingredientes (en qq), y cada
@@ -939,7 +939,7 @@ de la robótica. *Verifica que $R(180°)$ aplicada a $(1, 0)$ da
 $(-1, 0)$.*
 :::
 
-## 1.4.6 Ejercicios adaptativos
+## Ejercicios adaptativos
 
 ::: {.content-visible when-format="html"}
 ```{=html}
@@ -1106,7 +1106,7 @@ Serie interactiva:
 [sección 1.4.6 en el sitio del curso](https://asoleal.github.io/curso-algebra-lineal/unidades/u1-sistemas/1.4-operaciones-matrices.html).
 :::
 
-## 1.4.7 Resumen y glosario
+## Resumen y glosario
 
 ::: {.callout-tip title="Resumen"}
 - Una matriz $m \times n$ es un arreglo de $m$ filas por $n$ columnas;
@@ -1139,7 +1139,7 @@ Serie interactiva:
 
 ---
 
-## 1.4.8 Ejercicios propuestos
+## Ejercicios propuestos
 
 El grupo **A** afianza conceptos y demostraciones sencillas; el **B** aplica las operaciones a las carreras de la sede; el **C** es de programación. Para práctica interactiva, vuelva a los *Ejercicios adaptativos*.
 

@@ -1,6 +1,6 @@
-# 1.1 Introducción a los sistemas de ecuaciones lineales {.unnumbered}
+# Introducción a los sistemas de ecuaciones lineales
 
-## 1.1.1 Ecuaciones Lineales
+## Ecuaciones Lineales
 
 Antes de escribir ecuaciones con muchas incógnitas, empecemos por un
 terreno conocido: **la recta en el plano**. De ella salen, casi sin
@@ -263,7 +263,7 @@ es el **vector de incógnitas** y $\mathbf{b}$ el **vector de términos
 independientes**. (Las operaciones con matrices se estudian a fondo en
 la sección 1.4.)
 
-## 1.1.2 Ejemplos
+## Ejemplos
 
 ### Ejemplo 1.1.1 (verificar una solución)
 
@@ -396,7 +396,7 @@ plt.xlabel('$x_1$ (humedad)'); plt.ylabel('$x_2$ (materia orgánica)')
 plt.grid(alpha=0.3); plt.legend(fontsize=8); plt.show()
 ```
 
-## 1.1.3 Módulo Python
+## Módulo Python
 
 ```{python}
 import numpy as np
@@ -420,7 +420,7 @@ print("Energía por kg (e_A, e_B):", e)
 [▶ Abrir este módulo en Google Colab](https://colab.research.google.com/github/asoleal/curso-algebra-lineal/blob/main/notebooks/u1-1.1-sistemas-lineales.ipynb){.btn .btn-outline-primary}
 :::
 
-## 1.1.4 Módulo interactivo
+## Módulo interactivo
 
 ::: {.content-visible when-format="html"}
 Explora los tres casos de un sistema $2\times2$. Cada línea es una recta
@@ -511,7 +511,7 @@ muestra los tres casos. Versión interactiva:
 [sección 1.1.4 en el sitio del curso](https://asoleal.github.io/curso-algebra-lineal/unidades/u1-sistemas/1.1-sistemas-lineales.html).
 :::
 
-## 1.1.5 Aplicaciones por carrera
+## Aplicaciones por carrera
 
 ::: {.callout-note title="Aplicación · Agronomía: dos fertilizantes, dos nutrientes"}
 Un lote requiere $8$ unidades de N y $7$ de P. El fertilizante $F_1$
@@ -639,7 +639,7 @@ ax.set_xlim(-0.9, 6.9); ax.set_ylim(-0.55, 3.85); ax.axis('off')
 plt.tight_layout(); plt.show()
 ```
 
-## 1.1.6 Ejercicios adaptativos
+## Ejercicios adaptativos
 
 ::: {.content-visible when-format="html"}
 ```{=html}
@@ -805,7 +805,7 @@ Serie interactiva:
 [sección 1.1.6 en el sitio del curso](https://asoleal.github.io/curso-algebra-lineal/unidades/u1-sistemas/1.1-sistemas-lineales.html).
 :::
 
-## 1.1.7 Tres incógnitas: de rectas a planos
+## Tres incógnitas: de rectas a planos
 
 En la sección 1.1.1 escribimos el sistema general de $m$ ecuaciones
 con $n$ incógnitas: cada fila es $\sum_{j=1}^{n} a_{ij}x_j = b_i$, y
@@ -1149,7 +1149,7 @@ copia de otra, hay infinitas soluciones — el modelo queda
 exacta, y por eso se busca la de *menor error*. De eso hablaremos en
 la sección 1.3.
 :::
-## 1.1.8 Resumen y glosario
+## Resumen y glosario
 
 ::: {.callout-tip title="Resumen"}
 - La recta $y = mx + b$: la pendiente $m = \Delta y / \Delta x$ dice
@@ -1185,7 +1185,7 @@ la sección 1.3.
 
 ---
 
-## 1.1.9 Ejercicios propuestos
+## Ejercicios propuestos
 
 Para resolver con lápiz y papel, y con Python cuando se indica. El grupo **A** afianza conceptos y demostraciones sencillas; el **B** lleva la sección a las carreras de la sede y a otros temas (temperaturas, balances, flujos, grafos); el **C** es de programación. Para práctica interactiva con retroalimentación inmediata, vuelva a los *Ejercicios adaptativos* de esta sección.
 

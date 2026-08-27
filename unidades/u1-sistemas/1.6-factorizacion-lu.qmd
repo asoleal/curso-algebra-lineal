@@ -1,4 +1,4 @@
-# 1.6 Factorización LU {.unnumbered}
+# Factorización LU
 
 > **Qué aprenderá aquí.** A escribir una matriz cuadrada como el producto
 > $A = LU$ de una matriz **triangular inferior** $L$ y una **triangular
@@ -7,7 +7,7 @@
 > idea es la que usan los computadores de verdad — y los modelos de IA —
 > cuando hay que resolver **muchos sistemas con la misma matriz**.
 
-## 1.6.1 Presentación formal
+## Presentación formal
 
 En la sección 1.2 resolvimos sistemas llevando la matriz aumentada a su
 forma escalonada. Aquí veremos que ese mismo proceso de eliminación
@@ -52,7 +52,7 @@ La ganancia práctica: **factorizar se hace una sola vez**; cada nuevo
 vector $\mathbf{b}$ solo cuesta las dos sustituciones, que son mucho más
 baratas que repetir toda la eliminación.
 
-## 1.6.2 Ejemplos
+## Ejemplos
 
 ### Ejemplo 1.6.1 (factorizar y resolver en dos pasos)
 
@@ -177,7 +177,7 @@ aprendizaje automático**; en la U7 conocerá la factorización QR y en
 la U8 la SVD, la reina de todas.
 :::
 
-## 1.6.3 Módulo Python
+## Módulo Python
 
 Verifiquemos el Ejemplo 1.6.1 con `sympy`, que muestra las matrices $L$
 y $U$ exactas:
@@ -241,7 +241,7 @@ ejecutable en el repositorio del curso:
 (abrible en Google Colab).
 :::
 
-## 1.6.4 Paso a paso interactivo
+## Paso a paso interactivo
 
 Recorra el Ejemplo 1.6.1 paso a paso. Observe cómo la matriz $L$ se va
 llenando con los multiplicadores mientras la matriz de trabajo se
@@ -346,7 +346,7 @@ paso a paso interactivo recorre cada operación con las filas
 resaltadas.
 :::
 
-## 1.6.5 Aplicaciones en los programas de la sede
+## Aplicaciones en los programas de la sede
 
 ::: {.callout-note}
 ## Aplicación en Ciencias Ambientales — una estación que monitorea todos los días {.nonum}
@@ -377,7 +377,7 @@ $\mathbf{x}=(1,1,1)$ en microsegundos. Sin LU habría que repetir toda
 la eliminación en cada ciclo: impensable en tiempo real.
 :::
 
-## 1.6.6 Ejercicios adaptativos
+## Ejercicios adaptativos
 
 ::: {.content-visible when-format="html"}
 Responda con números enteros (o decimales si hace falta). Dos aciertos
@@ -492,7 +492,7 @@ guiada.
 **Soluciones:** 1) $L=\begin{pmatrix}1&0\\3&1\end{pmatrix}$, $U=\begin{pmatrix}2&4\\0&-2\end{pmatrix}$. 2) $L\mathbf{y}=\mathbf{b}$: $y_1=8$, $y_2=26-24=2$; $U\mathbf{x}=\mathbf{y}$: $x_2=1/2$, $x_1=(8-1/2)/2=15/4$. 3) Toda la eliminación: solo se repiten las dos sustituciones. 4) Para que la factorización sea única: convención que fija los $n$ grados de libertad sobrantes. 5) No en general; hace falta una matriz de permutación: $PA=LU$ (es lo que usa NumPy por dentro). La versión web incluye ejercicios adaptativos con tres niveles y ayudas graduales.
 :::
 
-## 1.6.7 Resumen y glosario
+## Resumen y glosario
 
 ::: {.callout-tip}
 ## Idea clave {.nonum}
@@ -514,7 +514,7 @@ verdad.
 | Pivoteo parcial (IA) | Intercambio de filas por estabilidad numérica; da $PA=LU$, la variante que usan las bibliotecas |
 | Reutilización (IA) | Factorizar una vez y resolver para miles de vectores $\mathbf{b}$ (producción, control, monitoreo) |
 
-## 1.6.8 Ejercicios propuestos
+## Ejercicios propuestos
 
 El grupo **A** afianza conceptos y demostraciones sencillas; el **B** aplica la factorización LU a temperaturas, circuitos y balances; el **C** es de programación. Para práctica interactiva, vuelva a los *Ejercicios adaptativos*.
 

@@ -1,7 +1,7 @@
 
-# 2.1 Determinantes: El factor de escala del espacio {.unnumbered}
+# Determinantes: El factor de escala del espacio
 
-## 2.1.1 Estructura teórica matemática
+## Estructura teórica matemática
 
 > **Qué aprenderá aquí.** Que el determinante no es solo una fórmula para saber si una matriz tiene inversa, sino una medida geométrica: **cuánto estira o encoge una matriz el espacio**. Veremos su definición formal inductiva y su interpretación como área y volumen.
 
@@ -34,41 +34,26 @@ Así que el $|A| = a_{11}a_{22}-a_{21}a_{12}=3\cdot 2 - (-1)\cdot 5 = 11$.
 
 ::: {#def-menores-cofactores}
 ### Menores y Cofactores
-Sea $A$ una matriz de $n \times n$. El **menor** $M_{ij}$ es la matriz de $(n-1) \times (n-1)$ que resulta de eliminar la fila $i$ y la columna $j$ de $A$. El **cofactor** $C_{ij}$ se define como:
+Sea $A$ una matriz de $n \times n$. El **menor** $M_{ij}$ es la matriz de $(n-1) \times (n-1)$ que resulta de eliminar la fila $i$ y la columna $j$ de $A$. El **cofactor** $C_{ij}$ es un número real, que se obtiene como:
 
 $$ C_{ij} = (-1)^{i+j} \det(M_{ij}) $$
 
-El signo $(-1)^{i+j}$ crea un tablero de ajedrez de signos positivos y negativos.
+El signo $(-1)^{i+j}$ crea una secuencia de signos positivos y negativos.
 :::
 
-Aquí tienes el ejemplo de un cofactor para una matriz de $3 \times 3$, manteniendo exactamente el mismo formato y estilo:
+Aquí tiene el ejemplo de un cofactor para una matriz de $3 \times 3$:
 
 
 ::: {#exm-cofactor-3x3}
 ### Cálculo de un cofactor en una matriz de $3 \times 3$
 Considere la matriz 
-
 $$ A = \begin{pmatrix} 2 & 3 & 1 \\ 4 & 1 & -2 \\ 0 & 5 & 3 \end{pmatrix} $$
 
-Para calcular el cofactor $C_{12}$, primero eliminamos la fila $1$ y la columna $2$ para obtener el menor $M_{12}$:
-
-$$ M_{12} = \begin{pmatrix} 4 & -2 \\ 0 & 3 \end{pmatrix} $$
-
-Luego, calculamos el determinante de este menor y lo multiplicamos por el signo $(-1)^{1+2}$:
-
-$$ \det(M_{12}) = (4)(3) - (-2)(0) = 12 $$
-
-Así que el cofactor es $C_{12} = (-1)^{1+2} \det(M_{12}) = -1 \cdot 12 = -12$.
-:::
-
-
-::: {#exm-cofactor-3x3}
-### Cálculo de un cofactor en una matriz de $3 \times 3$
-Considere la matriz 
+Para calcular el cofactor $C_{12}$, primero calculamos el menor $M_{12}$, eliminando la fial $1$ y la columna $2$
 
 $$ A = \begin{pmatrix} \xcancel{2} & \xcancel{3} & \xcancel{1} \\ 4 & \xcancel{1} & -2 \\ 0 & \xcancel{5} & 3 \end{pmatrix} $$
 
-Para calcular el cofactor $C_{12}$, eliminamos (tachamos) la fila $1$ y la columna $2$, obteniendo el menor $M_{12}$:
+Obteniendo el menor:
 
 $$ M_{12} = \begin{pmatrix} 4 & -2 \\ 0 & 3 \end{pmatrix} $$
 
@@ -93,7 +78,18 @@ Si $A$ es una matriz triangular superior, inferior o diagonal, su determinante e
 $$ \det(A) = a_{11} \cdot a_{22} \dots a_{nn} $$
 :::
 
-## 2.1.2 Sección de análisis y Ventana IA
+::: {#exm-cofactores-3x3}
+### Cálculo por cofactores en $3 \times 3$
+Calcule el determinante de $A = \begin{pmatrix} 2 & 3 & 1 \\ 4 & 1 & -2 \\ 0 & 5 & 3 \end{pmatrix}$ expandiendo por la primera fila.
+
+*Solución:* Usamos la fórmula $\det(A) = a_{11}C_{11} + a_{12}C_{12} + a_{13}C_{13}$.
+
+$$ \det(A) = 2 \begin{vmatrix} 1 & -2 \\ 5 & 3 \end{vmatrix} - 3 \begin{vmatrix} 4 & -2 \\ 0 & 3 \end{vmatrix} + 1 \begin{vmatrix} 4 & 1 \\ 0 & 5 \end{vmatrix} $$
+$$ \det(A) = 2(3 - (-10)) - 3(12 - 0) + 1(20 - 0) = 2(13) - 3(12) + 20 = 26 - 36 + 20 = 10 $$
+:::
+**NOTA: ** Observe que se puede resolver por cualquier fila o columna, por favor resuelva el determinante por todas las filas y por todas las columnas, obviamente el resultado debe ser el mismo, además observe que cada vez que la suma $1+j$ es par, el signo que lleva el cofactor, es positivo, mientras que si $i+j$ es impar, irá precedido de un signo negativo.
+
+## Sección de análisis y Ventana IA
 
 Geométricamente, las columnas de una matriz $2 \times 2$ definen dos vectores. El valor absoluto del determinante es el **área del paralelogramo** que forman. En $3 \times 3$, es el **volumen del paralelepípedo**. 
 
@@ -107,18 +103,6 @@ En IA generativa y modelos de flujo (Normalizing Flows), se usa el **determinant
 **Regla de oro en IA:** $|\det(W)| < 1$ comprime información; $|\det(W)| > 1$ la expande. Un $\det \approx 0$ provoca el temido problema de "gradientes desvanecientes" (vanishing gradients).
 :::
 
-## 2.1.3 Ejercicios de mecanización
-
-::: {#exm-cofactores-3x3}
-### Cálculo por cofactores en $3 \times 3$
-Calcule el determinante de $A = \begin{pmatrix} 2 & 3 & 1 \\ 4 & 1 & -2 \\ 0 & 5 & 3 \end{pmatrix}$ expandiendo por la primera fila.
-
-*Solución:* Usamos la fórmula $\det(A) = a_{11}C_{11} + a_{12}C_{12} + a_{13}C_{13}$.
-
-$$ \det(A) = 2 \begin{vmatrix} 1 & -2 \\ 5 & 3 \end{vmatrix} - 3 \begin{vmatrix} 4 & -2 \\ 0 & 3 \end{vmatrix} + 1 \begin{vmatrix} 4 & 1 \\ 0 & 5 \end{vmatrix} $$
-$$ \det(A) = 2(3 - (-10)) - 3(12 - 0) + 1(20 - 0) = 2(13) - 3(12) + 20 = 26 - 36 + 20 = 10 $$
-:::
-
 ```{python}
 #| echo: false
 import numpy as np
@@ -126,7 +110,7 @@ A = np.array([[2, 3, 1], [4, 1, -2], [0, 5, 3]])
 print("Verificación en Python:", np.linalg.det(A))
 ```
 
-## 2.1.4 Ejercicios demostrativos
+## Ejercicios demostrativos
 
 ::: {#thm-propiedades-fundamentales}
 ### Propiedades fundamentales
@@ -148,7 +132,7 @@ $$ 2\det(A) = 0 \implies \det(A) = 0 $$
 $\blacksquare$
 :::
 
-## 2.1.5 Aplicaciones por carrera
+## Aplicaciones por carrera
 
 ::: {.callout-note title="Aplicación · Agronomía: Área real de un lote irregular"}
 Un ingeniero agrónomo mapea un lote de terreno usando un dron. Las coordenadas de las esquinas de una sección triangular, medidas desde un origen, están dadas por los vectores de posición $\mathbf{u} = (150, 200)$ m y $\mathbf{v} = (300, 50)$ m. El área del triángulo formado por el origen y estos puntos es la mitad del área del paralelogramo que definen.
@@ -164,7 +148,7 @@ El área del paralelogramo es $|\det(A)| = 52500$ m$^2$. El área del lote trian
 Un brazo robótico en 3D puede alcanzar un punto final. La matriz de transformación de sus articulaciones tiene una submatriz de rotación $R$ de $3 \times 3$. Si el volumen de trabajo permitido es una caja unitaria de $1$ m$^3$, el volumen real alcanzable tras la transformación es exactamente $|\det(R)|$. Como las matrices de rotación pura son ortogonales, $\det(R) = 1$, lo que confirma que **el robot rota el espacio pero no lo comprime ni lo expande**.
 :::
 
-## 2.1.6 Módulo Python y visualización
+## Módulo Python y visualización
 
 ```{python}
 import numpy as np

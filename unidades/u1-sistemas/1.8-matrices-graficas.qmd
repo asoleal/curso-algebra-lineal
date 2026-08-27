@@ -1,4 +1,4 @@
-# 1.8 Matrices y gráficas: una aplicación {.unnumbered}
+# Matrices y gráficas: una aplicación
 
 > **Qué aprenderá aquí.** Que una red —de caminos, de contactos, de
 > computadores, de moléculas— se puede guardar en una **matriz de
@@ -7,7 +7,7 @@
 > nodos? Es la puerta a la teoría de grafos y a buena parte de la IA
 > moderna.
 
-## 1.8.1 Presentación formal
+## Presentación formal
 
 En logística, en epidemiología, en redes sociales y en química aparece
 una misma estructura: un conjunto de *objetos* y *conexiones* entre
@@ -57,7 +57,7 @@ nodo, $-1$ si llega, $0$ si no la toca. Aparece en redes eléctricas e
 hidráulicas — y está emparentada con las matrices de Kirchhoff de la
 sección 1.3.
 
-## 1.8.2 Ejemplos
+## Ejemplos
 
 ### Ejemplo 1.8.1 (rutas de distribución de una planta)
 
@@ -179,7 +179,7 @@ ax.set_xlim(-0.7, 9.1); ax.set_ylim(-1.5, 2.0); ax.axis('off')
 plt.tight_layout(); plt.show()
 ```
 
-## 1.8.3 Módulo Python
+## Módulo Python
 
 Verifiquemos el Teorema 1.8.1 con la red logística y probemos una
 mini-capa de GNN:
@@ -229,7 +229,7 @@ ejecutable en el repositorio del curso:
 (abrible en Google Colab; incluye la visualización con `networkx`).
 :::
 
-## 1.8.4 Laboratorio interactivo: construya su grafo y cuente caminos
+## Laboratorio interactivo: construya su grafo y cuente caminos
 
 Active o desactive aristas de un grafo no dirigido de 4 nodos. El
 laboratorio dibuja el grafo, calcula su matriz de adyacencia $M$ y
@@ -342,7 +342,7 @@ vecino). En la versión web, un laboratorio interactivo permite activar
 aristas y recalcula $M$ y $M^2$ en vivo.
 :::
 
-## 1.8.5 Aplicaciones en los programas de la sede
+## Aplicaciones en los programas de la sede
 
 ::: {.callout-note}
 ## Aplicación en Medicina Veterinaria — rastreo epidemiológico {.nonum}
@@ -367,7 +367,7 @@ pierden rutas alternas. La planeación de contingencias logísticas es
 álgebra de matrices.
 :::
 
-## 1.8.6 Ejercicios adaptativos
+## Ejercicios adaptativos
 
 ::: {.content-visible when-format="html"}
 Responda con números enteros. Dos aciertos seguidos suben el nivel;
@@ -514,7 +514,7 @@ conserva ceros). La versión web incluye ejercicios adaptativos con
 tres niveles y ayudas graduales.
 :::
 
-## 1.8.7 Resumen y glosario
+## Resumen y glosario
 
 ::: {.callout-tip}
 ## Idea clave {.nonum}
@@ -537,7 +537,7 @@ matriz.
 | Capa GNN (IA) | $X'=\hat{M}XW$: cada nodo mezcla features con sus vecinos y aplica pesos |
 | PageRank (IA) | Importancia de páginas como vector propio de una matriz de la web (adelanto de la U6) |
 
-## 1.8.8 Ejercicios propuestos
+## Ejercicios propuestos
 
 El grupo **A** afianza conceptos y demostraciones sencillas; el **B** lleva las matrices de grafos a las carreras de la sede; el **C** es de programación. Para práctica interactiva, vuelva a los *Ejercicios adaptativos*.
 

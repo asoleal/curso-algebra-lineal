@@ -1,6 +1,6 @@
-# 1.3 Sistemas homogéneos {.unnumbered}
+# Sistemas homogéneos
 
-## 1.3.1 Introducción
+## Introducción
 
 **Definición 1.3.1 (Sistema homogéneo).** Un sistema lineal es **homogéneo** si todos sus términos
 independientes son cero:
@@ -40,7 +40,7 @@ es una combinación $s\,\mathbf{v}_1 + t\,\mathbf{v}_2$ (un plano por el
 origen). Al conjunto de todas las soluciones de
 $A\mathbf{x}=\mathbf{0}$ se le llama **espacio nulo** de $A$.
 
-## 1.3.2 Ejemplos
+## Ejemplos
 
 ### Ejemplo 1.3.1 (infinitas soluciones)
 
@@ -148,7 +148,7 @@ print("y(10) =", sp.expand(a + 10*b + 100*c), " y(20) =", sp.expand(a + 20*b + 4
 print("¿Dependen de c? ¡No: todos los modelos pasan exactamente por los datos!")
 ```
 
-## 1.3.3 Módulo Python
+## Módulo Python
 
 ```{python}
 import sympy as sp
@@ -168,7 +168,7 @@ print("A·(t·v) =", (A * v).T)  # debe dar el vector cero
 [▶ Abrir este módulo en Google Colab](https://colab.research.google.com/github/asoleal/curso-algebra-lineal/blob/main/notebooks/u1-1.3-sistemas-homogeneos.ipynb){.btn .btn-outline-primary}
 :::
 
-## 1.3.4 Módulo interactivo
+## Módulo interactivo
 
 ::: {.content-visible when-format="html"}
 Explora las soluciones del Ejemplo 1.3.1. Mueve el valor de $t$ y
@@ -295,7 +295,7 @@ Los planos $x + 2y - z = 0$ (azul) y $2x + y + z = 0$ (naranja) pasan por el
 origen y se cortan en la recta negra $(-t,\; t,\; t)$: cada punto de ella es
 una solución del sistema homogéneo. En la versión web puedes rotar la figura.
 :::
-## 1.3.5 Aplicaciones por carrera
+## Aplicaciones por carrera
 
 ::: {.callout-note title="Aplicación · Mecatrónica: corrientes en nodos (Kirchhoff)"}
 En un circuito, la ley de nodos dice que la corriente que entra es la que
@@ -316,7 +316,7 @@ parámetro $t$). *¿Qué pasa si medimos una corriente real, digamos
 $i_3 = 2$ A?*
 :::
 
-## 1.3.6 Ejercicios adaptativos
+## Ejercicios adaptativos
 
 ::: {.content-visible when-format="html"}
 ```{=html}
@@ -474,7 +474,7 @@ Serie interactiva:
 [sección 1.3.6 en el sitio del curso](https://asoleal.github.io/curso-algebra-lineal/unidades/u1-sistemas/1.3-sistemas-homogeneos.html).
 :::
 
-## 1.3.7 Resumen y glosario
+## Resumen y glosario
 
 ::: {.callout-tip title="Resumen"}
 - Un sistema homogéneo $A\mathbf{x} = \mathbf{0}$ siempre tiene la
@@ -500,7 +500,7 @@ Serie interactiva:
 
 ---
 
-## 1.3.8 Ejercicios propuestos
+## Ejercicios propuestos
 
 El grupo **A** afianza conceptos y demostraciones sencillas; el **B** aplica los sistemas homogéneos a balances, flujos y circuitos; el **C** es de programación. Para práctica interactiva, vuelva a los *Ejercicios adaptativos*.
 

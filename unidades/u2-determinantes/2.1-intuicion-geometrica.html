@@ -154,24 +154,16 @@ window.Quarto = {
 <p>Así que el <span class="math inline">\(|A| = a_{11}a_{22}-a_{21}a_{12}=3\cdot 2 - (-1)\cdot 5 = 11\)</span>.</p>
 </div>
 <div id="def-menores-cofactores" class="theorem definition">
-<p><span class="theorem-title"><strong>Definition 3 (Menores y Cofactores)</strong></span> Sea <span class="math inline">\(A\)</span> una matriz de <span class="math inline">\(n \times n\)</span>. El <strong>menor</strong> <span class="math inline">\(M_{ij}\)</span> es la matriz de <span class="math inline">\((n-1) \times (n-1)\)</span> que resulta de eliminar la fila <span class="math inline">\(i\)</span> y la columna <span class="math inline">\(j\)</span> de <span class="math inline">\(A\)</span>. El <strong>cofactor</strong> <span class="math inline">\(C_{ij}\)</span> se define como:</p>
+<p><span class="theorem-title"><strong>Definition 3 (Menores y Cofactores)</strong></span> Sea <span class="math inline">\(A\)</span> una matriz de <span class="math inline">\(n \times n\)</span>. El <strong>menor</strong> <span class="math inline">\(M_{ij}\)</span> es la matriz de <span class="math inline">\((n-1) \times (n-1)\)</span> que resulta de eliminar la fila <span class="math inline">\(i\)</span> y la columna <span class="math inline">\(j\)</span> de <span class="math inline">\(A\)</span>. El <strong>cofactor</strong> <span class="math inline">\(C_{ij}\)</span> es un número real, que se obtiene como:</p>
 <p><span class="math display">\[ C_{ij} = (-1)^{i+j} \det(M_{ij}) \]</span></p>
-<p>El signo <span class="math inline">\((-1)^{i+j}\)</span> crea un tablero de ajedrez de signos positivos y negativos.</p>
+<p>El signo <span class="math inline">\((-1)^{i+j}\)</span> crea una secuencia de signos positivos y negativos.</p>
 </div>
-<p>Aquí tienes el ejemplo de un cofactor para una matriz de <span class="math inline">\(3 \times 3\)</span>, manteniendo exactamente el mismo formato y estilo:</p>
+<p>Aquí tiene el ejemplo de un cofactor para una matriz de <span class="math inline">\(3 \times 3\)</span>:</p>
 <div id="exm-cofactor-3x3" class="theorem example">
-<p><span class="theorem-title"><strong>Example 2 (Cálculo de un cofactor en una matriz de <span class="math inline">\(3 \times 3\)</span>)</strong></span> Considere la matriz</p>
-<p><span class="math display">\[ A = \begin{pmatrix} 2 &amp; 3 &amp; 1 \\ 4 &amp; 1 &amp; -2 \\ 0 &amp; 5 &amp; 3 \end{pmatrix} \]</span></p>
-<p>Para calcular el cofactor <span class="math inline">\(C_{12}\)</span>, primero eliminamos la fila <span class="math inline">\(1\)</span> y la columna <span class="math inline">\(2\)</span> para obtener el menor <span class="math inline">\(M_{12}\)</span>:</p>
-<p><span class="math display">\[ M_{12} = \begin{pmatrix} 4 &amp; -2 \\ 0 &amp; 3 \end{pmatrix} \]</span></p>
-<p>Luego, calculamos el determinante de este menor y lo multiplicamos por el signo <span class="math inline">\((-1)^{1+2}\)</span>:</p>
-<p><span class="math display">\[ \det(M_{12}) = (4)(3) - (-2)(0) = 12 \]</span></p>
-<p>Así que el cofactor es <span class="math inline">\(C_{12} = (-1)^{1+2} \det(M_{12}) = -1 \cdot 12 = -12\)</span>.</p>
-</div>
-<div id="exm-cofactor-3x3" class="theorem example">
-<p><span class="theorem-title"><strong>Example 3 (Cálculo de un cofactor en una matriz de <span class="math inline">\(3 \times 3\)</span>)</strong></span> Considere la matriz</p>
+<p><span class="theorem-title"><strong>Example 2 (Cálculo de un cofactor en una matriz de <span class="math inline">\(3 \times 3\)</span>)</strong></span> Considere la matriz <span class="math display">\[ A = \begin{pmatrix} 2 &amp; 3 &amp; 1 \\ 4 &amp; 1 &amp; -2 \\ 0 &amp; 5 &amp; 3 \end{pmatrix} \]</span></p>
+<p>Para calcular el cofactor <span class="math inline">\(C_{12}\)</span>, primero calculamos el menor <span class="math inline">\(M_{12}\)</span>, eliminando la fial <span class="math inline">\(1\)</span> y la columna <span class="math inline">\(2\)</span></p>
 <p><span class="math display">\[ A = \begin{pmatrix} \xcancel{2} &amp; \xcancel{3} &amp; \xcancel{1} \\ 4 &amp; \xcancel{1} &amp; -2 \\ 0 &amp; \xcancel{5} &amp; 3 \end{pmatrix} \]</span></p>
-<p>Para calcular el cofactor <span class="math inline">\(C_{12}\)</span>, eliminamos (tachamos) la fila <span class="math inline">\(1\)</span> y la columna <span class="math inline">\(2\)</span>, obteniendo el menor <span class="math inline">\(M_{12}\)</span>:</p>
+<p>Obteniendo el menor:</p>
 <p><span class="math display">\[ M_{12} = \begin{pmatrix} 4 &amp; -2 \\ 0 &amp; 3 \end{pmatrix} \]</span></p>
 <p>Luego, calculamos el determinante de este menor y lo multiplicamos por el signo <span class="math inline">\((-1)^{1+2}\)</span>:</p>
 <p><span class="math display">\[ \det(M_{12}) = (4)(3) - (-2)(0) = 12 \]</span></p>
@@ -185,6 +177,12 @@ window.Quarto = {
 <p><span class="theorem-title"><strong>Theorem 1 (Determinante de matrices triangulares)</strong></span> Si <span class="math inline">\(A\)</span> es una matriz triangular superior, inferior o diagonal, su determinante es el producto de las entradas de su diagonal principal:</p>
 <p><span class="math display">\[ \det(A) = a_{11} \cdot a_{22} \dots a_{nn} \]</span></p>
 </div>
+<div id="exm-cofactores-3x3" class="theorem example">
+<p><span class="theorem-title"><strong>Example 3 (Cálculo por cofactores en <span class="math inline">\(3 \times 3\)</span>)</strong></span> Calcule el determinante de <span class="math inline">\(A = \begin{pmatrix} 2 &amp; 3 &amp; 1 \\ 4 &amp; 1 &amp; -2 \\ 0 &amp; 5 &amp; 3 \end{pmatrix}\)</span> expandiendo por la primera fila.</p>
+<p><em>Solución:</em> Usamos la fórmula <span class="math inline">\(\det(A) = a_{11}C_{11} + a_{12}C_{12} + a_{13}C_{13}\)</span>.</p>
+<p><span class="math display">\[ \det(A) = 2 \begin{vmatrix} 1 &amp; -2 \\ 5 &amp; 3 \end{vmatrix} - 3 \begin{vmatrix} 4 &amp; -2 \\ 0 &amp; 3 \end{vmatrix} + 1 \begin{vmatrix} 4 &amp; 1 \\ 0 &amp; 5 \end{vmatrix} \]</span> <span class="math display">\[ \det(A) = 2(3 - (-10)) - 3(12 - 0) + 1(20 - 0) = 2(13) - 3(12) + 20 = 26 - 36 + 20 = 10 \]</span></p>
+</div>
+<p><strong>NOTA: </strong> Observe que se puede resolver por cualquier fila o columna, por favor resuelva el determinante por todas las filas y por todas las columnas, obviamente el resultado debe ser el mismo, además observe que cada vez que la suma <span class="math inline">\(1+j\)</span> es par, el signo que lleva el cofactor, es positivo, mientras que si <span class="math inline">\(i+j\)</span> es impar, irá precedido de un signo negativo.</p>
 </section>
 <section id="sección-de-análisis-y-ventana-ia" class="level2">
 <h2 class="anchored" data-anchor-id="sección-de-análisis-y-ventana-ia">2.1.2 Sección de análisis y Ventana IA</h2>
@@ -205,15 +203,7 @@ window.Quarto = {
 <p><strong>Regla de oro en IA:</strong> <span class="math inline">\(|\det(W)| &lt; 1\)</span> comprime información; <span class="math inline">\(|\det(W)| &gt; 1\)</span> la expande. Un <span class="math inline">\(\det \approx 0\)</span> provoca el temido problema de “gradientes desvanecientes” (vanishing gradients).</p>
 </div>
 </div>
-</section>
-<section id="ejercicios-de-mecanización" class="level2">
-<h2 class="anchored" data-anchor-id="ejercicios-de-mecanización">2.1.3 Ejercicios de mecanización</h2>
-<div id="exm-cofactores-3x3" class="theorem example">
-<p><span class="theorem-title"><strong>Example 4 (Cálculo por cofactores en <span class="math inline">\(3 \times 3\)</span>)</strong></span> Calcule el determinante de <span class="math inline">\(A = \begin{pmatrix} 2 &amp; 3 &amp; 1 \\ 4 &amp; 1 &amp; -2 \\ 0 &amp; 5 &amp; 3 \end{pmatrix}\)</span> expandiendo por la primera fila.</p>
-<p><em>Solución:</em> Usamos la fórmula <span class="math inline">\(\det(A) = a_{11}C_{11} + a_{12}C_{12} + a_{13}C_{13}\)</span>.</p>
-<p><span class="math display">\[ \det(A) = 2 \begin{vmatrix} 1 &amp; -2 \\ 5 &amp; 3 \end{vmatrix} - 3 \begin{vmatrix} 4 &amp; -2 \\ 0 &amp; 3 \end{vmatrix} + 1 \begin{vmatrix} 4 &amp; 1 \\ 0 &amp; 5 \end{vmatrix} \]</span> <span class="math display">\[ \det(A) = 2(3 - (-10)) - 3(12 - 0) + 1(20 - 0) = 2(13) - 3(12) + 20 = 26 - 36 + 20 = 10 \]</span></p>
-</div>
-<div id="104fa6de" class="cell" data-execution_count="1">
+<div id="97d9af18" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-stdout">
 <pre><code>Verificación en Python: 9.999999999999998</code></pre>
 </div>
@@ -265,7 +255,7 @@ window.Quarto = {
 </section>
 <section id="módulo-python-y-visualización" class="level2">
 <h2 class="anchored" data-anchor-id="módulo-python-y-visualización">2.1.6 Módulo Python y visualización</h2>
-<div id="f758b264" class="cell" data-execution_count="2">
+<div id="37901330" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>

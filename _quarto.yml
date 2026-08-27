@@ -14,7 +14,7 @@ execute:
 
 book:
   title: "Álgebra Lineal con Aplicaciones e Inteligencia Artificial"
-  subtitle: "Curso interactivo en GitHub Pages"
+  subtitle: "Curso interactivo "
   author: "John Jairo Leal Gómez"
   date: today
   date-format: "D [de] MMMM [de] YYYY"
@@ -39,6 +39,7 @@ book:
 
 format:
   html:
+    number-sections: true
     theme:
       light: cosmo
       dark: darkly
@@ -50,6 +51,7 @@ format:
     toc-title: "En esta página"
     highlight-style: github
   pdf:
+    number-sections: true
     pdf-engine: tectonic
     documentclass: book
     papersize: a4

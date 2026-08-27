@@ -1,6 +1,6 @@
-# 1.2 Eliminación de Gauss–Jordan {.unnumbered}
+# Eliminación de Gauss–Jordan
 
-## 1.2.1 Introducción
+## Introducción
 
 Todo sistema de ecuaciones lineales se puede representar con una sola
 matriz. Sobre esa matriz se trabaja el método de esta sección.
@@ -190,7 +190,7 @@ $$
 
 Misma solución $(1,2,3)$, con menos pasos que la reducción completa.
 
-## 1.2.2 Ejemplos
+## Ejemplos
 
 ### Ejemplo 1.2.1 (solución única)
 
@@ -362,7 +362,7 @@ plt.xlabel('día de cosecha'); plt.ylabel('°Brix')
 plt.grid(alpha=0.3); plt.legend(); plt.show()
 ```
 
-## 1.2.3 Módulo Python
+## Módulo Python
 
 Verifiquemos el Ejemplo 1.2.1 con `numpy` y veamos la forma escalonada
 reducida con `sympy`:
@@ -397,7 +397,7 @@ M.rref()[0]  # forma escalonada reducida de la matriz aumentada
 *Cuaderno ejecutable en línea:*
 `colab.research.google.com/github/asoleal/curso-algebra-lineal`
 :::
-## 1.2.4 Sistemas rectangulares: más ecuaciones que incógnitas (y al revés)
+## Sistemas rectangulares: más ecuaciones que incógnitas (y al revés)
 
 Hasta aquí hemos escalonado sistemas cuadrados, pero en la práctica $m$ y $n$
 rara vez coinciden: sobran mediciones o sobran variables. La buena noticia es
@@ -577,7 +577,7 @@ $\operatorname{rango}(A)$ con $\operatorname{rango}([A|b])$, y contar
 variables libres contra $n$. La forma del sistema solo nos dice qué esperar;
 la reducción por filas nos dice qué pasó.
 
-## 1.2.5 Módulo interactivo
+## Módulo interactivo
 
 ::: {.content-visible when-format="html"}
 Recorre la reducción del Ejemplo 1.2.1 paso a paso. La fila resaltada es
@@ -662,7 +662,7 @@ fila $\rightarrow$ ceros sobre el tercer pivote, llegando a
 $x = 1,\; y = 2,\; z = 3$.
 :::
 
-## 1.2.6 Aplicaciones por carrera
+## Aplicaciones por carrera
 
 ::: {.callout-note title="Aplicación · Agroindustria: mezcla de concentrados"}
 Una planta mezcla tres concentrados ($C_1, C_2, C_3$). Cada tonelada
@@ -801,7 +801,7 @@ ax.set_xlim(-0.9, 9.4); ax.set_ylim(-0.55, 3.85); ax.axis('off')
 plt.tight_layout(); plt.show()
 ```
 
-## 1.2.7 Ejercicios adaptativos
+## Ejercicios adaptativos
 
 ::: {.content-visible when-format="html"}
 Serie interactiva con **tres niveles**. Si aciertas dos seguidas, subes de
@@ -993,7 +993,7 @@ Serie interactiva completa:
 [sección 1.2.6 en el sitio del curso](https://asoleal.github.io/curso-algebra-lineal/unidades/u1-sistemas/1.2-gauss-jordan.html).
 :::
 
-## 1.2.8 Resumen y glosario
+## Resumen y glosario
 
 ::: {.callout-tip title="Resumen"}
 - Un sistema lineal se representa por su **matriz aumentada**.
@@ -1021,7 +1021,7 @@ Serie interactiva completa:
 
 ---
 
-## 1.2.9 Ejercicios propuestos
+## Ejercicios propuestos
 
 El grupo **A** afianza conceptos y demostraciones sencillas; el **B** aplica el método a las carreras de la sede y a temperaturas, balances y flujos; el **C** es de programación. Para práctica interactiva, vuelva a los *Ejercicios adaptativos*.
 

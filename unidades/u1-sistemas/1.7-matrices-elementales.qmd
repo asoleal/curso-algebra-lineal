@@ -1,4 +1,4 @@
-# 1.7 Matrices elementales {.unnumbered}
+# Matrices elementales
 
 > **Qué aprenderá aquí.** Que cada operación elemental de fila puede
 > escribirse como una **multiplicación por una matriz** —la matriz
@@ -7,7 +7,7 @@
 > la factorización LU (1.6). En el fondo: *transformar filas es
 > componer multiplicaciones*.
 
-## 1.7.1 Presentación formal
+## Presentación formal
 
 En la sección 1.2 usamos tres operaciones elementales sobre las filas:
 intercambiar dos filas, multiplicar una fila por un número no nulo y
@@ -83,7 +83,7 @@ $A = (E_1^{-1}\cdots E_k^{-1})\,U = LU$: la matriz $L$ de la sección
 1.6 **es** el producto de las inversas de las elementales usadas. Todo
 lo que hicimos en 1.6 era multiplicar por elementales sin decirlo.
 
-## 1.7.2 Ejemplos
+## Ejemplos
 
 ### Ejemplo 1.7.1 (una operación, una matriz)
 
@@ -225,7 +225,7 @@ ax.set_xlim(-0.9, 9.2); ax.set_ylim(-1.7, 1.5); ax.axis('off')
 plt.tight_layout(); plt.show()
 ```
 
-## 1.7.3 Módulo Python
+## Módulo Python
 
 Verifiquemos los tres ejemplos: la operación como producto, la inversa
 como producto de elementales y la conexión con LU.
@@ -279,7 +279,7 @@ ejecutable en el repositorio del curso:
 (abrible en Google Colab).
 :::
 
-## 1.7.4 Laboratorio interactivo: construya la matriz elemental
+## Laboratorio interactivo: construya la matriz elemental
 
 Se describe una operación elemental sobre matrices $3\times3$ y el
 laboratorio le muestra la identidad como punto de partida. Modifique
@@ -375,7 +375,7 @@ laboratorio interactivo propone operaciones aleatorias y verifica la
 matriz construida entrada por entrada.
 :::
 
-## 1.7.5 Aplicaciones en los programas de la sede
+## Aplicaciones en los programas de la sede
 
 ::: {.callout-note}
 ## Aplicación en Mecatrónica — deshacer una secuencia de movimientos {.nonum}
@@ -402,7 +402,7 @@ medido. La trazabilidad es, literalmente, multiplicar por elementales
 inversas.
 :::
 
-## 1.7.6 Ejercicios adaptativos
+## Ejercicios adaptativos
 
 ::: {.content-visible when-format="html"}
 Responda con números enteros o decimales. Dos aciertos seguidos suben
@@ -547,7 +547,7 @@ versión web incluye ejercicios adaptativos con tres niveles y ayudas
 graduales.
 :::
 
-## 1.7.7 Resumen y glosario
+## Resumen y glosario
 
 ::: {.callout-tip}
 ## Idea clave {.nonum}
@@ -579,7 +579,7 @@ sociales y la IA moderna.
 
 ---
 
-## 1.7.8 Ejercicios propuestos
+## Ejercicios propuestos
 
 El grupo **A** afianza conceptos y demostraciones sencillas; el **B** conecta las matrices elementales con robótica, grafos y datos; el **C** es de programación. Para práctica interactiva, vuelva a los *Ejercicios adaptativos*.
 

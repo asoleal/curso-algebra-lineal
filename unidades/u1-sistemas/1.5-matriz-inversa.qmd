@@ -1,6 +1,6 @@
-# 1.5 Matriz inversa {.unnumbered}
+# Matriz inversa
 
-## 1.5.1 Presentación formal
+## Presentación formal
 
 **Definición 1.5.1 (Matriz inversa).** Sea $A$ una matriz $n \times n$.
 Si existe una matriz $B$ del mismo tamaño tal que
@@ -34,7 +34,7 @@ $$A^{-1} = \frac{1}{ad - bc}\begin{pmatrix} d & -b\\ -c & a \end{pmatrix},
 al orden!); y si $A$ es invertible, el sistema $A\mathbf{x} = \mathbf{b}$
 tiene solución única $\mathbf{x} = A^{-1}\mathbf{b}$.
 
-## 1.5.2 Ejemplos
+## Ejemplos
 
 ### Ejemplo 1.5.1 (inversa $2\times2$ y uso para resolver un sistema)
 
@@ -75,7 +75,7 @@ Dos avisos prácticos que verás en IA y en computación científica:
    modelo se rompe o se vuelve inestable.
 :::
 
-## 1.5.3 Módulo Python
+## Módulo Python
 
 ```{python}
 import numpy as np
@@ -124,7 +124,7 @@ print("det($X^T$X) = 0  vs  det($X^T$X + $\lambda$I) =", round(np.linalg.det(XtX
 [▶ Abrir este módulo en Google Colab](https://colab.research.google.com/github/asoleal/curso-algebra-lineal/blob/main/notebooks/u1-1.5-matriz-inversa.ipynb){.btn .btn-outline-primary}
 :::
 
-### 1.5.4 Laboratorio interactivo: ¿es esta la inversa?
+### Laboratorio interactivo: ¿es esta la inversa?
 
 Elija una matriz $A$ del menú (todas tienen determinante $\pm 1$, así que su inversa tiene entradas enteras) y complete la matriz candidata $M$. El laboratorio calcula el producto $AM$ en vivo y pinta de **verde** cada entrada que coincida con la identidad. Cuando las cuatro casillas estén en verde, habrá encontrado $A^{-1}$.
 
@@ -209,7 +209,7 @@ Elija una matriz $A$ del menú (todas tienen determinante $\pm 1$, así que su i
 **Versión estática del laboratorio.** Para $A=\begin{pmatrix}3&1\\5&2\end{pmatrix}$: $\det A=1$ y por la fórmula $A^{-1}=\begin{pmatrix}2&-1\\-5&3\end{pmatrix}$. Comprobación: $AA^{-1}=\begin{pmatrix}3&1\\5&2\end{pmatrix}\begin{pmatrix}2&-1\\-5&3\end{pmatrix}=\begin{pmatrix}6-5&-3+3\\10-10&-5+6\end{pmatrix}=I$. En la versión web, un laboratorio interactivo permite probar candidatas y muestra el producto $AM$ en vivo.
 :::
 
-### 1.5.5 Aplicaciones en los programas de la sede
+### Aplicaciones en los programas de la sede
 
 ::: {.callout-note}
 ## Aplicación en Agroindustria — recuperar la receta original {.nonum}
@@ -228,7 +228,7 @@ Un brazo robot aplica a cada vector de posición la transformación lineal $T(\m
 En los libros se resuelve $A\mathbf{x}=\mathbf{b}$ como $\mathbf{x}=A^{-1}\mathbf{b}$ porque es didáctico. En la práctica de machine learning **nadie calcula $A^{-1}$ explícitamente**: es más costoso y menos estable numéricamente que resolver el sistema directamente (como hizo `np.linalg.solve` en 1.2). La inversa aparece sobre todo en la **teoría**: en regresión lineal, la solución de mínimos cuadrados es $\hat{\boldsymbol\beta}=(A^TA)^{-1}A^T\mathbf{b}$, y que $(A^TA)^{-1}$ exista depende de que las **variables predictoras no sean combinación lineal unas de otras**. Cuando casi lo son (colinealidad: «edad del lote» y «días de almacenamiento» miden lo mismo), la matriz es casi singular y los coeficientes se vuelven absurdamente grandes y sensibles — el modelo memoriza ruido. La medicina moderna: **regularización** (ridge añade $\lambda I$ a $A^TA$ para hacerla invertible y estable; lasso fuerza coeficientes a cero). Todo el edificio descansa sobre el concepto que acaba de aprender: invertibilidad = independencia = información no redundante.
 :::
 
-### 1.5.6 Ejercicios adaptativos
+### Ejercicios adaptativos
 
 ::: {.content-visible when-format="html"}
 Responda con números decimales o enteros. Dos aciertos seguidos suben el nivel; dos fallos seguidos muestran la solución guiada.
@@ -343,7 +343,7 @@ Responda con números decimales o enteros. Dos aciertos seguidos suben el nivel;
 **Soluciones:** 1) Sí: $AB=\begin{pmatrix}1&0\\0&1\end{pmatrix}$. 2) $C^{-1}=\begin{pmatrix}1/2&0\\0&1/5\end{pmatrix}$; $D^{-1}=\frac{1}{-1}\begin{pmatrix}5&-3\\-2&1\end{pmatrix}=\begin{pmatrix}-5&3\\2&-1\end{pmatrix}$. 3) $\mathbf{x}=\begin{pmatrix}1&-1\\-1&2\end{pmatrix}\begin{pmatrix}8\\5\end{pmatrix}=\begin{pmatrix}3\\2\end{pmatrix}$. 4) $s=2$. 5) $AA=I$ cumple la definición de inversa; ejemplo: $\begin{pmatrix}0&1\\1&0\end{pmatrix}$. La versión web incluye ejercicios adaptativos con tres niveles y ayudas graduales.
 :::
 
-### 1.5.7 Resumen y glosario
+### Resumen y glosario
 
 ::: {.callout-tip}
 ## Idea clave {.nonum}
@@ -365,7 +365,7 @@ La inversa $A^{-1}$ es la matriz que **deshace** lo que $A$ hace: $AA^{-1}=A^{-1
 
 ---
 
-## 1.5.4 Ejercicios propuestos
+## Ejercicios propuestos
 
 El grupo **A** afianza conceptos y demostraciones sencillas; el **B** aplica la inversa a las carreras de la sede; el **C** es de programación. Para práctica interactiva, vuelva a los *Ejercicios adaptativos*.
 
