@@ -15,7 +15,10 @@ sumar a una fila un múltiplo de otra. Ahora daremos un paso conceptual
 importante: **cada una de esas operaciones es, en realidad, un producto
 de matrices**.
 
-**Definición 1.7.1 (Matriz elemental).** Una matriz $E$ de tamaño
+::: {def-matriz-elemental}
+### Matriz elemental
+
+Una matriz $E$ de tamaño
 $n\times n$ es **elemental** si se obtiene aplicando **una sola**
 operación elemental de fila a la matriz identidad $I_n$.
 
@@ -31,7 +34,12 @@ $$
 
 son elementales: cada una es la identidad tras una única operación.
 
-**Teorema 1.7.1 (La operación es el producto).** Si $E$ se obtiene de
+:::
+
+::: {thm-la-operacin-es-el-producto}
+### La operación es el producto
+
+Si $E$ se obtiene de
 $I$ aplicando cierta operación elemental de fila, y $A$ es cualquier
 matriz con $n$ filas, entonces el producto $EA$ es la matriz que
 resulta de aplicar **esa misma operación** a $A$.
@@ -39,7 +47,12 @@ resulta de aplicar **esa misma operación** a $A$.
 En símbolos: *operar sobre las filas de $A$* =
 *multiplicar $A$ a la izquierda por la $E$ correspondiente*.
 
-**Teorema 1.7.2 (Las elementales son invertibles).** Toda matriz
+:::
+
+::: {thm-las-elementales-son-invertibles}
+### Las elementales son invertibles
+
+Toda matriz
 elemental $E$ es invertible, y su inversa es la matriz elemental de la
 **operación que deshace** la original:
 
@@ -53,13 +66,21 @@ elemental $E$ es invertible, y su inversa es la matriz elemental de la
 Como una fila cualquiera de operaciones se encadena multiplicando a la
 izquierda, se obtiene el resultado central:
 
-**Teorema 1.7.3 (Equivalencia por filas = producto de elementales).**
+:::
+
+::: {thm-equivalencia-por-filas-producto-de-elementales}
+### Equivalencia por filas = producto de elementales
 Las matrices $A$ y $B$ son equivalentes por filas si y solo si existen
 matrices elementales $E_1,\ldots,E_k$ tales que
 
 $$B = E_k\cdots E_2E_1\,A$$
 
-**Teorema 1.7.4 (Caracterización de la invertibilidad).** Para una
+:::
+
+::: {thm-caracterizacin-de-la-invertibilidad}
+### Caracterización de la invertibilidad
+
+Para una
 matriz cuadrada $A$ son equivalentes:
 
 1. $A$ es invertible.
@@ -82,6 +103,8 @@ final $U = E_k\cdots E_1 A$, de modo que
 $A = (E_1^{-1}\cdots E_k^{-1})\,U = LU$: la matriz $L$ de la sección
 1.6 **es** el producto de las inversas de las elementales usadas. Todo
 lo que hicimos en 1.6 era multiplicar por elementales sin decirlo.
+
+:::
 
 ## Ejemplos
 

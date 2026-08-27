@@ -8,7 +8,10 @@ notarlo, todas las ideas de esta unidad.
 
 ### La recta y su pendiente
 
-**Definición 1.1.1 (Ecuación de la recta).** Una recta (no vertical) en
+::: {def-ecuacin-de-la-recta}
+### Ecuación de la recta
+
+Una recta (no vertical) en
 el plano es el conjunto de puntos $(x, y)$ que satisfacen
 
 $$y = mx + b,$$
@@ -30,6 +33,7 @@ El signo de la pendiente describe el comportamiento de la recta:
   escribirse en la forma $y = mx + b$.
 
 ```{python}
+
 #| label: fig-recta-pendiente
 #| fig-cap: "Izquierda: la recta y = 5x - 6 pasa por (1, -1) y (2, 4): por cada 1 que avanza x, la y sube 5. Derecha: el signo de la pendiente define el comportamiento."
 #| echo: false
@@ -119,7 +123,10 @@ $5(1) - 6 = -1$ ($\checkmark$) y para $(2, 4)$ se tiene $5(2) - 6 = 4$
 La ecuación $y = 5x - 6$ puede reescribirse pasando las incógnitas a un
 mismo lado: $-5x + y = -6$. Así nace la idea de **ecuación lineal**.
 
-**Definición 1.1.2 (Ecuación lineal con dos incógnitas).** Una **ecuación
+::: {def-ecuacin-lineal-con-dos-incgnitas}
+### Ecuación lineal con dos incógnitas
+
+Una **ecuación
 lineal en las incógnitas $x$ e $y$** es una ecuación que puede
 escribirse en la forma
 
@@ -136,9 +143,14 @@ puntos tenga la recta. Si queremos una **única** pareja $(x, y)$ como
 respuesta, necesitamos más información: otra condición que la pareja
 también deba cumplir.
 
+:::
+
 ### Dos ecuaciones a la vez: el sistema
 
-**Definición 1.1.3 (Sistema de dos ecuaciones lineales).** Un **sistema
+::: {def-sistema-de-dos-ecuaciones-lineales}
+### Sistema de dos ecuaciones lineales
+
+Un **sistema
 con dos ecuaciones lineales con dos incógnitas** es un conjunto de la
 forma
 
@@ -162,6 +174,7 @@ de tres maneras, hay exactamente tres posibilidades ver @fig-tres-casos:
 3. Las rectas **coinciden** → **infinitas soluciones**.
 
 ```{python}
+
 #| label: fig-tres-casos
 #| fig-cap: "Los tres casos de un sistema 2 x 2: un punto, paralelas, coincidentes."
 import numpy as np
@@ -197,7 +210,10 @@ Lo que aprendimos con dos incógnitas se extiende a tantas como haga
 falta. Si en lugar de $x$ e $y$ hay $n$ incógnitas $x_1, x_2, \ldots,
 x_n$, el papel de la recta lo juega la **ecuación lineal general**.
 
-**Definición 1.1.4 (Ecuación lineal en $n$ incógnitas).** Una
+::: {def-ecuacin-lineal-en-n-incgnitas}
+### Ecuación lineal en $n$ incógnitas
+
+Una
 **ecuación lineal** en las incógnitas $x_1, x_2, \ldots, x_n$ es una
 ecuación que puede escribirse en la forma
 
@@ -221,7 +237,12 @@ toma los valores $1, 2, \ldots, n$ y se suman todos los términos
 resultantes: $a_1x_1 + a_2x_2 + \cdots + a_nx_n$. Es **exactamente la
 misma ecuación**, dicha en una sola línea.
 
-**Definición 1.1.5 (Sistema de ecuaciones lineales).** Un **sistema de
+:::
+
+::: {def-sistema-de-ecuaciones-lineales}
+### Sistema de ecuaciones lineales
+
+Un **sistema de
 $m$ ecuaciones lineales con $n$ incógnitas** es un conjunto de
 ecuaciones lineales que deben cumplirse *al mismo tiempo*:
 
@@ -248,7 +269,12 @@ $(x_1, \ldots, x_n)$ que satisface **todas** las ecuaciones
 simultáneamente. El **conjunto solución** es la colección de todas las
 soluciones.
 
-**Definición 1.1.6 (Sistemas equivalentes).** Dos sistemas son
+:::
+
+::: {def-sistemas-equivalentes}
+### Sistemas equivalentes
+
+Dos sistemas son
 **equivalentes** si tienen exactamente el mismo conjunto solución. La
 estrategia de la próxima sección será transformar un sistema en otros
 equivalentes, cada vez más sencillos, hasta poder leer la solución
@@ -262,6 +288,8 @@ donde $A$ es la **matriz de coeficientes** ($m \times n$), $\mathbf{x}$
 es el **vector de incógnitas** y $\mathbf{b}$ el **vector de términos
 independientes**. (Las operaciones con matrices se estudian a fondo en
 la sección 1.4.)
+
+:::
 
 ## Ejemplos
 

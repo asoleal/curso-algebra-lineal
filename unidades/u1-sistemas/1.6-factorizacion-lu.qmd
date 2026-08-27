@@ -15,7 +15,10 @@ guarda un tesoro: si anotamos los **multiplicadores** usados en cada
 paso, obtenemos una segunda matriz que, junto con la escalonada,
 *reconstruye* la matriz original.
 
-**Definición 1.6.1 (Factorización LU).** Sea $A$ una matriz $n\times n$.
+::: {def-factorizacin-lu}
+### Factorización LU
+
+Sea $A$ una matriz $n\times n$.
 Una **factorización LU** de $A$ es un par de matrices $L$ y $U$ tales
 que
 
@@ -32,7 +35,12 @@ operación $R_j \leftarrow R_j - m\,R_i$:
 - La matriz escalonada que queda al final (sin dividir pivotes, sin
   eliminar hacia arriba) es $U$.
 
-**Teorema 1.6.1 (Existencia y unicidad).** Si la matriz $A$ se puede
+:::
+
+::: {thm-existencia-y-unicidad}
+### Existencia y unicidad
+
+Si la matriz $A$ se puede
 llevar a una forma escalonada **sin intercambios de filas**, entonces
 $A$ admite una factorización $A = LU$, y con la condición de que $L$
 tenga unos en la diagonal, esa factorización es **única**.
@@ -51,6 +59,8 @@ $\mathbf{y}=U\mathbf{x}$, se resuelve en dos pasos:
 La ganancia práctica: **factorizar se hace una sola vez**; cada nuevo
 vector $\mathbf{b}$ solo cuesta las dos sustituciones, que son mucho más
 baratas que repetir toda la eliminación.
+
+:::
 
 ## Ejemplos
 

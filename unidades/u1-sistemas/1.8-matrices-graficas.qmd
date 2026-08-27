@@ -13,13 +13,21 @@ En logística, en epidemiología, en redes sociales y en química aparece
 una misma estructura: un conjunto de *objetos* y *conexiones* entre
 ellos. Matemáticamente eso es una gráfica.
 
-**Definición 1.8.1 (Gráfica).** Una **gráfica** (o **grafo**) es un par
+::: {def-grfica}
+### Gráfica
+
+Una **gráfica** (o **grafo**) es un par
 $(V, A)$ donde $V=\{v_1,\ldots,v_n\}$ es un conjunto de **nodos** (o
 vértices) y $A$ es un conjunto de **aristas**, es decir, pares de
 nodos. Si el orden del par importa —la arista va *de* $v_i$ *a*
 $v_j$—, la gráfica es **dirigida**; si no, es **no dirigida**.
 
-**Definición 1.8.2 (Matriz de adyacencia).** La **matriz de
+:::
+
+::: {def-matriz-de-adyacencia}
+### Matriz de adyacencia
+
+La **matriz de
 adyacencia** de una gráfica de $n$ nodos es la matriz $M$ de
 $n\times n$ dada por
 
@@ -28,13 +36,23 @@ $$m_{ij}=\begin{cases}1 & \text{si hay una arista de } v_i \text{ a } v_j\\ 0 & 
 En una gráfica **no dirigida**, $m_{ij}=m_{ji}$: la matriz es
 **simétrica** ($M^T=M$, sección 1.4).
 
-**Definición 1.8.3 (Camino).** Un **camino de longitud $k$** de $v_i$
+:::
+
+::: {def-camino}
+### Camino
+
+Un **camino de longitud $k$** de $v_i$
 a $v_j$ es una sucesión de $k$ aristas que empieza en $v_i$ y termina
 en $v_j$ (puede repetir nodos).
 
 Y aquí está el teorema que hace cantar a las matrices:
 
-**Teorema 1.8.1 (Las potencias cuentan caminos).** Si $M$ es la matriz
+:::
+
+::: {thm-las-potencias-cuentan-caminos}
+### Las potencias cuentan caminos
+
+Si $M$ es la matriz
 de adyacencia de una gráfica, entonces la entrada $(i,j)$ de $M^k$ es
 exactamente el **número de caminos de longitud $k$** del nodo $v_i$ al
 nodo $v_j$.
@@ -56,6 +74,8 @@ $v_i$ a $v_j$. Si todas lo son, la gráfica es **conexa**.
 nodo, $-1$ si llega, $0$ si no la toca. Aparece en redes eléctricas e
 hidráulicas — y está emparentada con las matrices de Kirchhoff de la
 sección 1.3.
+
+:::
 
 ## Ejemplos
 

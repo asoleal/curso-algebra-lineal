@@ -2,7 +2,10 @@
 
 ## Presentación formal
 
-**Definición 1.5.1 (Matriz inversa).** Sea $A$ una matriz $n \times n$.
+::: {def-matriz-inversa}
+### Matriz inversa
+
+Sea $A$ una matriz $n \times n$.
 Si existe una matriz $B$ del mismo tamaño tal que
 
 $$AB = BA = I,$$
@@ -10,7 +13,12 @@ $$AB = BA = I,$$
 entonces $A$ es **invertible** (o *no singular*) y $B$ es su **inversa**,
 denotada $A^{-1}$. Si no existe tal $B$, $A$ es **singular**.
 
-**Teorema 1.5.1.** Si $A$ es invertible, su inversa es **única**.
+:::
+
+::: {thm-teorema}
+### Teorema
+
+Si $A$ es invertible, su inversa es **única**.
 
 *Idea de la demostración.* Si $B$ y $C$ fueran dos inversas de $A$,
 entonces $B = BI = B(AC) = (BA)C = IC = C$. $\blacksquare$
@@ -33,6 +41,8 @@ $$A^{-1} = \frac{1}{ad - bc}\begin{pmatrix} d & -b\\ -c & a \end{pmatrix},
 **Propiedades.** $(A^{-1})^{-1} = A$; $\;(AB)^{-1} = B^{-1}A^{-1}$ (¡ojo
 al orden!); y si $A$ es invertible, el sistema $A\mathbf{x} = \mathbf{b}$
 tiene solución única $\mathbf{x} = A^{-1}\mathbf{b}$.
+
+:::
 
 ## Ejemplos
 

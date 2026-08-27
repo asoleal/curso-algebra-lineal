@@ -5,7 +5,10 @@
 Todo sistema de ecuaciones lineales se puede representar con una sola
 matriz. Sobre esa matriz se trabaja el método de esta sección.
 
-**Definición 1.2.1 (Matriz aumentada).** Para el sistema de $m$
+::: {def-matriz-aumentada}
+### Matriz aumentada
+
+Para el sistema de $m$
 ecuaciones con $n$ incógnitas
 
 $$
@@ -28,18 +31,33 @@ a_{m1} & a_{m2} & \cdots & a_{mn} & b_m
 \end{array}\right].
 $$
 
-**Definición 1.2.2 (Operaciones elementales de fila).** Sobre las filas
+:::
+
+::: {def-operaciones-elementales-de-fila}
+### Operaciones elementales de fila
+
+Sobre las filas
 de una matriz se permiten tres operaciones:
 
 1. **Intercambio:** $R_i \leftrightarrow R_j$.
 2. **Escalamiento:** $R_i \leftarrow c\,R_i$, con $c \neq 0$.
 3. **Reemplazo:** $R_i \leftarrow R_i + c\,R_j$.
 
-**Definición 1.2.3 (Equivalencia por filas).** Dos matrices son
+:::
+
+::: {def-equivalencia-por-filas}
+### Equivalencia por filas
+
+Dos matrices son
 **equivalentes por filas** si una se obtiene de la otra mediante una
 sucesión finita de operaciones elementales de fila.
 
-**Teorema 1.2.1.** Si las matrices aumentadas de dos sistemas lineales
+:::
+
+::: {thm-teorema}
+### Teorema
+
+Si las matrices aumentadas de dos sistemas lineales
 son equivalentes por filas, entonces los dos sistemas tienen **exactamente
 las mismas soluciones**.
 
@@ -108,7 +126,12 @@ de la anterior con una operación elemental, y todas representan
 sistemas con la misma solución $(1, 2)$. Esa es toda la idea del
 método: **operar la matriz hasta que la solución se lea sola**.
 
-**Definición 1.2.4 (Forma escalonada reducida por filas).** Una matriz
+:::
+
+::: {def-forma-escalonada-reducida-por-filas}
+### Forma escalonada reducida por filas
+
+Una matriz
 está en **forma escalonada reducida por filas** (RREF) si cumple:
 
 1. Las filas nulas (si las hay) están al final.
@@ -149,7 +172,12 @@ variable **libre**.
 - Si cada variable tiene pivote, la solución es **única**.
 - En otro caso hay **infinitas soluciones**, descritas con parámetros.
 
-**Definición 1.2.5 (Forma escalonada por filas).** Una matriz está en
+:::
+
+::: {def-forma-escalonada-por-filas}
+### Forma escalonada por filas
+
+Una matriz está en
 **forma escalonada por filas** (REF) si cumple solo las condiciones 1 a
 3 de la Definición 1.2.4: filas nulas al final, pivotes a la derecha, y
 **no** se exige que el pivote sea $1$ ni que sea el único elemento no
@@ -189,6 +217,8 @@ x + y + z &= 6 &\Rightarrow\; & x = 6 - 2 - 3 = 1
 $$
 
 Misma solución $(1,2,3)$, con menos pasos que la reducción completa.
+
+:::
 
 ## Ejemplos
 

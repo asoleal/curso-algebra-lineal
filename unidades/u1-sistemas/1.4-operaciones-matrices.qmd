@@ -2,7 +2,10 @@
 
 ## Introducción
 
-**Definición 1.4.1 (Matriz).** Una **matriz** $A$ de tamaño
+::: {def-matriz}
+### Matriz
+
+Una **matriz** $A$ de tamaño
 $m \times n$ es un arreglo rectangular de números con $m$ **filas** y
 $n$ **columnas**:
 
@@ -54,10 +57,17 @@ si $n = 1$ es un **vector columna**; si $m = 1$ es un **vector fila**.
 En ciencia de datos, una matriz no es más que una tabla: cada fila es
 una observación y cada columna, una variable medida.
 
-**Definición 1.4.2 (Igualdad de matrices).** Dos matrices son
+:::
+
+::: {def-igualdad-de-matrices}
+### Igualdad de matrices
+
+Dos matrices son
 **iguales** si tienen el mismo tamaño y las mismas entradas: $A = B$
 significa $a_{ij} = b_{ij}$ para todo $i, j$.
 
+
+:::
 
 ## Matrices especiales
 
@@ -129,7 +139,10 @@ es diagonal, la diagonal es triangular superior **e** inferior a la vez, y la
 cero es todo lo anterior. Cuanto más "especial" es una matriz, más fácil será
 operar con ella — lo iremos comprobando a lo largo de esta sección.
 
-**Definición 1.4.2 (Suma de matrices).** Si $\mathcal{M}_{m \times n}$ denota
+::: {def-suma-de-matrices}
+### Suma de matrices
+
+Si $\mathcal{M}_{m \times n}$ denota
 el conjunto de **todas** las matrices de tamaño $m \times n$, la suma es una
 operación
 
@@ -150,7 +163,12 @@ Es decir, cada casilla de $C$ se llena sumando los contenidos de la **misma
 dirección** en $A$ y en $B$: la casilla $(i, j)$ de $C$ recibe lo que había en
 la casilla $(i, j)$ de $A$ más lo que había en la casilla $(i, j)$ de $B$.
 
-**Ejemplo 1.4.1.**
+:::
+
+::: {exm-ejemplo}
+### Ejemplo
+
+:::
 
 ::: {.content-visible when-format="html"}
 Explora la suma interactivamente: genera ejemplos y pasa el cursor sobre cada
@@ -256,7 +274,10 @@ muestra el origen de cada entrada):
 [sección de operaciones en el sitio del curso](https://asoleal.github.io/curso-algebra-lineal/unidades/u1-sistemas/1.4-operaciones-con-matrices.html).
 :::
 
-**Definición 1.4.3 (Producto por escalar).** Ahora la operación mezcla dos
+::: {def-producto-por-escalar}
+### Producto por escalar
+
+Ahora la operación mezcla dos
 mundos: un número y una matriz. Su forma es
 
 $$\cdot : \mathbb{R} \times \mathcal{M}_{m \times n} \;\to\; \mathcal{M}_{m \times n},\\
@@ -270,7 +291,12 @@ $$kA = [k\,a_{ij}]_{m \times n},$$
 
 es decir, **cada casilla se multiplica por $k$**.
 
-**Ejemplo 1.4.2.** Con $k = -2$ y $A = \begin{bmatrix} 3 & -1 \\ 0 & 5 \\ 2 & -4 \end{bmatrix}$:
+:::
+
+::: {exm-ejemplo}
+### Ejemplo
+
+Con $k = -2$ y $A = \begin{bmatrix} 3 & -1 \\ 0 & 5 \\ 2 & -4 \end{bmatrix}$:
 
 $$-2A = \begin{bmatrix} -6 & 2 \\ 0 & -10 \\ -4 & 8 \end{bmatrix}.$$
 
@@ -318,6 +344,8 @@ el panorama es distinto:
 La moraleja: la suma de matrices se comporta tan bien como la suma de números;
 las sorpresas vendrán del producto.
 
+:::
+
 ## Demostraciones.
 
  El patrón es siempre el mismo: dos matrices son iguales si
@@ -364,7 +392,10 @@ heredable: por eso sorprende.
 
 ### La transpuesta: filas que se vuelven columnas
 
-**Definición 1.4.5 (Transpuesta).** La **transpuesta** de $A$, escrita
+::: {def-transpuesta}
+### Transpuesta
+
+La **transpuesta** de $A$, escrita
 $A^{T}$, se obtiene convirtiendo **cada fila en una columna**:
 
 $$(A^{T})_{ij} = a_{ji}.$$
@@ -411,6 +442,8 @@ como $\begin{bmatrix} 1 & 5\\ 5 & 2 \end{bmatrix}$.
 
 4. $(AB)^{T} = B^{T}A^{T}$;
 
+:::
+
 ### El producto, en tres pasos
 
 El producto de matrices se entiende mejor construyéndolo por partes:
@@ -419,7 +452,10 @@ completa.
 
 **Paso 1: vector fila por vector columna (producto punto).**
 
-**Definición 1.4.6 (Producto punto).** Un vector fila $1 \times n$ por
+::: {def-producto-punto}
+### Producto punto
+
+Un vector fila $1 \times n$ por
 un vector columna $n \times 1$ da un **número**: la suma de los
 productos de las entradas correspondientes:
 
@@ -476,7 +512,12 @@ solo producto de matriz por vector**.
 
 **Paso 3: dos matrices.**
 
-**Definición 1.4.7 (Producto de matrices).** Si $A$ es $m \times n$ y
+:::
+
+::: {def-producto-de-matrices}
+### Producto de matrices
+
+Si $A$ es $m \times n$ y
 $B$ es $n \times p$ —las **columnas de $A$ deben ser tantas como las
 filas de $B$**—, el producto $AB$ es la matriz $m \times p$ cuya
 entrada $(i,j)$ es el producto punto de la **fila $i$ de $A$** con la
@@ -544,6 +585,8 @@ $(AB)^{T} = B^{T}A^{T}$ (con el módulo Python lo podemos verificar con números
 
 5. Cuando $A$ es cuadrada también tiene sentido elevarla: $A^{2} = AA$
 (lo usaremos en la sección 1.8 contando caminos en grafos).
+
+:::
 
 ## Demostraciones. 
 
