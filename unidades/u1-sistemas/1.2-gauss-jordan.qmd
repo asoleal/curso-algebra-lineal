@@ -1,4 +1,4 @@
-# Eliminación de Gauss–Jordan
+# Eliminación de Gauss–Jordan {#sec-gauss-jordan}
 
 ## Introducción
 
@@ -738,24 +738,20 @@ Solución: $2$ qq de maíz, $3$ qq de soya y $1$ qq de salvado.
 y no como igualdades exactas?*
 :::
 
-::: {.callout-note title="Aplicación · Mecatrónica: circuito de tres mallas (sistema 3×3)"}
-En la sección 1.1 armamos las ecuaciones de una y dos mallas con la
-ley de Ohm ($V = IR$) y la regla de Kirchhoff (*lo que entrega la
-fuente = suma de caídas de voltaje en las resistencias*). Un circuito
-de **tres mallas** produce un sistema $3 \times 3$. Con una fuente de
-$8$ V y cinco resistencias de $1\ \Omega$ (ver la figura):
+::: {.callout-note title="Aplicación · Mecatrónica: circuito de tres mallas con resistencias variables (sistema 3×3)"}
+Las ecuaciones de mallas se plantean utilizando la ley de Ohm ($V = IR$) y la regla de Kirchhoff (*lo que entrega la fuente = suma de caídas de voltaje en las resistencias*). Un circuito de **tres mallas** produce un sistema $3 \times 3$. Consideremos una fuente de $12$ V y cinco resistencias con valores distintos: $R_1=2\ \Omega$, $R_2=1\ \Omega$, $R_3=2\ \Omega$, $R_4=2\ \Omega$ y $R_5=2\ \Omega$ (ver @fig-circuito-3mallas-v2):
 
 $$
 \begin{aligned}
-\text{Malla 1: }\; I_1 + (I_1 - I_2) &= 8\\
-\text{Malla 2: }\; I_2 + (I_2 - I_1) + (I_2 - I_3) &= 0\\
-\text{Malla 3: }\; I_3 + (I_3 - I_2) &= 0
+\text{Malla 1: }\; 2I_1 + 2(I_1 - I_2) &= 12\\
+\text{Malla 2: }\; 1I_2 + 2(I_2 - I_1) + 2(I_2 - I_3) &= 0\\
+\text{Malla 3: }\; 2I_3 + 2(I_3 - I_2) &= 0
 \end{aligned}
 \qquad\Longrightarrow\qquad
 \begin{aligned}
-2I_1 - I_2 \phantom{{} - I_3} &= 8\\
--I_1 + 3I_2 - I_3 &= 0\\
--I_2 + 2I_3 &= 0
+4I_1 - 2I_2 \phantom{{} - 2I_3} &= 12\\
+-2I_1 + 5I_2 - 2I_3 &= 0\\
+-2I_2 + 4I_3 &= 0
 \end{aligned}
 $$
 
@@ -763,27 +759,24 @@ Aplicando Gauss–Jordan a la matriz aumentada:
 
 $$
 \left[\begin{array}{ccc|c}
-2 & -1 & 0 & 8\\
--1 & 3 & -1 & 0\\
-0 & -1 & 2 & 0
+4 & -2 & 0 & 12\\
+-2 & 5 & -2 & 0\\
+0 & -2 & 4 & 0
 \end{array}\right]
 \xrightarrow{\;\text{Gauss--Jordan}\;}
 \left[\begin{array}{ccc|c}
-1 & 0 & 0 & 5\\
+1 & 0 & 0 & 4\\
 0 & 1 & 0 & 2\\
 0 & 0 & 1 & 1
 \end{array}\right]
 $$
 
-Las corrientes de malla son $I_1 = 5$ A, $I_2 = 2$ A, $I_3 = 1$ A. Por
-la resistencia compartida entre las mallas 1 y 2 circulan
-$I_1 - I_2 = 3$ A, y entre las mallas 2 y 3, $I_2 - I_3 = 1$ A. *Si se
-duplica el voltaje de la fuente, ¿qué pasa con las tres corrientes?*
+Las corrientes de malla son $I_1 = 4$ A, $I_2 = 2$ A, $I_3 = 1$ A. Por la resistencia compartida $R_4$ entre las mallas 1 y 2 circulan $I_1 - I_2 = 2$ A, y por $R_5$ entre las mallas 2 y 3 circula $I_2 - I_3 = 1$ A. *Si se duplica el voltaje de la fuente a 24 V, ¿qué pasa con las tres corrientes?*
 :::
 
 ```{python}
-#| label: fig-circuito-3mallas
-#| fig-cap: "Circuito de tres mallas: tres mallas, tres ecuaciones. Las resistencias compartidas $R_4$ y $R_5$ llevan las diferencias $I_1$ − $I_2$ e $I_2$ − $I_3$."
+#| label: fig-circuito-3mallas-v2
+#| fig-cap: "Circuito de tres mallas con resistencias variables: tres mallas, tres ecuaciones. Las resistencias compartidas $R_4$ y $R_5$ llevan las diferencias $I_1$ − $I_2$ e $I_2$ − $I_3$."
 #| echo: false
 import numpy as np
 import matplotlib.pyplot as plt
@@ -820,17 +813,16 @@ fuente(ax, (0, 0), (0, 3))
 ax.plot([9, 9], [0, 3], 'k', lw=1.5)
 resistor(ax, (3, 0), (3, 3)); resistor(ax, (6, 0), (6, 3))
 resistor(ax, (0, 3), (3, 3)); resistor(ax, (3, 3), (6, 3)); resistor(ax, (6, 3), (9, 3))
-ax.text(-0.4, 1.5, '$V=8$ V', ha='center', va='center', rotation=90, fontsize=10)
-ax.text(1.5, 3.38, '$R_1=1\\ \\Omega$', ha='center', fontsize=10)
+ax.text(-0.4, 1.5, '$V=12$ V', ha='center', va='center', rotation=90, fontsize=10)
+ax.text(1.5, 3.38, '$R_1=2\\ \\Omega$', ha='center', fontsize=10)
 ax.text(4.5, 3.38, '$R_2=1\\ \\Omega$', ha='center', fontsize=10)
-ax.text(7.5, 3.38, '$R_3=1\\ \\Omega$', ha='center', fontsize=10)
-ax.text(3.35, 1.5, '$R_4=1\\ \\Omega$', ha='left', va='center', fontsize=10)
-ax.text(6.35, 1.5, '$R_5=1\\ \\Omega$', ha='left', va='center', fontsize=10)
+ax.text(7.5, 3.38, '$R_3=2\\ \\Omega$', ha='center', fontsize=10)
+ax.text(3.35, 1.5, '$R_4=2\\ \\Omega$', ha='left', va='center', fontsize=10)
+ax.text(6.35, 1.5, '$R_5=2\\ \\Omega$', ha='left', va='center', fontsize=10)
 flecha_malla(ax, (1.5, 1.5), '$I_1$'); flecha_malla(ax, (4.5, 1.5), '$I_2$'); flecha_malla(ax, (7.5, 1.5), '$I_3$')
 ax.set_xlim(-0.9, 9.4); ax.set_ylim(-0.55, 3.85); ax.axis('off')
 plt.tight_layout(); plt.show()
 ```
-
 ## Ejercicios adaptativos
 
 ::: {.content-visible when-format="html"}

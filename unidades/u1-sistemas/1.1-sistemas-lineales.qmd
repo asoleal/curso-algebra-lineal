@@ -1022,7 +1022,7 @@ plt.tight_layout(); plt.show()
 
 ¿Cómo saber en cuál caso cae un sistema dado, sin dibujarlo? La
 respuesta tiene un nombre preciso — el **rango** de la matriz — y la
-descubriremos con las manos en la sección 1.2: al aplicar
+descubriremos en el @sec-gauss-jordan : al aplicar
 Gauss–Jordan, cada caso deja una huella inconfundible en la matriz
 escalonada.
 
