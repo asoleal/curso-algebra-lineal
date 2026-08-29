@@ -203,6 +203,7 @@ plt.show()
 
 Este resultado es general: **todo** sistema de ecuaciones lineales tiene
 una única solución, ninguna, o infinitas. No hay otra posibilidad.
+:::
 
 ### Más incógnitas: la forma general
 
