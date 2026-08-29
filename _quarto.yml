@@ -48,7 +48,8 @@ format:
     code-tools: true
     toc: true
     toc-depth: 3
-    toc-title: "En esta página"highlight-style: github
+    toc-title: "En esta página"
+    highlight-style: github
 
 pdf:
   number-sections: true
@@ -66,6 +67,3 @@ pdf:
       \setlength{\abovecaptionskip}{6pt}
       \setlength{\belowcaptionskip}{4pt}
       \setkeys{Gin}{width=0.72\linewidth}
-
-website:
-  base-url: /curso-algebra-lineal/
