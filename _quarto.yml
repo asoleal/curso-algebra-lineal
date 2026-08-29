@@ -50,6 +50,8 @@ format:
     toc-depth: 3
     toc-title: "En esta página"
     highlight-style: github
+    math: mathjax
+    html-math-method: mathjax
 
 pdf:
   number-sections: true
