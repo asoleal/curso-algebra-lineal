@@ -65,7 +65,7 @@ ax[1].legend(fontsize=9); ax[1].set_ylim(-1.5, 3.5)
 plt.tight_layout()
 plt.show()
 ```
-
+:::
 **Ilustración (la recta que pasa por dos puntos).** Hallemos la ecuación
 de la recta que pasa por los puntos $(1, -1)$ y $(2, 4)$ Ver @fig-recta-pendiente. Primero
 calculamos la pendiente:
