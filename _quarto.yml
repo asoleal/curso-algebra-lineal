@@ -5,6 +5,7 @@
 project:
   type: book
   output-dir: _book
+  base-url: /curso-algebra-lineal/
 
 lang: es
 
@@ -50,6 +51,7 @@ format:
     toc-depth: 3
     toc-title: "En esta página"
     highlight-style: github
+    math: katex
 
 pdf:
   number-sections: true
