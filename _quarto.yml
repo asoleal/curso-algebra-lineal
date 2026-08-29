@@ -49,6 +49,7 @@ format:
     toc: true
     toc-depth: 3
     toc-title: "En esta página"
+    toc-location: right
     highlight-style: github
     math: mathjax
     html-math-method:
