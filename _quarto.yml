@@ -56,20 +56,19 @@ format:
       method: mathjax
       url: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
 
-
-pdf:
-  number-sections: true
-  pdf-engine: tectonic
-  documentclass: report
-  papersize: a4
-  toc-depth: 2
-  fig-pos: "H"
-  geometry:
-    - margin=2.2cm
-  include-in-header:
-    text: |
-      \raggedbottom
-      \setlength{\intextsep}{10pt plus 2pt minus 2pt}
-      \setlength{\abovecaptionskip}{6pt}
-      \setlength{\belowcaptionskip}{4pt}
-      \setkeys{Gin}{width=0.72\linewidth}
+  pdf:
+    number-sections: true
+    pdf-engine: tectonic
+    documentclass: report
+    papersize: a4
+    toc-depth: 2
+    fig-pos: "H"
+    geometry:
+      - margin=2.2cm
+    include-in-header:
+      text: |
+        \raggedbottom
+        \setlength{\intextsep}{10pt plus 2pt minus 2pt}
+        \setlength{\abovecaptionskip}{6pt}
+        \setlength{\belowcaptionskip}{4pt}
+        \setkeys{Gin}{width=0.72\linewidth}
