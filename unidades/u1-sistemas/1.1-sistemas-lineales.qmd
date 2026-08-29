@@ -8,7 +8,7 @@ notarlo, todas las ideas de esta unidad.
 
 ### La recta y su pendiente
 
-::: {def-ecuacin-de-la-recta}
+::: {#def-ecuacin-de-la-recta}
 ### Ecuación de la recta
 
 Una recta (no vertical) en
@@ -123,7 +123,7 @@ $5(1) - 6 = -1$ ($\checkmark$) y para $(2, 4)$ se tiene $5(2) - 6 = 4$
 La ecuación $y = 5x - 6$ puede reescribirse pasando las incógnitas a un
 mismo lado: $-5x + y = -6$. Así nace la idea de **ecuación lineal**.
 
-::: {def-ecuacin-lineal-con-dos-incgnitas}
+::: {#def-ecuacin-lineal-con-dos-incgnitas}
 ### Ecuación lineal con dos incógnitas
 
 Una **ecuación
@@ -147,7 +147,7 @@ también deba cumplir.
 
 ### Dos ecuaciones a la vez: el sistema
 
-::: {def-sistema-de-dos-ecuaciones-lineales}
+::: {#def-sistema-de-dos-ecuaciones-lineales}
 ### Sistema de dos ecuaciones lineales
 
 Un **sistema
@@ -210,7 +210,7 @@ Lo que aprendimos con dos incógnitas se extiende a tantas como haga
 falta. Si en lugar de $x$ e $y$ hay $n$ incógnitas $x_1, x_2, \ldots,
 x_n$, el papel de la recta lo juega la **ecuación lineal general**.
 
-::: {def-ecuacin-lineal-en-n-incgnitas}
+::: {#def-ecuacin-lineal-en-n-incgnitas}
 ### Ecuación lineal en $n$ incógnitas
 
 Una
@@ -271,7 +271,7 @@ soluciones.
 
 :::
 
-::: {def-sistemas-equivalentes}
+::: {#def-sistemas-equivalentes}
 ### Sistemas equivalentes
 
 Dos sistemas son
@@ -293,7 +293,7 @@ la sección 1.4.)
 
 ## Ejemplos
 
-### Ejemplo 1.1.1 (verificar una solución)
+### Ejemplo
 
 Comprobar si $(3, 2)$ es solución del sistema
 
@@ -314,6 +314,8 @@ tres casos).
 
 Nota: para *encontrar* (no solo verificar) soluciones de forma
 sistemática usaremos el método de Gauss–Jordan de la sección 1.2.
+
+### Ejemplo  (Usando IA)
 
 ::: {.callout-important title="Ventana IA: qué es una neurona artificial y cómo se calibra resolviendo un sistema"}
 **El concepto, sin misterio.** Una **neurona artificial** es una
@@ -426,23 +428,48 @@ plt.grid(alpha=0.3); plt.legend(fontsize=8); plt.show()
 
 ## Módulo Python
 
+**Problema (Zootecnia):** Un ingeniero agrónomo necesita determinar el aporte energético (en Mcal/kg) de dos alimentos concentrados, $A$ y $B$, para formular una dieta. Al analizar dos muestras de referencia encuentra que: 1 kg del alimento $A$ mezclado con 2 kg del alimento $B$ aporta 8 Mcal. Por otro lado, 2 kg del alimento $A$ mezclado con 1 kg del alimento $B$ aporta 7 Mcal. ¿Cuál es el aporte energético individual de cada alimento?
+
+**Planteamiento del sistema:**
+Definamos nuestras variables:
+
+- $e_A$: energía aportada por 1 kg del alimento A.
+
+- $e_B$: energía aportada por 1 kg del alimento B.
+
+Con la información del problema, planteamos el siguiente sistema de ecuaciones lineales:
+
+$$
+\begin{aligned}
+1e_A + 2e_B &= 8 \\
+2e_A + 1e_B &= 7
+\end{aligned}
+$$
+
+Matricialmente, el sistema $A\mathbf{x} = \mathbf{b}$ se estructura así:
+
+$$
+\begin{pmatrix} 1 & 2 \\ 2 & 1 \end{pmatrix} \begin{pmatrix} e_A \\ e_B \end{pmatrix} = \begin{pmatrix} 8 \\ 7 \end{pmatrix}
+$$
+
+**Resolución en Python:** Utilizaremos la librería `numpy` y su función `np.linalg.solve`, la cual recibe la matriz de coeficientes $A$ y el vector de términos independientes $b$.
+
 ```{python}
 import numpy as np
 
-# Sistema del Ejemplo 1.1.1:  x + y = 5,  x - y = 1
-A = np.array([[1, 1],
-              [1, -1]], dtype=float)
-b = np.array([5, 1], dtype=float)
-
-x = np.linalg.solve(A, b)
-print("Solución del sistema:", x)
-
-# Otro sistema 2x2: energía de dos alimentos  e_A + 2e_B = 8,  2e_A + e_B = 7
-E = np.array([[1, 2],
+# 1. Definimos la matriz de coeficientes (A) y el vector de términos independientes (b)
+A = np.array([[1, 2],
               [2, 1]], dtype=float)
-e = np.linalg.solve(E, np.array([8, 7], dtype=float))
-print("Energía por kg (e_A, e_B):", e)
+b = np.array([8, 7], dtype=float)
+
+# 2. Resolvemos el sistema usando la descomposición matricial interna de NumPy
+solucion = np.linalg.solve(A, b)
+
+print("Vector de soluciones [e_A, e_B]:", solucion)
 ```
+
+**Conclusión:** La salida del algoritmo nos indica que la solución exacta del sistema es $e_A = 2$ y $e_B = 3$. Esto significa que el alimento A aporta **2 Mcal/kg** y el alimento B aporta **3 Mcal/kg**. Con estos parámetros exactos, el ingeniero puede escalar las proporciones para formular toneladas de alimento balanceado de manera precisa.
+
 
 ::: {.content-visible when-format="html"}
 [▶ Abrir este módulo en Google Colab](https://colab.research.google.com/github/asoleal/curso-algebra-lineal/blob/main/notebooks/u1-1.1-sistemas-lineales.ipynb){.btn .btn-outline-primary}
@@ -452,33 +479,75 @@ print("Energía por kg (e_A, e_B):", e)
 
 ::: {.content-visible when-format="html"}
 Explora los tres casos de un sistema $2\times2$. Cada línea es una recta
-$y = mx + c$ (una ecuación del sistema). Mueve los deslizadores y observa
-qué pasa con la solución.
+$y = mx + c$ (una ecuación del sistema). Puedes escribir el valor exacto en la casilla o mover el deslizador para ver cómo cambia la intersección.
 
 ```{=html}
-<div id="rl" style="max-width:700px;margin:1em auto;padding:1em;border:1px solid rgba(0,0,0,.2);border-radius:10px;">
-  <div style="display:flex;flex-wrap:wrap;gap:1em;justify-content:center;font-size:.95em;">
-    <span style="color:#1f77b4;font-weight:600;">Recta 1:</span>
-    <label>m1 = <span id="rl-vm1">1</span> <input id="rl-m1" type="range" min="-5" max="5" step="0.5" value="1"></label>
-    <label>c1 = <span id="rl-vc1">2</span> <input id="rl-c1" type="range" min="-8" max="8" step="1" value="2"></label>
-    <span style="color:#d62728;font-weight:600;">Recta 2:</span>
-    <label>m2 = <span id="rl-vm2">-1</span> <input id="rl-m2" type="range" min="-5" max="5" step="0.5" value="-1"></label>
-    <label>c2 = <span id="rl-vc2">4</span> <input id="rl-c2" type="range" min="-8" max="8" step="1" value="4"></label>
+<div id="rl" style="max-width:600px;margin:1em auto;padding:1.2em 1.5em;border:1px solid rgba(0,0,0,.2);border-radius:10px;font-family:system-ui, sans-serif;">
+  <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 1.5em; margin-bottom: 1.5em;">
+
+    <div>
+      <div style="color:#1f77b4; font-weight:600; margin-bottom:10px; border-bottom:2px solid #1f77b4; padding-bottom:5px;">Recta 1: y = m₁x + c₁</div>
+      <div style="display:grid; grid-template-columns: 25px 60px 1fr; gap:8px; align-items:center; margin-bottom:8px;">
+        <label style="font-weight:600;">m₁</label>
+        <input id="rl-m1-num" type="number" step="0.1" min="-10" max="10" value="1" style="width:100%; padding:4px; border:1px solid #ccc; border-radius:4px; text-align:center; box-sizing:border-box;">
+        <input id="rl-m1" type="range" min="-10" max="10" step="0.1" value="1" style="width:100%;">
+      </div>
+      <div style="display:grid; grid-template-columns: 25px 60px 1fr; gap:8px; align-items:center;">
+        <label style="font-weight:600;">c₁</label>
+        <input id="rl-c1-num" type="number" step="0.1" min="-10" max="10" value="2" style="width:100%; padding:4px; border:1px solid #ccc; border-radius:4px; text-align:center; box-sizing:border-box;">
+        <input id="rl-c1" type="range" min="-10" max="10" step="0.1" value="2" style="width:100%;">
+      </div>
+    </div>
+
+    <div>
+      <div style="color:#d62728; font-weight:600; margin-bottom:10px; border-bottom:2px solid #d62728; padding-bottom:5px;">Recta 2: y = m₂x + c₂</div>
+      <div style="display:grid; grid-template-columns: 25px 60px 1fr; gap:8px; align-items:center; margin-bottom:8px;">
+        <label style="font-weight:600;">m₂</label>
+        <input id="rl-m2-num" type="number" step="0.1" min="-10" max="10" value="-1" style="width:100%; padding:4px; border:1px solid #ccc; border-radius:4px; text-align:center; box-sizing:border-box;">
+        <input id="rl-m2" type="range" min="-10" max="10" step="0.1" value="-1" style="width:100%;">
+      </div>
+      <div style="display:grid; grid-template-columns: 25px 60px 1fr; gap:8px; align-items:center;">
+        <label style="font-weight:600;">c₂</label>
+        <input id="rl-c2-num" type="number" step="0.1" min="-10" max="10" value="4" style="width:100%; padding:4px; border:1px solid #ccc; border-radius:4px; text-align:center; box-sizing:border-box;">
+        <input id="rl-c2" type="range" min="-10" max="10" step="0.1" value="4" style="width:100%;">
+      </div>
+    </div>
+
   </div>
-  <canvas id="rl-canvas" width="520" height="380" style="display:block;margin:.8em auto;border:1px solid rgba(0,0,0,.15);border-radius:8px;background:#fff;"></canvas>
-  <div id="rl-info" style="text-align:center;font-weight:600;"></div>
+  <canvas id="rl-canvas" width="450" height="450" style="display:block;margin:.5em auto;border:1px solid rgba(0,0,0,.15);border-radius:8px;background:#fff;max-width:100%;height:auto;"></canvas>
+  <div id="rl-info" style="text-align:center;font-weight:600;padding:10px;border-radius:6px;background:#f8f9fa;margin-top:10px;font-size:1.1em;"></div>
 </div>
+
 <script>
 (function () {
   var cv = document.getElementById('rl-canvas'), ctx = cv.getContext('2d');
   var W = cv.width, H = cv.height, R = 10;
+
   function px(x) { return (x + R) / (2 * R) * W; }
   function py(y) { return H - (y + R) / (2 * R) * H; }
+
   function val(id) { return parseFloat(document.getElementById(id).value); }
+
+  function syncFromSlider(id) {
+    var slider = document.getElementById(id);
+    var num = document.getElementById(id + '-num');
+    num.value = slider.value;
+    dibujar();
+  }
+  function syncFromNumber(id) {
+    var slider = document.getElementById(id);
+    var num = document.getElementById(id + '-num');
+    var v = parseFloat(num.value);
+    if (isNaN(v)) v = 0;
+    v = Math.max(parseFloat(slider.min), Math.min(parseFloat(slider.max), v));
+    slider.value = v;
+    dibujar();
+  }
+
   function linea(m, c, color) {
-    ctx.strokeStyle = color; ctx.lineWidth = 2; ctx.beginPath();
+    ctx.strokeStyle = color; ctx.lineWidth = 2.5; ctx.beginPath();
     var primero = true;
-    for (var x = -R; x <= R; x += 0.2) {
+    for (var x = -R; x <= R; x += 0.05) {
       var y = m * x + c;
       if (y < -R || y > R) { primero = true; continue; }
       if (primero) { ctx.moveTo(px(x), py(y)); primero = false; }
@@ -486,41 +555,55 @@ qué pasa con la solución.
     }
     ctx.stroke();
   }
+
   function dibujar() {
     var m1 = val('rl-m1'), c1 = val('rl-c1'), m2 = val('rl-m2'), c2 = val('rl-c2');
-    document.getElementById('rl-vm1').textContent = m1;
-    document.getElementById('rl-vc1').textContent = c1;
-    document.getElementById('rl-vm2').textContent = m2;
-    document.getElementById('rl-vc2').textContent = c2;
     ctx.clearRect(0, 0, W, H);
-    ctx.strokeStyle = 'rgba(0,0,0,.12)'; ctx.lineWidth = 1;
-    for (var g = -R; g <= R; g += 2) {
+
+    // Cuadrícula menor y mayor
+    ctx.strokeStyle = 'rgba(0,0,0,.08)'; ctx.lineWidth = 1;
+    for (var g = -R; g <= R; g += 1) {
       ctx.beginPath(); ctx.moveTo(px(g), 0); ctx.lineTo(px(g), H); ctx.stroke();
       ctx.beginPath(); ctx.moveTo(0, py(g)); ctx.lineTo(W, py(g)); ctx.stroke();
     }
-    ctx.strokeStyle = 'rgba(0,0,0,.5)';
+    ctx.strokeStyle = 'rgba(0,0,0,.2)'; ctx.lineWidth = 1.5;
+    for (var g = -R; g <= R; g += 5) {
+      ctx.beginPath(); ctx.moveTo(px(g), 0); ctx.lineTo(px(g), H); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(0, py(g)); ctx.lineTo(W, py(g)); ctx.stroke();
+    }
+
+    // Ejes
+    ctx.strokeStyle = 'rgba(0,0,0,.6)'; ctx.lineWidth = 2;
     ctx.beginPath(); ctx.moveTo(px(0), 0); ctx.lineTo(px(0), H); ctx.stroke();
     ctx.beginPath(); ctx.moveTo(0, py(0)); ctx.lineTo(W, py(0)); ctx.stroke();
-    linea(m1, c1, '#1f77b4'); linea(m2, c2, '#d62728');
+
+    // Rectas
+    linea(m1, c1, '#1f77b4');
+    linea(m2, c2, '#d62728');
+
     var info = document.getElementById('rl-info');
-    if (Math.abs(m1 - m2) < 1e-12) {
-      if (Math.abs(c1 - c2) < 1e-12) {
-        info.innerHTML = 'Rectas coincidentes: <b>infinitas soluciones</b>';
+    if (Math.abs(m1 - m2) < 1e-6) {
+      if (Math.abs(c1 - c2) < 1e-6) {
+        info.innerHTML = 'Rectas coincidentes: <span style="color:#2e7d32;">infinitas soluciones</span>';
       } else {
-        info.innerHTML = 'Rectas paralelas: <b>no hay soluci\u00f3n</b>';
+        info.innerHTML = 'Rectas paralelas: <span style="color:#c62828;">no hay solución</span>';
       }
     } else {
       var x = (c2 - c1) / (m1 - m2), y = m1 * x + c1;
-      info.innerHTML = 'Soluci\u00f3n \u00fanica: x = ' + x.toFixed(2) + ', y = ' + y.toFixed(2);
+      info.innerHTML = 'Solución única: <span style="color:#1565c0;">x = ' + x.toFixed(2) + ', y = ' + y.toFixed(2) + '</span>';
       if (Math.abs(x) <= R && Math.abs(y) <= R) {
         ctx.fillStyle = '#2e7d32'; ctx.beginPath();
-        ctx.arc(px(x), py(y), 6, 0, 2 * Math.PI); ctx.fill();
+        ctx.arc(px(x), py(y), 8, 0, 2 * Math.PI); ctx.fill();
+        ctx.strokeStyle = '#fff'; ctx.lineWidth = 2.5; ctx.stroke();
       }
     }
   }
+
   ['rl-m1', 'rl-c1', 'rl-m2', 'rl-c2'].forEach(function (id) {
-    document.getElementById(id).oninput = dibujar;
+    document.getElementById(id).oninput = function() { syncFromSlider(id); };
+    document.getElementById(id + '-num').oninput = function() { syncFromNumber(id); };
   });
+
   dibujar();
 })();
 </script>
@@ -849,7 +932,7 @@ a_{31}x_1 + a_{32}x_2 + a_{33}x_3 &= b_3
 \end{aligned}
 $$
 
-**Una ecuación es un plano.** Las soluciones $(x_1, x_2, x_3)$ de cada
+**Cada ecuación representa un plano.** Las soluciones $(x_1, x_2, x_3)$ de cada
 fila ya no forman una recta en el plano, sino un **plano** en el
 espacio. La idea es la misma de siempre, solo que el dibujo gana una
 dimensión.
@@ -1052,7 +1135,7 @@ $$
 
 ```{python}
 #| label: fig-tres-mallas
-#| fig-cap: "Circuito de tres mallas: tres mallas, tres ecuaciones. Por la resistencia compartida $R_4$ circula $I_1$ − $I_2$ y por $R_5$, $I_2$ − $I_3$."
+#| fig-cap: "Circuito de tres mallas: tres mallas, tres ecuaciones. Por la resistencia compartida $R_4$ circula $I_1 - I_2$ y por $R_5$, $I_2 - I_3$."
 #| echo: false
 import numpy as np
 import matplotlib.pyplot as plt
@@ -1112,16 +1195,31 @@ tres son el mismo juego de *quitar incógnitas hasta quedar con una*:
   constantes) para que una incógnita desaparezca. Este es el camino
   que mejor escala: en la sección 1.2 se convertirá en Gauss–Jordan.
 
-*Calentamiento en $2\times2$.* Retomemos el sistema del circuito de
-dos mallas, $2I_1 - I_2 = 4$, $\;-I_1 + 3I_2 = 3$, que quedó pendiente:
+### Ejemplo
+*Empecemos con $2\times2$.* Retomemos el sistema del circuito de
+dos mallas (@fig-circuito-2mallas),
 
-- Por **sustitución**: de la primera ecuación, $I_2 = 2I_1 - 4$; al
+- $2I_1 - I_2 = 4$,
+
+- $\;-I_1 + 3I_2 = 3$,
+
+Que quedó pendiente:
+
+- Por **sustitución**:
+
+  De la primera ecuación, $I_2 = 2I_1 - 4$; al
   meterla en la segunda: $-I_1 + 3(2I_1 - 4) = 3$, es decir
   $5I_1 - 12 = 3$, así que $I_1 = 3$ y $I_2 = 2$.
-- Por **igualación**: despejando $I_2$ en ambas, $I_2 = 2I_1 - 4$ e
+
+- Por **igualación**:
+
+  Despejando $I_2$ en ambas, $I_2 = 2I_1 - 4$ e
   $I_2 = \tfrac{I_1 + 3}{3}$; igualando: $6I_1 - 12 = I_1 + 3$, otra
   vez $I_1 = 3$.
-- Por **eliminación**: $3\times(\text{primera}) + (\text{segunda})$:
+
+- Por **eliminación**:
+
+  $3\times(\text{primera}) + (\text{segunda})$:
   $6I_1 - 3I_2 - I_1 + 3I_2 = 12 + 3$, o sea $5I_1 = 15$.
 
 Los tres caminos llegan al mismo punto, $(3, 2)$, como debe ser.
