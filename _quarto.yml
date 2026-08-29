@@ -51,7 +51,10 @@ format:
     toc-title: "En esta página"
     highlight-style: github
     math: mathjax
-    html-math-method: mathjax
+    html-math-method:
+      method: mathjax
+      url: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+
 
 pdf:
   number-sections: true
