@@ -37,7 +37,7 @@ jobs:
           echo "$HOME" >> "$GITHUB_PATH"
 
       - name: Renderizar sitio + PDF
-        run: quarto render --to html,pdf
+        run: quarto render
 
       - name: Subir artefacto a Pages
         uses: actions/upload-pages-artifact@v3
